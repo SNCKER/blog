@@ -508,6 +508,71 @@
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>soup.p</span><br><span class="line">&lt;p class="title"&gt;&lt;b&gt;The demo python introduces several python courses.&lt;/b&gt;&lt;/p&gt;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(soup.p.prettify())</span><br><span class="line">&lt;p class="title"&gt;</span><br><span class="line"> &lt;b&gt;</span><br><span class="line">  The demo python introduces several python courses.</span><br><span class="line"> &lt;/b&gt;</span><br><span class="line">&lt;/p&gt;</span><br></pre></td></tr></table></figure>
 
 <h3 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h3><p>BeautifulSoup对所有传入的HTML文档或者字符串都会转换为UTF-8编码。</p>
+<h1 id="信息提取"><a href="#信息提取" class="headerlink" title="信息提取"></a>信息提取</h1><h2 id="信息标记"><a href="#信息标记" class="headerlink" title="信息标记"></a>信息标记</h2><p>XML,JSON,YAML</p>
+<p>1.XML<br>  <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">name</span>&gt;</span>...<span class="tag">&lt;/<span class="name">name</span>&gt;</span> //标签中有内容时</span><br><span class="line"><span class="tag">&lt;<span class="name">name</span>/&gt;</span> //标签中无内容时</span><br><span class="line"><span class="comment">&lt;!--  --&gt;</span> //注释</span><br></pre></td></tr></table></figure></p>
+<p>2.JSON<br>  <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"><span class="attr">"key"</span> : <span class="string">"value"</span>,</span><br><span class="line"><span class="attr">"key1"</span> : [<span class="string">"value1"</span>,<span class="string">"value2"</span>],</span><br><span class="line"><span class="attr">"key2"</span> : &#123;<span class="attr">"subkey"</span> : <span class="string">"subvalue"</span>&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>3.YAML<br>  <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#无类型键值对</span></span><br><span class="line"><span class="string">key</span> <span class="string">:</span> <span class="string">value</span></span><br><span class="line"><span class="string">key1</span> <span class="string">:</span> <span class="comment">#注释</span></span><br><span class="line"><span class="bullet">-</span><span class="string">value1</span>  <span class="comment">#并列</span></span><br><span class="line"><span class="bullet">-</span><span class="string">value2</span></span><br><span class="line"><span class="string">key2</span> <span class="string">:</span></span><br><span class="line">    <span class="string">subkey</span> <span class="string">:</span> <span class="string">subvalue</span>  <span class="comment">#嵌套</span></span><br></pre></td></tr></table></figure></p>
+<hr>
+<blockquote>
+<p>XML：最早通用信息标记语言，可拓展性好，繁琐。<br><br>JSON：信息有类型，适合程序处理（js），较XML简洁<br><br>YAML：信息无类型，文本信息比例最高，可读性好。</p>
+</blockquote>
+<h2 id="信息提取方法"><a href="#信息提取方法" class="headerlink" title="信息提取方法"></a>信息提取方法</h2><ol>
+<li><p>先解析信息的标记形式，再提取关键信息<br>需要<strong>标记解析器</strong>  </p>
+<p>优点：信息解析准确<br>缺点：提取繁琐，速度慢  </p>
+</li>
+<li><p>无视标记形式，直接搜索关键信息  </p>
+<p>需要<strong>搜索函数</strong>  </p>
+<p>优点：过程简洁，速度快<br>缺点：提取结果准确性和信息内容相关  </p>
+</li>
+</ol>
+<p><strong>两者结合就完事了</strong></p>
+<h3 id="实例：提取页面所有链接"><a href="#实例：提取页面所有链接" class="headerlink" title="实例：提取页面所有链接"></a>实例：提取页面所有链接</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> requests</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>r = requests.get(<span class="string">"http://python123.io/ws/demo.html"</span>)</span><br><span class="line">demo = r.text</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>soup = BeautifulSoup(demo,<span class="string">"html.parser"</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>soup = BeautifulSoup(demo.text,<span class="string">"html.parser"</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> link <span class="keyword">in</span> soup.find_all(<span class="string">'a'</span>):</span><br><span class="line">	print(link.get(<span class="string">'href'</span>))</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line">http://www.icourse163.org/course/BIT<span class="number">-268001</span></span><br><span class="line">http://www.icourse163.org/course/BIT<span class="number">-1001870001</span></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="查找函数"><a href="#查找函数" class="headerlink" title="查找函数"></a>查找函数</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;&gt;.find_all(name,attrs,recursive, string, **kwargs)  <span class="comment">#返回一个由搜索结果组成的列表</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>name : 对标签名称的检索字符串  </li>
+<li>attrs: 对标签属性值的检索字符串，可标注属性检索  </li>
+<li>recursive: 是否对子孙全部检索，默认True  </li>
+<li>string: &lt;&gt;…&lt;/&gt;中字符串区域的检索字符串</li>
+</ul>
+<p><strong>拓展方法</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">方法</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">&lt;&gt;.find()</td>
+<td align="center">搜索且只返回一个结果，同.find_all()参数</td>
+</tr>
+<tr>
+<td align="center">&lt;&gt;.find_parents()</td>
+<td align="center">在先辈节点中搜索，返回列表类型，同.find_all()参数</td>
+</tr>
+<tr>
+<td align="center">&lt;&gt;.find_parent()</td>
+<td align="center">在先辈节点中返回一个结果，同.find()参数</td>
+</tr>
+<tr>
+<td align="center">&lt;&gt;.find_next_siblings()</td>
+<td align="center">在后续平行节点中搜索，返回列表类型，同.find_all()参数</td>
+</tr>
+<tr>
+<td align="center">&lt;&gt;.find_next_sibling()</td>
+<td align="center">在后续平行节点中返回一个结果，同.find()参数</td>
+</tr>
+<tr>
+<td align="center">&lt;&gt;.find_previous_siblings()</td>
+<td align="center">在前序平行节点中搜索，返回列表类型，同.find_all()参数</td>
+</tr>
+<tr>
+<td align="center">&lt;&gt;.find_previous_sibling()</td>
+<td align="center">在前序平行节点中返回一个结果，同.find()参数</td>
+</tr>
+</tbody></table>
 
           
         
