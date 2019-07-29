@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Sncker&#39;s blog - qq948375961">
 <meta property="og:description" content="正则表达式概念用来表示一组字符串的表达式，通用字符串表达框架，十分强大。主要应用在字符串匹配中。 操作符   操作符 说明 实例    . 表示任何单个字符    [ ] 字符集，对单个字符给出取值范围 [abc]表示a、b、c，[a‐z]表示a到z单个字符   [^ ] 非字符集，对单个字符给出排除范围 [^abc]表示非a或b或c的单个字符   * 前一个字符0次或无限次扩展 abc* 表示a">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-29T05:20:49.696Z">
+<meta property="og:updated_time" content="2019-07-29T05:25:40.351Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python网络爬虫-正则表达式">
 <meta name="twitter:description" content="正则表达式概念用来表示一组字符串的表达式，通用字符串表达框架，十分强大。主要应用在字符串匹配中。 操作符   操作符 说明 实例    . 表示任何单个字符    [ ] 字符集，对单个字符给出取值范围 [abc]表示a、b、c，[a‐z]表示a到z单个字符   [^ ] 非字符集，对单个字符给出排除范围 [^abc]表示非a或b或c的单个字符   * 前一个字符0次或无限次扩展 abc* 表示a">
@@ -556,9 +556,9 @@
 <p>repl: 替换匹配字符串的字符串<br>string : 待匹配字符串<br>count : 匹配的大替换次数  </p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>re.sub(<span class="string">r'[1-9]\d&#123;5&#125;'</span>, <span class="string">':zipcode'</span>, <span class="string">'BIT100081 TSU100084'</span>)</span><br><span class="line"><span class="string">'BIT:zipcode TSU:zipcode'</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="等价用法"><a href="#等价用法" class="headerlink" title="等价用法"></a>等价用法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;rst=re.search(<span class="string">r'[1‐9]\d&#123;5&#125;'</span>, <span class="string">'BIT 100081'</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="等价用法"><a href="#等价用法" class="headerlink" title="等价用法"></a>等价用法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>rst = re.search(<span class="string">r'[1‐9]\d&#123;5&#125;'</span>, <span class="string">'BIT 100081'</span>)</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; pat=re.compile(<span class="string">r'[1‐9]\d&#123;5&#125;'</span>) &gt;&gt;&gt; rst=pat.search(<span class="string">'BIT 100081'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; pat = re.compile(<span class="string">r'[1‐9]\d&#123;5&#125;'</span>)</span><br><span class="line">&gt;&gt;&gt; rst = pat.search(<span class="string">'BIT 100081'</span>)</span><br></pre></td></tr></table></figure>
 
 <p>两种用法是等价的。<br>第一种是一次性操作的函数式用法。<br>而第二种是面向对象的用法，通过re.compile将正则表达式字符串编译成正则表达式对象，可以在编译后多次使用。  </p>
 <h4 id="re-compile"><a href="#re-compile" class="headerlink" title="re.compile()"></a>re.compile()</h4><p><strong>将正则表达式的字符串形式编译成正则表达式对象</strong></p>
@@ -650,7 +650,7 @@
 </tr>
 </tbody></table>
 <hr>
-<p>linux课里也要求学正则，vim里查找替换时用到，表单也用正则来校验，既然是通用框架，<strong>牛逼</strong>就完事了。  </p>
+<p>linux课里也要求学正则，vim里查找替换时用到，表单也用正则来校验，既然是通用框架，<strong>牛逼</strong>就完事了。</p>
 
       
     </div>
