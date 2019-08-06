@@ -239,6 +239,402 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/blog/2019/08/04/Python网络爬虫-Scrapy框架/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="SNCKER">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sncker's blog - qq948375961">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/blog/2019/08/04/Python网络爬虫-Scrapy框架/" itemprop="url">Python网络爬虫-Scrapy框架</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-04T10:19:00+08:00">
+                2019-08-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/Python/爬虫/" itemprop="url" rel="index">
+                    <span itemprop="name">爬虫</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Scrapy框架"><a href="#Scrapy框架" class="headerlink" title="Scrapy框架"></a>Scrapy框架</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>Scrapy是第三方的库，直接来一手</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install scrapy</span><br></pre></td></tr></table></figure>
+
+<p>依赖问题看报错解决</p>
+<h2 id="框架解析"><a href="#框架解析" class="headerlink" title="框架解析"></a>框架解析</h2><p>Scrapy框架用的5个模块加2个中间件  </p>
+<p><strong>模块：</strong>  </p>
+<ol>
+<li>SPIDERS</li>
+<li>ENGINE</li>
+<li>SCHEDULER</li>
+<li>DOWNLOADER</li>
+<li>ITEM PIPELINES  </li>
+</ol>
+<p><strong>中间件：</strong>   </p>
+<ol>
+<li>Spider Middleware</li>
+<li>Downloader Middleware</li>
+</ol>
+<hr>
+<p>各模块形成三条数据流路径，其中传输的数据有REQUESTS/RESPONSE/ITEMS<br>请求和响应不BB，ITEMS就是我们要的数据，它由SPIDERS在响应中提取出来。<br>模块功能通过名字很容易理解:  </p>
+<ul>
+<li>ENGINE是负责将数据分发到各模块的中枢  </li>
+<li>SPIDERS是我们编写的小爬虫，负责爬取内容并解析数据</li>
+<li>SCHEDULER负责调度请求顺序  </li>
+<li>DOWNLOADER下载器，负责请求，实实在在的页面访问，并拿到响应  </li>
+<li>ITEM PIPELINES负责数据(ITMES)的处理  </li>
+</ul>
+<p><strong>模块形成的三条数据流路径：</strong>  </p>
+<ol>
+<li>由<strong>SPIDERS</strong>提供的<strong>REQUESTS</strong>请求经<strong>ENGINE</strong>中转到<strong>SCHEDULER</strong>中  </li>
+<li><strong>SCHEDULER</strong>中的<strong>REQUESTS</strong>请求由<strong>ENGINE</strong>提交给<strong>DOWNLOADER</strong>，<strong>DOWNLOADER</strong>将对应的响应（<strong>RESPONSE</strong>）经<strong>ENGINE</strong>返回给<strong>SPIDERS</strong>   </li>
+<li><strong>SPIDERS</strong>在<strong>RESPONSE</strong>中解析出<strong>ITEMS</strong>和<strong>REQUESTS</strong>，其中<strong>REQUESTS</strong>会从第一条路径继续重复，而<strong>ITEMS</strong>就会经<strong>ENGINE</strong>到达<strong>ITEM PIPELINES</strong></li>
+</ol>
+<p>用文字描述很抽象，因为懒得找图床来放图片，但是也很清晰了。  </p>
+<p>关于中间件<br>首先两个中间件连接在相应模块与ENGINE模块之间，可以自定义，但一般不用改动<br>Spider中间件用于处理Response中提取的Rqeuests和Items，自定义可以定义一些方法，比如当Response通过Spider中间件时会调用process_spider_input(response, spider)返回None，异常时也会调用process_spider_exception(response, exception, spider)，这些方法主体都可以自行编写。<br>Downloader中间件处理request和response，可以设定全局参数，比如代理ip，自定义头等，是反反爬虫的关键。  </p>
+<p>scrapy框架能单独写一本书出来，靠这一小节视频学的都是皮毛，但是上手还是非常容易的。作为一个成熟的框架，即使是一个python新手也能很快用起来，这个框架入门其实就是做填空题，五个模块中我们只需要配置好生成的SPIDER和对应的ITEM PIPELINE即可，其它的模块功能框架已经实现了。  </p>
+<h2 id="对比requests库"><a href="#对比requests库" class="headerlink" title="对比requests库"></a>对比requests库</h2><p>两者是python爬虫的两条重要路线，它们都可以对页面进行请求和爬取，有丰富的文档，入门简单。同时两者都没有处理js，提交表单，应对验证码等功能（可拓展）。  </p>
+<p><strong>不同点：</strong>  </p>
+<table>
+<thead>
+<tr>
+<th>requests</th>
+<th>Scrapy</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>页面级爬虫</td>
+<td>网站级爬虫</td>
+</tr>
+<tr>
+<td>功能库</td>
+<td>框架</td>
+</tr>
+<tr>
+<td>并发性考虑不足，性能较差</td>
+<td>并发性好，性能较高</td>
+</tr>
+<tr>
+<td>重点在于页面下载</td>
+<td>重点在于爬虫结构</td>
+</tr>
+<tr>
+<td>定制灵活</td>
+<td>一般定制灵活，深度定制困难</td>
+</tr>
+<tr>
+<td>上手十分简单</td>
+<td>入门稍难</td>
+</tr>
+</tbody></table>
+<p><strong>路线选择:</strong>  </p>
+<p>非常小的需求，requests库<br>不太小的需求，Scrapy框架<br>定制程度很高的需求（不考虑规模），自搭框架，requests &gt; Scrapy  </p>
+<h2 id="Scrapy常用命令"><a href="#Scrapy常用命令" class="headerlink" title="Scrapy常用命令"></a>Scrapy常用命令</h2><p>scrapy库提供了scrapy终端</p>
+<pre><code>&gt;scrapy -h</code></pre><p>即可看到使用帮助  </p>
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+<th>格式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>startproject</td>
+<td>创建一个新工程</td>
+<td>scrapy startproject &lt;name&gt; [dir]</td>
+</tr>
+<tr>
+<td>genspider</td>
+<td>创建一个爬虫</td>
+<td>scrapy genspider [options] &lt;name&gt; &lt;domain&gt;</td>
+</tr>
+<tr>
+<td>settings</td>
+<td>获得爬虫配置信息</td>
+<td>scrapy settings [options]</td>
+</tr>
+<tr>
+<td>crawl</td>
+<td>运行一个爬虫</td>
+<td>scrapy crawl &lt;spider&gt;</td>
+</tr>
+<tr>
+<td>list</td>
+<td>列出工程中所有爬虫</td>
+<td>scrapy list</td>
+</tr>
+<tr>
+<td>shell</td>
+<td>启动URL调试命令行</td>
+<td>scrapy shell [url]</td>
+</tr>
+</tbody></table>
+<h2 id="Scrapy框架简单使用"><a href="#Scrapy框架简单使用" class="headerlink" title="Scrapy框架简单使用"></a>Scrapy框架简单使用</h2><p>scrapy简单使用步骤  </p>
+<ol>
+<li>建立一个爬虫工程  </li>
+<li>在工程中生成一个scrapy爬虫  </li>
+<li>配置生成的spider爬虫  </li>
+<li>运行爬虫，获取网页  </li>
+</ol>
+<h3 id="1-建立一个爬虫工程"><a href="#1-建立一个爬虫工程" class="headerlink" title="1.建立一个爬虫工程"></a>1.建立一个爬虫工程</h3><p>创建工程，使用startproject  </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">E:\北京理工网络爬虫\project&gt;scrapy startproject scrapydemo</span><br><span class="line">New Scrapy project 'scrapydemo', using template directory 'd:\python\python37\lib\site-packages\scrapy\templates\project', created in:</span><br><span class="line">    E:\北京理工网络爬虫\project\scrapydemo</span><br><span class="line"></span><br><span class="line">You can start your first spider with:</span><br><span class="line">    cd scrapydemo</span><br><span class="line">    scrapy genspider example example.com</span><br></pre></td></tr></table></figure>
+
+<p>这样就创建了一个工程，在目录下产生了一个scrapydemo的工程文件夹  </p>
+<ul>
+<li>scrapydemo/——————外层目录<ul>
+<li>scrapy.cfg—————-部署配置，在服务器上部署scrapy时使用，本地不用</li>
+<li>scrapydemo/—————框架的用户自定义Python代码<ul>
+<li>__init__.py——-初始化脚本</li>
+<li>items.py————–Items代码模板（继承类）</li>
+<li>middlewares.py——–Middlewares代码模板（继承类）</li>
+<li>pipelines.py———-Pipelines代码模板（继承类）</li>
+<li>settings.py———–Scrapy爬虫配置文件</li>
+<li>spiders/————–Spiders代码模板目录（继承类）<ul>
+<li>__init__.py——初始文件，无需修改</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-在工程中生成一个scrapy爬虫"><a href="#2-在工程中生成一个scrapy爬虫" class="headerlink" title="2.在工程中生成一个scrapy爬虫"></a>2.在工程中生成一个scrapy爬虫</h3><p>切换到工程文件夹中，使用genspider生成一个爬虫  </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">E:\北京理工网络爬虫\project\scrapydemo&gt;scrapy genspider demo python123.io</span><br><span class="line">Created spider 'demo' using template 'basic' in module:</span><br><span class="line">  scrapydemo.spiders.demo</span><br></pre></td></tr></table></figure>
+
+<p>在spiders目录下就生成了一个demo.py文件，它就是我们的小爬虫。这里是通过命令行来生成，我们也可以手工生成。看一下它的初始内容。</p>
+<p><strong>demo.py</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DemoSpider</span><span class="params">(scrapy.Spider)</span>:</span></span><br><span class="line">    name = <span class="string">'demo'</span></span><br><span class="line">    allowed_domains = [<span class="string">'python123.io'</span>]</span><br><span class="line">    start_urls = [<span class="string">'http://python123.io/'</span>]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-配置生成的spider爬虫"><a href="#3-配置生成的spider爬虫" class="headerlink" title="3.配置生成的spider爬虫"></a>3.配置生成的spider爬虫</h3><p>通过编辑demo.py来配置我们的爬虫。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DemoSpider</span><span class="params">(scrapy.Spider)</span>:</span></span><br><span class="line">    name = <span class="string">'demo'</span></span><br><span class="line">    <span class="comment"># allowed_domains = ['python123.io']</span></span><br><span class="line">    start_urls = [<span class="string">'http://python123.io/ws/demo.html'</span>]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        fname = response.url.split(<span class="string">'/'</span>)[<span class="number">-1</span>]</span><br><span class="line">        <span class="keyword">with</span> open(fname, <span class="string">'wb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">            f.write(response.body)</span><br></pre></td></tr></table></figure>
+
+<p>里面有一个爬虫类，叫什么无所谓，只要继承scrapy.Spider类就可以了。现在简单使用，只爬取一个页面，直接改初始url。parse方法中传进来了一个response对象，通过编写该方法来提取我们的信息，这里使用对象的url属性来提取html文件名字并且将body属性写入到本地文件。其实就是将页面下载下来。  </p>
+<h3 id="4-运行爬虫，获取网页"><a href="#4-运行爬虫，获取网页" class="headerlink" title="4.运行爬虫，获取网页"></a>4.运行爬虫，获取网页</h3><p>命令行执行:  </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span>scrapy crawl demo</span><br></pre></td></tr></table></figure>
+
+<p>爬取结束后目录下多了一个demo.html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span><span class="tag">&lt;<span class="name">head</span>&gt;</span><span class="tag">&lt;<span class="name">title</span>&gt;</span>This is a python demo page<span class="tag">&lt;/<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"title"</span>&gt;</span><span class="tag">&lt;<span class="name">b</span>&gt;</span>The demo python introduces several python courses.<span class="tag">&lt;/<span class="name">b</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"course"</span>&gt;</span>Python is a wonderful general-purpose programming language. You can learn Python from novice to professional by tracking the following courses:</span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.icourse163.org/course/BIT-268001"</span> <span class="attr">class</span>=<span class="string">"py1"</span> <span class="attr">id</span>=<span class="string">"link1"</span>&gt;</span>Basic Python<span class="tag">&lt;/<span class="name">a</span>&gt;</span> and <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.icourse163.org/course/BIT-1001870001"</span> <span class="attr">class</span>=<span class="string">"py2"</span> <span class="attr">id</span>=<span class="string">"link2"</span>&gt;</span>Advanced Python<span class="tag">&lt;/<span class="name">a</span>&gt;</span>.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>这里就没有用到item pipelines，因为我们实现的是页面下载，所以并不需要提取什么信息，直接让spider将响应主体保存就可以了。后面再做更深入的使用。</p>
+<h2 id="Scrapy框架中的数据类型"><a href="#Scrapy框架中的数据类型" class="headerlink" title="Scrapy框架中的数据类型"></a>Scrapy框架中的数据类型</h2><h3 id="Request类"><a href="#Request类" class="headerlink" title="Request类"></a>Request类</h3><p><strong>class scrapy.http.Request()</strong><br>Request对象表示一个HTTP请求<br>由Spider生成，由Downloader执行  </p>
+<table>
+<thead>
+<tr>
+<th>属性或方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>.url</td>
+<td>Request对应的请求URL地址</td>
+</tr>
+<tr>
+<td>.method</td>
+<td>对应的请求方法，&#39;GET&#39; &#39;POST&#39;等</td>
+</tr>
+<tr>
+<td>.headers</td>
+<td>字典类型风格的请求头</td>
+</tr>
+<tr>
+<td>.body</td>
+<td>请求内容主体，字符串类型</td>
+</tr>
+<tr>
+<td>.meta</td>
+<td>用户添加的扩展信息，在Scrapy内部模块间传递信息使用</td>
+</tr>
+<tr>
+<td>.copy()</td>
+<td>复制该请求</td>
+</tr>
+</tbody></table>
+<h3 id="Response类"><a href="#Response类" class="headerlink" title="Response类"></a>Response类</h3><p><strong>class scrapy.http.Response()</strong><br>Response对象表示一个HTTP响应<br>由Downloader生成，由Spider处理  </p>
+<table>
+<thead>
+<tr>
+<th>属性或方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>.url</td>
+<td>Response对应的URL地址</td>
+</tr>
+<tr>
+<td>.status</td>
+<td>HTTP状态码，默认是200</td>
+</tr>
+<tr>
+<td>.headers</td>
+<td>Response对应的头部信息</td>
+</tr>
+<tr>
+<td>.body</td>
+<td>Response对应的内容信息，字符串类型</td>
+</tr>
+<tr>
+<td>.flags</td>
+<td>一组标记</td>
+</tr>
+<tr>
+<td>.request</td>
+<td>产生Response类型对应的Request对象</td>
+</tr>
+<tr>
+<td>.copy()</td>
+<td>复制该响应</td>
+</tr>
+</tbody></table>
+<h3 id="Item类"><a href="#Item类" class="headerlink" title="Item类"></a>Item类</h3><p><strong>class scrapy.item.Item()</strong><br>Item对象表示一个从HTML页面中提取的信息内容<br>由Spider生成，由Item Pipeline处理<br>Item类似字典类型，可以按照字典类型操作  </p>
+<h2 id="Scrapy爬虫提取信息的方法"><a href="#Scrapy爬虫提取信息的方法" class="headerlink" title="Scrapy爬虫提取信息的方法"></a>Scrapy爬虫提取信息的方法</h2><p>scrapy爬虫支持多种html信息提取方法：</p>
+<ul>
+<li>Beautiful Soup</li>
+<li>lxml</li>
+<li>re</li>
+<li>XPath Selector</li>
+<li><strong>CSS Selector</strong>  </li>
+</ul>
+<h3 id="CSS-Selector"><a href="#CSS-Selector" class="headerlink" title="CSS Selector"></a>CSS Selector</h3><p>用法：  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;HTML&gt;.css(<span class="string">'a::attr(href)'</span>).extract()</span><br></pre></td></tr></table></figure>
+
+<p>CSS Selector由W3C组织维护并规范</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/blog/2019/07/28/Python网络爬虫-正则表达式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2111,7 +2507,7 @@
               
                 <a href="/blog/archives/">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
