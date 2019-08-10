@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Sncker&#39;s blog - qq948375961">
 <meta property="og:description" content="Scrapy框架安装Scrapy是第三方的库，直接来一手 1pip install scrapy  依赖问题看报错解决 框架解析Scrapy框架用的5个模块加2个中间件   模块：    SPIDERS ENGINE SCHEDULER DOWNLOADER ITEM PIPELINES    中间件：     Spider Middleware Downloader Middleware   各">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-06T12:28:39.630Z">
+<meta property="og:updated_time" content="2019-08-10T14:10:18.329Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python网络爬虫-Scrapy框架">
 <meta name="twitter:description" content="Scrapy框架安装Scrapy是第三方的库，直接来一手 1pip install scrapy  依赖问题看报错解决 框架解析Scrapy框架用的5个模块加2个中间件   模块：    SPIDERS ENGINE SCHEDULER DOWNLOADER ITEM PIPELINES    中间件：     Spider Middleware Downloader Middleware   各">
@@ -361,7 +361,7 @@
 <li>Downloader Middleware</li>
 </ol>
 <hr>
-<p>各模块形成三条数据流路径，其中传输的数据有REQUESTS/RESPONSE/ITEMS<br>请求和响应不BB，ITEMS就是我们要的数据，它由SPIDERS在响应中提取出来。<br>模块功能通过名字很容易理解:  </p>
+<p>各模块形成三条数据流路径，其中传输的数据有REQUESTS/RESPONSE/ITEMS<br>请求和响应不BB，ITEMS是一种容器，类似字典，我们通过编写SPIDER来将页面中非结构化的数据解析出来并存入ITEM中，成为结构化的信息。<br>模块功能通过名字很容易理解:  </p>
 <ul>
 <li>ENGINE是负责将数据分发到各模块的中枢  </li>
 <li>SPIDERS是我们编写的小爬虫，负责爬取内容并解析数据</li>
@@ -496,7 +496,7 @@
 
 <p>里面有一个爬虫类，叫什么无所谓，只要继承scrapy.Spider类就可以了。现在简单使用，只爬取一个页面，直接改初始url。parse方法中传进来了一个response对象，通过编写该方法来提取我们的信息，这里使用对象的url属性来提取html文件名字并且将body属性写入到本地文件。其实就是将页面下载下来。  </p>
 <h3 id="4-运行爬虫，获取网页"><a href="#4-运行爬虫，获取网页" class="headerlink" title="4.运行爬虫，获取网页"></a>4.运行爬虫，获取网页</h3><p>命令行执行:  </p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span>scrapy crawl demo</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash">scrapy crawl demo</span></span><br></pre></td></tr></table></figure>
 
 <p>爬取结束后目录下多了一个demo.html</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span><span class="tag">&lt;<span class="name">head</span>&gt;</span><span class="tag">&lt;<span class="name">title</span>&gt;</span>This is a python demo page<span class="tag">&lt;/<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"title"</span>&gt;</span><span class="tag">&lt;<span class="name">b</span>&gt;</span>The demo python introduces several python courses.<span class="tag">&lt;/<span class="name">b</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"course"</span>&gt;</span>Python is a wonderful general-purpose programming language. You can learn Python from novice to professional by tracking the following courses:</span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.icourse163.org/course/BIT-268001"</span> <span class="attr">class</span>=<span class="string">"py1"</span> <span class="attr">id</span>=<span class="string">"link1"</span>&gt;</span>Basic Python<span class="tag">&lt;/<span class="name">a</span>&gt;</span> and <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.icourse163.org/course/BIT-1001870001"</span> <span class="attr">class</span>=<span class="string">"py2"</span> <span class="attr">id</span>=<span class="string">"link2"</span>&gt;</span>Advanced Python<span class="tag">&lt;/<span class="name">a</span>&gt;</span>.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
@@ -620,6 +620,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/blog/2019/08/09/Python网络爬虫-Scrapy爬取美剧TOP100/" rel="prev" title="Python网络爬虫-Scrapy爬取美剧TOP100">
+                Python网络爬虫-Scrapy爬取美剧TOP100 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -695,7 +699,7 @@
               
                 <a href="/blog/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
