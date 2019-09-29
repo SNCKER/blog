@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Sncker&#39;s blog - qq948375961">
 <meta property="og:description" content="Python网络爬虫-Scrapy爬取美剧TOP100前言本来Scrapy实例想写教授的那个股票数据爬虫，但是感觉不太全，所以自己另写一个实例，如题。这个实例也是Python实验中的一个，当时也是没时间，所以又是应付式，，，现在重新写一次。   美剧TOP100爬虫目标网址：https://www.meijutt.com/new100.html   直接在之前创建的scrapydemo工程中新建一">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-10T14:42:20.838Z">
+<meta property="og:updated_time" content="2019-09-29T13:10:09.140Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python网络爬虫-Scrapy爬取美剧TOP100">
 <meta name="twitter:description" content="Python网络爬虫-Scrapy爬取美剧TOP100前言本来Scrapy实例想写教授的那个股票数据爬虫，但是感觉不太全，所以自己另写一个实例，如题。这个实例也是Python实验中的一个，当时也是没时间，所以又是应付式，，，现在重新写一次。   美剧TOP100爬虫目标网址：https://www.meijutt.com/new100.html   直接在之前创建的scrapydemo工程中新建一">
@@ -368,7 +368,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">custom_settings = &#123;</span><br><span class="line">    <span class="string">'ITEM_PIPELINES'</span>: &#123;<span class="string">'scrapydemo.pipelines.MeijvPipeline'</span>: <span class="number">300</span>, &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>差不多就这样，运行后查看爬取结果。<br><strong>meijv.txt</strong></p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>，私家侦探第三季</span><br><span class="line"><span class="number">2</span>，美爪屋第三季</span><br><span class="line"><span class="number">3</span>，厨艺大师第十季</span><br><span class="line">....</span><br><span class="line"><span class="number">98</span>，信任之危第二季</span><br><span class="line"><span class="number">99</span>，时间隧道第一季</span><br><span class="line"><span class="number">100</span>，处女情缘第五季</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1，私家侦探第三季</span><br><span class="line">2，美爪屋第三季</span><br><span class="line">3，厨艺大师第十季</span><br><span class="line">....</span><br><span class="line">98，信任之危第二季</span><br><span class="line">99，时间隧道第一季</span><br><span class="line">100，处女情缘第五季</span><br></pre></td></tr></table></figure>
 
 <hr>
 <p>Scrapy框架结束。</p>
