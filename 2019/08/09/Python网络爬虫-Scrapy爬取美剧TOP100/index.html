@@ -347,7 +347,7 @@
 
 <h2 id="美剧TOP100爬虫"><a href="#美剧TOP100爬虫" class="headerlink" title="美剧TOP100爬虫"></a>美剧TOP100爬虫</h2><p><strong>目标网址</strong>：<a href="https://www.meijutt.com/new100.html" target="_blank" rel="noopener">https://www.meijutt.com/new100.html</a>  </p>
 <p>直接在之前创建的scrapydemo工程中新建一个爬虫：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span>scrapy genspider meijv meijutt.com</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash">scrapy genspider meijv meijutt.com</span></span><br></pre></td></tr></table></figure>
 
 <p>先编写items.py，这个实例打算爬取排名和电影名字，我们使用两个字段：rank和name<br><strong>item.py</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ScrapydemoItem</span><span class="params">(scrapy.Item)</span>:</span></span><br><span class="line">    <span class="comment"># define the fields for your item here like:</span></span><br><span class="line">    <span class="comment"># name = scrapy.Field()</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MeijvItem</span><span class="params">(scrapy.Item)</span>:</span></span><br><span class="line">    rank = scrapy.Field()</span><br><span class="line">    name = scrapy.Field()</span><br></pre></td></tr></table></figure>
@@ -364,7 +364,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ITEM_PIPELINES = &#123;</span><br><span class="line">    <span class="comment"># 'scrapydemo.pipelines.ScrapydemoPipeline': 300,</span></span><br><span class="line">    <span class="string">'scrapydemo.pipelines.MeijvPipeline'</span>: <span class="number">300</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>最后就可以运行我们的爬虫了  </p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span>scrapy crawl meijv</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash">scrapy crawl meijv</span></span><br></pre></td></tr></table></figure>
 
 <p>最后还有一点，一个工程中会有多个爬虫，不同爬虫有不同的处理逻辑，这时需要为爬虫指定Pipeline。<br>可以使用Spider类的custom_settings属性,像这样  </p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">custom_settings = &#123;</span><br><span class="line">    <span class="string">'ITEM_PIPELINES'</span>: &#123;<span class="string">'scrapydemo.pipelines.MeijvPipeline'</span>: <span class="number">300</span>, &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -489,7 +489,7 @@
               
                 <a href="/blog/archives/">
               
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -500,7 +500,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/blog/categories/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
