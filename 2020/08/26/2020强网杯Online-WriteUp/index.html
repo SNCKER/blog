@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+<link rel="stylesheet" href="/blog/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/blog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="近来档期满满，隔天就一场。猝si的感jio。越来越菜，也就只能帮二进制爷爷打打杂交交flag这样啦。just do it. 强网先锋upload简单题。给了流量包，结合题目名，八九不离十。直接滤http流，找到了图片上传。">
+<meta name="keywords" content="2020,强网杯,线上">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2020强网杯Online-WriteUp">
+<meta property="og:url" content="http://yoursite.com/2020/08/26/2020强网杯Online-WriteUp/index.html">
+<meta property="og:site_name" content="Sncker&#39;s blog - qq948375961">
+<meta property="og:description" content="近来档期满满，隔天就一场。猝si的感jio。越来越菜，也就只能帮二进制爷爷打打杂交交flag这样啦。just do it. 强网先锋upload简单题。给了流量包，结合题目名，八九不离十。直接滤http流，找到了图片上传。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200826161405.gif">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200826154507.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200826154521.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200826095904.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200826100716.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200826100904.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200826101623.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200826102401.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200826154418.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200826154918.png">
+<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200826155618.png">
+<meta property="og:updated_time" content="2020-08-26T08:16:53.251Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2020强网杯Online-WriteUp">
+<meta name="twitter:description" content="近来档期满满，隔天就一场。猝si的感jio。越来越菜，也就只能帮二进制爷爷打打杂交交flag这样啦。just do it. 强网先锋upload简单题。给了流量包，结合题目名，八九不离十。直接滤http流，找到了图片上传。">
+<meta name="twitter:image" content="https://gitee.com/sncker/resource/raw/master/image/20200826161405.gif">
+
+<link rel="canonical" href="http://yoursite.com/2020/08/26/2020强网杯Online-WriteUp/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>2020强网杯Online-WriteUp | Sncker's blog - qq948375961</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sncker's blog - qq948375961</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">情绪不稳定，要做就做大事情。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/26/2020强网杯Online-WriteUp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://q1.qlogo.cn/g?b=qq&nk=948375961&s=640">
+      <meta itemprop="name" content="SNCKER">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sncker's blog - qq948375961">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2020强网杯Online-WriteUp
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-08-26 09:48:00 / 修改时间：16:16:53" itemprop="dateCreated datePublished" datetime="2020-08-26T09:48:00+08:00">2020-08-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/CTF/WriteUp/" itemprop="url" rel="index"><span itemprop="name">WriteUp</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>近来档期满满，隔天就一场。猝si的感jio。<br>越来越菜，也就只能帮二进制爷爷打打杂交交flag这样啦。<br>just do it.<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200826161405.gif" alt></p>
+<h1 id="强网先锋"><a href="#强网先锋" class="headerlink" title="强网先锋"></a>强网先锋</h1><h2 id="upload"><a href="#upload" class="headerlink" title="upload"></a>upload</h2><p>简单题。给了流量包，结合题目名，八九不离十。直接滤http流，找到了图片上传。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200826154507.png" alt></p>
+<a id="more"></a>
+
+<p>保存下来，结合图片名称hint知道是steghide隐写。直接上工具，题目应该要爆破密码，但是盲猜123456猜中了。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200826154521.png" alt><br><img src="https://gitee.com/sncker/resource/raw/master/image/20200826095904.png" alt></p>
+<h2 id="Funhash"><a href="#Funhash" class="headerlink" title="Funhash"></a>Funhash</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span> <span class="string">'conn.php'</span>;</span><br><span class="line">highlight_file(<span class="string">"index.php"</span>);</span><br><span class="line"><span class="comment">//level 1</span></span><br><span class="line"><span class="keyword">if</span> ($_GET[<span class="string">"hash1"</span>] != hash(<span class="string">"md4"</span>, $_GET[<span class="string">"hash1"</span>]))</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">'level 1 failed'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//level 2</span></span><br><span class="line"><span class="keyword">if</span>($_GET[<span class="string">'hash2'</span>] === $_GET[<span class="string">'hash3'</span>] || md5($_GET[<span class="string">'hash2'</span>]) !== md5($_GET[<span class="string">'hash3'</span>]))</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">'level 2 failed'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//level 3</span></span><br><span class="line">$query = <span class="string">"SELECT * FROM flag WHERE password = '"</span> . md5($_GET[<span class="string">"hash4"</span>],<span class="keyword">true</span>) . <span class="string">"'"</span>;</span><br><span class="line">$result = $mysqli-&gt;query($query);</span><br><span class="line">$row = $result-&gt;fetch_assoc(); </span><br><span class="line">var_dump($row);</span><br><span class="line">$result-&gt;free();</span><br><span class="line">$mysqli-&gt;close();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>hash考点<br>level1弱比较，找一个0e开头的明文(0e251288019)md4后也是0e开头的hash即可绕过<br>level2 md5强比较，用数组绕过<br>level3 md5 sql注入，开启了raw输出，找到一个hash为x’ or xx…的明文(ffifdyop)即可<br>payload:  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?hash1=0e251288019&amp;hash2[]=111&amp;hash3[]=222&amp;hash4=ffifdyop</span><br></pre></td></tr></table></figure>
+
+<h2 id="bank"><a href="#bank" class="headerlink" title="bank"></a>bank</h2><p>上来先sha256爆破，题目提示了明文的字符空间是大小写加数字，简单爆破即可。然后给队伍的token。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200826100716.png" alt><br><img src="https://gitee.com/sncker/resource/raw/master/image/20200826100904.png" alt><br>一个银行系统。先看hint，给了一段代码。  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">transact_ecb</span><span class="params">(key, sender, receiver, amount)</span>:</span></span><br><span class="line">    aes = AES.new(key, AES.MODE_ECB)</span><br><span class="line">    ct = <span class="string">b""</span></span><br><span class="line">    ct += aes.encrypt(sender)</span><br><span class="line">    ct += aes.encrypt(receiver)</span><br><span class="line">    ct += aes.encrypt(amount)</span><br><span class="line">    <span class="keyword">return</span> ct</span><br></pre></td></tr></table></figure>
+
+<p>可以知道是基于AES加密的转账系统。<br>初始时有10cash，拿flag需要1000cash。<br>常规的转账是，先通过transact拿到由服务器加密的record，然后provide上去即可完成转账。<br>可以通过view看到全部转账记录(包括别人的)<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200826101623.png" alt><br>那么可以考虑通过篡改别人的记录，将接收者改为自己，伪造别人给自己转账。<br>在record生成代码中，采用发送者+接收者+金额的密文拼接方式。一条record长96个字符，48个字节。那么前16个字节就是发送者的密文，中间16个字节是接收者，后16个字节是金额。<br>思路清晰：先生成一条自己给别人转账的record，取前16字节就是自己NickName的密文。然后将所有record的中间16个字节替换成自己的密文再全部提交上去。即可伪造别人给自己转账。<br>exp:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">from</span> zio <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> permutations</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hash_sha256</span><span class="params">(text)</span>:</span></span><br><span class="line">	s = hashlib.sha256()</span><br><span class="line">	s.update(text.encode(<span class="string">"utf8"</span>))</span><br><span class="line">	<span class="keyword">return</span> s.hexdigest()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">auth</span><span class="params">(io)</span>:</span></span><br><span class="line">	io.read_until(<span class="string">"sha256(XXX+"</span>)</span><br><span class="line">	salt = io.read_until(<span class="string">")"</span>)[:<span class="number">-1</span>]</span><br><span class="line">	<span class="comment">#print(salt)</span></span><br><span class="line">	io.read_until(<span class="string">"== "</span>)</span><br><span class="line">	hash1 = io.read_until(<span class="string">"G"</span>)[:<span class="number">-2</span>]</span><br><span class="line">	<span class="comment">#print(hash1)</span></span><br><span class="line">	space = string.ascii_letters + string.digits</span><br><span class="line">	<span class="keyword">for</span> text_tuple <span class="keyword">in</span> permutations(space, <span class="number">3</span>):</span><br><span class="line">		<span class="comment">#print(text_tuple)</span></span><br><span class="line">		text = <span class="string">''</span>.join(text_tuple) + salt</span><br><span class="line">		enc = hash_sha256(text)</span><br><span class="line">		<span class="keyword">if</span> enc == hash1:</span><br><span class="line">			io.read_until(<span class="string">"XXX:"</span>)</span><br><span class="line">			io.writeline(text[:<span class="number">3</span>])</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">			</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ip = <span class="string">"39.101.134.52"</span></span><br><span class="line">port = <span class="number">8005</span></span><br><span class="line"></span><br><span class="line">teamtoken = <span class="string">"icqa4f7d3d27c218f218c1ce95559eea"</span></span><br><span class="line">target=(ip,port)</span><br><span class="line"></span><br><span class="line">io = zio(target, timeout=<span class="number">10000</span>, print_read=COLORED(RAW,<span class="string">'red'</span>), print_write=COLORED(RAW,<span class="string">'green'</span>))</span><br><span class="line"></span><br><span class="line">auth(io)</span><br><span class="line">io.read_until(<span class="string">"teamtoken:"</span>)</span><br><span class="line">io.writeline(teamtoken)</span><br><span class="line">io.read_until(<span class="string">"name:"</span>)</span><br><span class="line">io.writeline(<span class="string">"sncker"</span>)</span><br><span class="line">io.read_until(<span class="string">"&gt; "</span>)</span><br><span class="line">io.writeline(<span class="string">"transact"</span>)</span><br><span class="line">io.read_until(<span class="string">"&gt; "</span>)</span><br><span class="line">io.writeline(<span class="string">"a 1"</span>)</span><br><span class="line">myname_hash = io.read(<span class="number">32</span>)</span><br><span class="line"><span class="comment">#print(myname_hash)</span></span><br><span class="line">io.read_until(<span class="string">"&gt; "</span>)</span><br><span class="line">io.writeline(<span class="string">"view records"</span>)</span><br><span class="line">io.read_until(<span class="string">"more than 100"</span>)</span><br><span class="line">r_hash = io.read(<span class="number">10</span> * <span class="number">96</span> + <span class="number">10</span>)[<span class="number">1</span>:]</span><br><span class="line">r_list = r_hash.split(<span class="string">'\x0a'</span>)</span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">	io.read_until(<span class="string">"&gt; "</span>)</span><br><span class="line">	io.writeline(<span class="string">"provide a record"</span>)</span><br><span class="line">	io.read_until(<span class="string">"&gt; "</span>)</span><br><span class="line">	io.writeline(r_list[_][:<span class="number">32</span>] + myname_hash + r_list[_][<span class="number">64</span>:])</span><br><span class="line">	</span><br><span class="line">io.interact()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200826102401.png" alt></p>
+<h2 id="红方辅助"><a href="#红方辅助" class="headerlink" title="红方辅助"></a>红方辅助</h2><p>给了一个流量包和一个py脚本。  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#encoding:utf-8</span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> md5, sha256</span><br><span class="line"></span><br><span class="line">IP = <span class="string">"xxx.xxx.xxx.xxx"</span></span><br><span class="line">PORT = <span class="number">10235</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">GetSalt</span><span class="params">(data)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> int((md5(sha256(data.encode()).digest())).hexdigest(), <span class="number">16</span>) % <span class="number">256</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt</span><span class="params">(data, btime, count)</span>:</span></span><br><span class="line">    funcs = &#123;</span><br><span class="line">        <span class="string">"0"</span> : <span class="keyword">lambda</span> x, y : x - y,</span><br><span class="line">        <span class="string">"1"</span> : <span class="keyword">lambda</span> x, y : x + y,</span><br><span class="line">        <span class="string">"2"</span> : <span class="keyword">lambda</span> x, y : x ^ y</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    offset = &#123;</span><br><span class="line">        <span class="string">"0"</span> : <span class="number">0xefffff</span>,</span><br><span class="line">        <span class="string">"1"</span> : <span class="number">0xefffff</span>,</span><br><span class="line">        <span class="string">"2"</span> : <span class="number">0xffffff</span>,</span><br><span class="line">    &#125;</span><br><span class="line">    length = len(data) + <span class="number">10</span></span><br><span class="line">    fn = str(random.randint(<span class="number">0</span>, <span class="number">65535</span>) % <span class="number">3</span>).encode()</span><br><span class="line">    salt = GetSalt(data) </span><br><span class="line"></span><br><span class="line">    t = struct.unpack(<span class="string">"&lt;i"</span>, btime)[<span class="number">0</span>]</span><br><span class="line">    boffset = offset[fn.decode()]</span><br><span class="line">    t -= boffset</span><br><span class="line">    t = struct.pack(<span class="string">"&lt;i"</span>, t)</span><br><span class="line"></span><br><span class="line">    enc = struct.pack(<span class="string">"&lt;IIcB"</span>, count, length, fn, salt)</span><br><span class="line">    i = <span class="number">0</span> </span><br><span class="line">    <span class="keyword">for</span> c <span class="keyword">in</span> data:</span><br><span class="line">        enc += chr((funcs[fn.decode()](ord(c) ^ ord(t[i]), salt) % <span class="number">256</span>))</span><br><span class="line">        i = (i + <span class="number">1</span>) % <span class="number">4</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> boffset, enc</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">SendMessage</span><span class="params">(ClientSocket)</span>:</span></span><br><span class="line">    f = open(<span class="string">"data.txt"</span>, <span class="string">"r"</span>)</span><br><span class="line">    readlines = f.readlines()</span><br><span class="line">    f.close()</span><br><span class="line">    count = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> readline <span class="keyword">in</span> readlines:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            ClientSocket.send(<span class="string">"G"</span>)</span><br><span class="line"></span><br><span class="line">            btime = ClientSocket.recv(<span class="number">4</span>)</span><br><span class="line"></span><br><span class="line">            boffset, data = encrypt(readline, btime, count)</span><br><span class="line">            ClientSocket.send(struct.pack(<span class="string">"&lt;i"</span>, boffset))</span><br><span class="line">            ClientSocket.send(data)</span><br><span class="line">            pcount = struct.unpack(<span class="string">"&lt;i"</span>, ClientSocket.recv(<span class="number">4</span>))[<span class="number">0</span>]</span><br><span class="line">            count += <span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> pcount != count:</span><br><span class="line">                print(<span class="string">"error!"</span>)</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            print(<span class="string">"error!"</span>)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    ClientSocket.close()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    ClientSocket = socket.socket(family = socket.AF_INET, type = socket.SOCK_STREAM)</span><br><span class="line">    ClientSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, <span class="number">1</span>)</span><br><span class="line">    ClientSocket.connect((IP,PORT))</span><br><span class="line"></span><br><span class="line">    SendMessage(ClientSocket)</span><br><span class="line"></span><br><span class="line">    ClientSocket.close()</span><br></pre></td></tr></table></figure>
+
+<p>粗略看了脚本可以知道是数据处理+网络传输。那么就要从抓包流量中逆向出原数据。<br>因为知道了端口所以可以直接过滤出指定端口的流量。然后保存下来。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200826154418.png" alt><br>看到加密函数里的主要处理代码。  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">enc += chr((funcs[fn.decode()](ord(c) ^ ord(t[i]), salt) % <span class="number">256</span>))</span><br></pre></td></tr></table></figure>
+
+<p>对照写出解密过程。  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">m += chr((funcs[fn.decode()](ord(c), salt) ^ ord(t[i])) % <span class="number">256</span>)</span><br></pre></td></tr></table></figure>
+
+<p>对应的funcs也要改为逆函数。  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">funcs = &#123;</span><br><span class="line">        <span class="string">"0"</span> : <span class="keyword">lambda</span> x, y : x + y,</span><br><span class="line">        <span class="string">"1"</span> : <span class="keyword">lambda</span> x, y : x - y,</span><br><span class="line">        <span class="string">"2"</span> : <span class="keyword">lambda</span> x, y : x ^ y</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>看脚本可以知道数据分段传输，长度都一样，除了最后一段。但长度信息包含在数据头部所以不影响。<br>通过分析可以对数据进行划分。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200826154918.png" alt><br>解密过程需要的参数为(fn, salt, t)<br>fn,salt都能直接取到。<br>t朔源可知由btime和boffset决定，这两个也可以取到。<br>复制加密函数，简单修改一下即可得出解密函数。<br>exp:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#encoding:utf-8</span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> md5, sha256</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">GetSalt</span><span class="params">(data)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt</span><span class="params">(data, btime, count)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decrypt</span><span class="params">(data, btime, boffset, count, fn, length, salt)</span>:</span></span><br><span class="line">    funcs = &#123;</span><br><span class="line">        <span class="string">"0"</span> : <span class="keyword">lambda</span> x, y : x + y,</span><br><span class="line">        <span class="string">"1"</span> : <span class="keyword">lambda</span> x, y : x - y,</span><br><span class="line">        <span class="string">"2"</span> : <span class="keyword">lambda</span> x, y : x ^ y</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    offset = &#123;</span><br><span class="line">        <span class="string">"0"</span> : <span class="number">0xefffff</span>,</span><br><span class="line">        <span class="string">"1"</span> : <span class="number">0xefffff</span>,</span><br><span class="line">        <span class="string">"2"</span> : <span class="number">0xffffff</span>,</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    t = struct.unpack(<span class="string">"&lt;i"</span>, btime)[<span class="number">0</span>]</span><br><span class="line">    boffset = offset[fn.decode()]</span><br><span class="line">    t -= boffset</span><br><span class="line">    t = struct.pack(<span class="string">"&lt;i"</span>, t)</span><br><span class="line">    </span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    m = <span class="string">""</span></span><br><span class="line">    <span class="keyword">for</span> c <span class="keyword">in</span> data:</span><br><span class="line">        m += chr((funcs[fn.decode()](ord(c), salt) ^ ord(t[i]))%<span class="number">256</span>)</span><br><span class="line">        i = (i + <span class="number">1</span>) % <span class="number">4</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> boffset, m</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">SendMessage</span><span class="params">(ClientSocket)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">"alldata"</span>, <span class="string">"rb"</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">with</span> open(<span class="string">"flag.txt"</span>, <span class="string">"w+"</span>) <span class="keyword">as</span> f1:</span><br><span class="line">            <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">                f.read(<span class="number">1</span>)</span><br><span class="line">                btime = f.read(<span class="number">4</span>)</span><br><span class="line">                boffset = struct.unpack(<span class="string">"&lt;i"</span>, f.read(<span class="number">4</span>))[<span class="number">0</span>]</span><br><span class="line">                count = struct.unpack(<span class="string">"&lt;l"</span>, f.read(<span class="number">4</span>))[<span class="number">0</span>]</span><br><span class="line">                length = struct.unpack(<span class="string">"&lt;l"</span>, f.read(<span class="number">4</span>))[<span class="number">0</span>]</span><br><span class="line">                fn = struct.unpack(<span class="string">"&lt;c"</span>, f.read(<span class="number">1</span>))[<span class="number">0</span>]</span><br><span class="line">                salt = struct.unpack(<span class="string">"&lt;B"</span>, f.read(<span class="number">1</span>))[<span class="number">0</span>]</span><br><span class="line">                data = f.read(length - <span class="number">10</span>)</span><br><span class="line">                f.read(<span class="number">4</span>)</span><br><span class="line">                a, m = decrypt(data, btime, boffset, count, fn, length, salt)</span><br><span class="line">            </span><br><span class="line">                f1.write(m)</span><br></pre></td></tr></table></figure>
+
+<p>打开flag.txt<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200826155618.png" alt><br>还要手动拼一下，有点小过分:)  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QWB&#123;3e752bf509ddb4e9a42f1ef30beff495&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/2020/" rel="tag"># 2020</a>
+              <a href="/blog/tags/强网杯/" rel="tag"># 强网杯</a>
+              <a href="/blog/tags/线上/" rel="tag"># 线上</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/blog/2020/05/26/BJD3rnd-DASCTF-WriteUp/" rel="prev" title="BJD3rd&DASCTF-WriteUp">
+      <i class="fa fa-chevron-left"></i> BJD3rd&DASCTF-WriteUp
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#强网先锋"><span class="nav-number">1.</span> <span class="nav-text">强网先锋</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#upload"><span class="nav-number">1.1.</span> <span class="nav-text">upload</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Funhash"><span class="nav-number">1.2.</span> <span class="nav-text">Funhash</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bank"><span class="nav-number">1.3.</span> <span class="nav-text">bank</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#红方辅助"><span class="nav-number">1.4.</span> <span class="nav-text">红方辅助</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="SNCKER"
+      src="http://q1.qlogo.cn/g?b=qq&nk=948375961&s=640">
+  <p class="site-author-name" itemprop="name">SNCKER</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/blog/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/blog/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">SNCKER</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/blog/lib/anime.min.js"></script>
+  <script src="/blog/lib/velocity/velocity.min.js"></script>
+  <script src="/blog/lib/velocity/velocity.ui.min.js"></script>
+<script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script>
+<script src="/blog/js/schemes/pisces.js"></script>
+<script src="/blog/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/blog/js/love.js"></script>
+</body>
+</html>

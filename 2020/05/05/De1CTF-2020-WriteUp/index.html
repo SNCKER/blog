@@ -20,13 +20,13 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/blog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="前言前两天的自闭De1CTF我只想说，真的太棒了，题目质量很高，水准真的没得说，学到不少东西。也看到了一些国外著名战队，膜拜一下，白天国内师傅疯狂上分，半夜又轮到国外的师傅，很激烈。当然国内外都有师傅通宵干哈哈哈。相比之下ISCC2020我也没啥好说的了，国内的CTF环境真的是个迷。不管怎样，还是希望国内这一块越走越好吧。不过起码De1CTF还是咱们国内的社区承办的哈哈然后博主也是很有自知之明，去">
+  <meta name="description" content="前言前两天的自闭De1CTF我只想说，真的太棒了，题目质量很高，水准真的没得说，学到不少东西。也看到了一些国外著名战队，膜拜一下，白天国内师傅疯狂上分，半夜又轮到国外的师傅，很激烈。当然国内外都有师傅通宵干哈哈哈。相比之下ISCC2020我也没啥好说的了，国内的CTF环境真的是个迷。不管怎样，还是希望国内这一块越走越好吧。不过起码De1CTF还是咱们国内的社区承办的然后博主也是很有自知之明，去当个">
 <meta name="keywords" content="2020,De1CTF">
 <meta property="og:type" content="article">
 <meta property="og:title" content="De1CTF2020-WriteUp">
 <meta property="og:url" content="http://yoursite.com/2020/05/05/De1CTF-2020-WriteUp/index.html">
 <meta property="og:site_name" content="Sncker&#39;s blog - qq948375961">
-<meta property="og:description" content="前言前两天的自闭De1CTF我只想说，真的太棒了，题目质量很高，水准真的没得说，学到不少东西。也看到了一些国外著名战队，膜拜一下，白天国内师傅疯狂上分，半夜又轮到国外的师傅，很激烈。当然国内外都有师傅通宵干哈哈哈。相比之下ISCC2020我也没啥好说的了，国内的CTF环境真的是个迷。不管怎样，还是希望国内这一块越走越好吧。不过起码De1CTF还是咱们国内的社区承办的哈哈然后博主也是很有自知之明，去">
+<meta property="og:description" content="前言前两天的自闭De1CTF我只想说，真的太棒了，题目质量很高，水准真的没得说，学到不少东西。也看到了一些国外著名战队，膜拜一下，白天国内师傅疯狂上分，半夜又轮到国外的师傅，很激烈。当然国内外都有师傅通宵干哈哈哈。相比之下ISCC2020我也没啥好说的了，国内的CTF环境真的是个迷。不管怎样，还是希望国内这一块越走越好吧。不过起码De1CTF还是咱们国内的社区承办的然后博主也是很有自知之明，去当个">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200505205921.png">
 <meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200505211036.png">
@@ -46,10 +46,10 @@
 <meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200505201053.png">
 <meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200505201632.png">
 <meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200505201905.png">
-<meta property="og:updated_time" content="2020-05-26T12:22:33.109Z">
+<meta property="og:updated_time" content="2020-08-26T01:47:00.328Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="De1CTF2020-WriteUp">
-<meta name="twitter:description" content="前言前两天的自闭De1CTF我只想说，真的太棒了，题目质量很高，水准真的没得说，学到不少东西。也看到了一些国外著名战队，膜拜一下，白天国内师傅疯狂上分，半夜又轮到国外的师傅，很激烈。当然国内外都有师傅通宵干哈哈哈。相比之下ISCC2020我也没啥好说的了，国内的CTF环境真的是个迷。不管怎样，还是希望国内这一块越走越好吧。不过起码De1CTF还是咱们国内的社区承办的哈哈然后博主也是很有自知之明，去">
+<meta name="twitter:description" content="前言前两天的自闭De1CTF我只想说，真的太棒了，题目质量很高，水准真的没得说，学到不少东西。也看到了一些国外著名战队，膜拜一下，白天国内师傅疯狂上分，半夜又轮到国外的师傅，很激烈。当然国内外都有师傅通宵干哈哈哈。相比之下ISCC2020我也没啥好说的了，国内的CTF环境真的是个迷。不管怎样，还是希望国内这一块越走越好吧。不过起码De1CTF还是咱们国内的社区承办的然后博主也是很有自知之明，去当个">
 <meta name="twitter:image" content="https://gitee.com/sncker/resource/raw/master/image/20200505205921.png">
 
 <link rel="canonical" href="http://yoursite.com/2020/05/05/De1CTF-2020-WriteUp/">
@@ -206,7 +206,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-26 20:22:33" itemprop="dateModified" datetime="2020-05-26T20:22:33+08:00">2020-05-26</time>
+                <time title="修改时间：2020-08-26 09:47:00" itemprop="dateModified" datetime="2020-08-26T09:47:00+08:00">2020-08-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -233,7 +233,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>前两天的自闭De1CTF我只想说，真的太棒了，题目质量很高，水准真的没得说，学到不少东西。也看到了一些国外著名战队，膜拜一下，白天国内师傅疯狂上分，半夜又轮到国外的师傅，很激烈。当然国内外都有师傅通宵干哈哈哈。<br>相比之下ISCC2020我也没啥好说的了，国内的CTF环境真的是个迷。不管怎样，还是希望国内这一块越走越好吧。不过起码De1CTF还是咱们国内的社区承办的哈哈<br>然后博主也是很有自知之明，去当个分母而已，就死磕最多人解出的两道题（非签到），其它的看都不看了哈哈哈。  </p>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>前两天的自闭De1CTF我只想说，真的太棒了，题目质量很高，水准真的没得说，学到不少东西。也看到了一些国外著名战队，膜拜一下，白天国内师傅疯狂上分，半夜又轮到国外的师傅，很激烈。当然国内外都有师傅通宵干哈哈哈。<br>相比之下ISCC2020我也没啥好说的了，国内的CTF环境真的是个迷。不管怎样，还是希望国内这一块越走越好吧。不过起码De1CTF还是咱们国内的社区承办的<br>然后博主也是很有自知之明，去当个分母而已，就死磕最多人解出的两道题（非签到），其它的看都不看了just do it。  </p>
 <a id="more"></a>
 
 <h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><h2 id="CheckIn"><a href="#CheckIn" class="headerlink" title="CheckIn"></a>CheckIn</h2><p><img src="https://gitee.com/sncker/resource/raw/master/image/20200505205921.png" alt><br>一道上传题。<br>简单的测了一下过滤。<br>首先文件名过滤ph。<br>文件内容过滤perl|pyth|ph|auto|curl|base|&gt;|rm|ruby|openssl|war|lua|msf|xter|telnet in contents!<br>然后也通过Content-Type判断文件格式。<br>发现环境是  </p>
@@ -370,7 +370,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/blog/archives/">
         
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -381,7 +381,7 @@
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
