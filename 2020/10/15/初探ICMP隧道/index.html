@@ -22,7 +22,7 @@
   </script>
 
   <meta name="description" content="ICMP隧道也不是什么新奇的技术了，但是在某些渗透测试场景下可以说是一种挺骚的操作，其产生的畸形网络流量可以用于逃避防火墙的规则，这里仅拿两种应用方式演示，不具体讨论ICMP协议，还不知道ICMP是啥的可以先百度了解一下。">
-<meta name="keywords" content="网络渗透">
+<meta name="keywords" content="计算机网络,隧道技术,隐蔽通信,权限维持">
 <meta property="og:type" content="article">
 <meta property="og:title" content="初探ICMP隧道">
 <meta property="og:url" content="http://yoursite.com/2020/10/15/初探ICMP隧道/index.html">
@@ -38,7 +38,7 @@
 <meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20201014220221.png">
 <meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20201015171940.png">
 <meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20201015172133.png">
-<meta property="og:updated_time" content="2020-10-15T15:32:41.016Z">
+<meta property="og:updated_time" content="2020-10-15T15:47:10.391Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="初探ICMP隧道">
 <meta name="twitter:description" content="ICMP隧道也不是什么新奇的技术了，但是在某些渗透测试场景下可以说是一种挺骚的操作，其产生的畸形网络流量可以用于逃避防火墙的规则，这里仅拿两种应用方式演示，不具体讨论ICMP协议，还不知道ICMP是啥的可以先百度了解一下。">
@@ -199,19 +199,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/blog/categories/计算机网络/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/blog/categories/计算机网络/渗透/" itemprop="url" rel="index"><span itemprop="name">渗透</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/blog/categories/计算机网络/渗透/隧道技术/" itemprop="url" rel="index"><span itemprop="name">隧道技术</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/blog/categories/计算机网络/渗透/隧道技术/隐蔽通信/" itemprop="url" rel="index"><span itemprop="name">隐蔽通信</span></a>
+                  <a href="/blog/categories/网络渗透/" itemprop="url" rel="index"><span itemprop="name">网络渗透</span></a>
                 </span>
             </span>
 
@@ -229,7 +217,7 @@
         <p><img src="https://gitee.com/sncker/resource/raw/master/image/20201015175947.png" alt><br>ICMP隧道也不是什么新奇的技术了，但是在某些渗透测试场景下可以说是一种挺骚的操作，其产生的畸形网络流量可以用于逃避防火墙的规则，这里仅拿两种应用方式演示，不具体讨论ICMP协议，还不知道ICMP是啥的可以先百度了解一下。  </p>
 <a id="more"></a>
 
-<h1 id="ICMP隧道传输"><a href="#ICMP隧道传输" class="headerlink" title="ICMP隧道传输"></a>ICMP隧道传输</h1><h2 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a>测试环境</h2><p>客户端IP:192.168.10.234 (kali linux)<br>服务端IP:192.168.10.107 (kali linux)</p>
+<h1 id="ICMP隧道传输"><a href="#ICMP隧道传输" class="headerlink" title="ICMP隧道传输"></a>ICMP隧道传输</h1><h2 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a>测试环境</h2><p>客户端IP:192.168.10.234 (kali linux)<br>服务端IP:192.168.10.107 (kali linux)  </p>
 <p>用到icmptunnel这款工具<br><code>git clone https://github.com/DhavalKapil/icmptunnel</code></p>
 <h2 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h2><p>编译工具<code>make</code><br>启动隧道<code>icmptunnel -s 10.0.1.1</code>(下图ip打错了)<br><img src="https://gitee.com/sncker/resource/raw/master/image/20201014205156.png" alt><br>可以发现变化路由表的变化<code>route -n</code><br><img src="https://gitee.com/sncker/resource/raw/master/image/20201014205430.png" alt></p>
 <h2 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h2><p>编译工具<code>make</code><br>修改<code>client.sh</code><br><img src="https://gitee.com/sncker/resource/raw/master/image/20201015181844.png" alt><br><code>server</code>服务端ip,<code>gateway</code>网关,<code>interface</code>对应网卡接口。<br>如这里改为<code>route add -host 192.168.10.107 gw 192.168.10.1 dev eth0</code><br>建立隧道<code>icmptunnel -c 192.168.10.107</code><br><img src="https://gitee.com/sncker/resource/raw/master/image/20201014214857.png" alt><br>此时可以看到路由表的变化<code>route -n</code><br><img src="https://gitee.com/sncker/resource/raw/master/image/20201014215040.png" alt><br>可以发现出去的流量都走这个隧道。<br>开百度测试了一下，速度还可以接受，同时进行抓包。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20201014220221.png" alt><br>可以看到icmp包异常的多，且长度也很长，有些还可以看到有http的请求信息。  </p>
@@ -252,7 +240,10 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/blog/tags/网络渗透/" rel="tag"># 网络渗透</a>
+              <a href="/blog/tags/计算机网络/" rel="tag"># 计算机网络</a>
+              <a href="/blog/tags/隧道技术/" rel="tag"># 隧道技术</a>
+              <a href="/blog/tags/隐蔽通信/" rel="tag"># 隐蔽通信</a>
+              <a href="/blog/tags/权限维持/" rel="tag"># 权限维持</a>
           </div>
 
         
@@ -346,11 +337,11 @@
       <div class="site-state-item site-state-categories">
             <a href="/blog/categories/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
