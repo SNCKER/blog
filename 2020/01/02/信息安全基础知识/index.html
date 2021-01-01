@@ -1,275 +1,39 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 3.9.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/blog/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/blog/css/main.css">
-
-
-<link rel="stylesheet" href="/blog/lib/font-awesome/css/all.min.css">
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"sncker.github.io","root":"/blog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta name="description" content="前言当使用互联网交换数据时，数据通过各种网络和设备到达另一方。因此，为了安全地使用互联网，安全技术是不可缺的。本文通过围绕信息的安全传输讲解一些基本的、常见的安全技术来普及一些基本的安全知识，不特定深入去讲解某种技术，仅是用简单的语言去粗略地描述这种过程，目的是能通俗易懂地使读者理解。">
-<meta name="keywords" content="信息安全">
-<meta property="og:type" content="article">
-<meta property="og:title" content="信息安全-基础知识">
-<meta property="og:url" content="https://sncker.github.io/2020/01/02/信息安全基础知识/index.html">
-<meta property="og:site_name" content="SNCKER&#39;s blog">
-<meta property="og:description" content="前言当使用互联网交换数据时，数据通过各种网络和设备到达另一方。因此，为了安全地使用互联网，安全技术是不可缺的。本文通过围绕信息的安全传输讲解一些基本的、常见的安全技术来普及一些基本的安全知识，不特定深入去讲解某种技术，仅是用简单的语言去粗略地描述这种过程，目的是能通俗易懂地使读者理解。">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200102210140.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200102211015.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200102211044.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200102211725.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200102212750.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200102213840.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200103094713.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200103095410.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200103095501.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200103101349.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200103102917.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200103124749.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200103125502.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200103125318.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200103125607.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200103125740.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200103125907.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200103132332.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200103132659.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200103171650.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200103173209.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200104084115.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200104085445.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200104085517.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200104092200.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200104094717.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200104102558.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200104102434.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200104111434.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200104112128.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200104163605.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200104163655.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200104161237.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200104161427.png">
-<meta property="og:image" content="https://gitee.com/sncker/resource/raw/master/image/20200104161521.png">
-<meta property="og:updated_time" content="2020-05-06T01:24:26.681Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="信息安全-基础知识">
-<meta name="twitter:description" content="前言当使用互联网交换数据时，数据通过各种网络和设备到达另一方。因此，为了安全地使用互联网，安全技术是不可缺的。本文通过围绕信息的安全传输讲解一些基本的、常见的安全技术来普及一些基本的安全知识，不特定深入去讲解某种技术，仅是用简单的语言去粗略地描述这种过程，目的是能通俗易懂地使读者理解。">
-<meta name="twitter:image" content="https://gitee.com/sncker/resource/raw/master/image/20200102210140.png">
-
-<link rel="canonical" href="https://sncker.github.io/2020/01/02/信息安全基础知识/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'zh-CN'
-  };
-</script>
-
-  <title>信息安全-基础知识 | SNCKER's blog</title>
-  
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/blog/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">SNCKER's blog</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">想做开发但不会堆利用的渗透菜鸟</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
-
-  </li>
-        <li class="menu-item menu-item-link">
-
-    <a href="/blog/link/" rel="section"><i class="fa fa-link fa-fw"></i>友链</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
-    
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content post posts-expand">
-            
-
-    
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://sncker.github.io/2020/01/02/信息安全基础知识/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="http://q1.qlogo.cn/g?b=qq&nk=948375961&s=640">
-      <meta itemprop="name" content="SNCKER">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SNCKER's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          信息安全-基础知识
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-01-02 19:57:00" itemprop="dateCreated datePublished" datetime="2020-01-02T19:57:00+08:00">2020-01-02</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/blog/categories/信息安全/" itemprop="url" rel="index"><span itemprop="name">信息安全</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>当使用互联网交换数据时，数据通过各种网络和设备到达另一方。因此，为了安全地使用互联网，安全技术是不可缺的。<br>本文通过围绕信息的安全传输讲解一些基本的、常见的安全技术来普及一些基本的安全知识，不特定深入去讲解某种技术，仅是用简单的语言去粗略地描述这种过程，目的是能通俗易懂地使读者理解。  </p>
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="信息安全-基础知识"><meta name="keywords" content="信息安全"><meta name="author" content="SNCKER"><meta name="copyright" content="SNCKER"><title>信息安全-基础知识 | SNCKER's blog</title><link rel="shortcut icon" href="/blog/melody-favicon.ico"><link rel="stylesheet" href="/blog/css/index.css?version=1.9.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.9.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
+  root: '/blog/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  hexoVersion: '5.3.0'
+} </script><meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/blog/atom.xml" title="SNCKER's blog" type="application/atom+xml">
+</head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%AD%A3%E6%96%87"><span class="toc-number">2.</span> <span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">2.1.</span> <span class="toc-text">安全基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AA%83%E5%90%AC"><span class="toc-number">2.1.1.</span> <span class="toc-text">窃听</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AC%BA%E9%AA%97"><span class="toc-number">2.1.2.</span> <span class="toc-text">欺骗</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%AA%E9%80%A0"><span class="toc-number">2.1.3.</span> <span class="toc-text">伪造</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%A6%E8%AE%A4"><span class="toc-number">2.1.4.</span> <span class="toc-text">否认</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3"><span class="toc-number">2.1.5.</span> <span class="toc-text">解决</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A0%E5%AF%86%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">2.2.</span> <span class="toc-text">加密基础知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%93%88%E5%B8%8C%E5%87%BD%E6%95%B0"><span class="toc-number">2.3.</span> <span class="toc-text">哈希函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AC%E5%85%B1%E5%AF%86%E9%92%A5%E5%8A%A0%E5%AF%86"><span class="toc-number">2.4.</span> <span class="toc-text">公共密钥加密</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AC%E5%BC%80%E5%AF%86%E9%92%A5%E5%8A%A0%E5%AF%86"><span class="toc-number">2.5.</span> <span class="toc-text">公开密钥加密</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%B7%E5%90%88%E5%8A%A0%E5%AF%86"><span class="toc-number">2.6.</span> <span class="toc-text">混合加密</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%AA%E8%8F%B2-%E8%B5%AB%E5%B0%94%E6%9B%BC%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2"><span class="toc-number">2.7.</span> <span class="toc-text">迪菲-赫尔曼密钥交换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E8%AE%A4%E8%AF%81%E7%A0%81"><span class="toc-number">2.8.</span> <span class="toc-text">消息认证码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D"><span class="toc-number">2.9.</span> <span class="toc-text">数字签名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6"><span class="toc-number">2.10.</span> <span class="toc-text">数字证书</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%93%E6%9D%9F%E8%AF%AD"><span class="toc-number">3.</span> <span class="toc-text">结束语</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="http://q1.qlogo.cn/g?b=qq&amp;nk=948375961&amp;s=640"></div><div class="author-info__name text-center">SNCKER</div><div class="author-info__description text-center"></div><div class="follow-button"><a target="_blank" rel="noopener" href="https://github.com/SNCKER">Follow</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/blog/archives"><span class="pull-left">文章</span><span class="pull-right">22</span></a><a class="author-info-articles__tags article-meta" href="/blog/tags"><span class="pull-left">标签</span><span class="pull-right">24</span></a><a class="author-info-articles__categories article-meta" href="/blog/categories"><span class="pull-left">分类</span><span class="pull-right">8</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">友链</div><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://lkerenl.github.io/">lkerenl</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://sivona.top/">sivona</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://c1everf0x.github.io/">C1everf0x</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="http://www.n0puple.com/">winS0cks</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.cnblogs.com/lnjoy/">lnjoy</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.cnblogs.com/lktop/">lktop</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="http://www.nuclear.ink/">核平先生</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://foubean.github.io/">foubean</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://caddyetui.github.io/">caddyetui</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://sapphire037.github.io/">Sapphire</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://je1ly-xxn.github.io/">Je1ly</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://gitee.com/sncker/resource/raw/master/image/20210101131325.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/blog/">SNCKER's blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/blog/">主页</a><a class="site-page" href="/blog/archives">文章</a><a class="site-page" href="/blog/categories">分类</a><a class="site-page" href="/blog/tags">标签</a></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title">信息安全-基础知识</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2020-01-02</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/blog/categories/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/">信息安全</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>当使用互联网交换数据时，数据通过各种网络和设备到达另一方。因此，为了安全地使用互联网，安全技术是不可缺的。<br>本文通过围绕信息的安全传输讲解一些基本的、常见的安全技术来普及一些基本的安全知识，不特定深入去讲解某种技术，仅是用简单的语言去粗略地描述这种过程，目的是能通俗易懂地使读者理解。  </p>
 <a id="more"></a>
 
 <h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h2 id="安全基础知识"><a href="#安全基础知识" class="headerlink" title="安全基础知识"></a>安全基础知识</h2><p>前面说到，数据是通过互联网传输的，而在互联网中，彼此之间是看不到对方的，因此就会出现一些问题。<br>接下来列举在互联网交换数据时可能出现的四种代表性问题。  </p>
 <h3 id="窃听"><a href="#窃听" class="headerlink" title="窃听"></a>窃听</h3><p>当A方向B方发送信息时，信息传输过程中可能会被X方窃听。  </p>
-<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200102210140.png" alt></p>
+<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200102210140.png" alt=""></p>
 <h3 id="欺骗"><a href="#欺骗" class="headerlink" title="欺骗"></a>欺骗</h3><p>当A方向B方发送消息时，B方可能会被X方欺骗，即X方冒充了B方。  </p>
-<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200102211015.png" alt></p>
+<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200102211015.png" alt=""></p>
 <p>相反，即使B方相信他收到了A方的消息，A方也可能被X方欺骗。  </p>
-<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200102211044.png" alt></p>
+<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200102211044.png" alt=""></p>
 <h3 id="伪造"><a href="#伪造" class="headerlink" title="伪造"></a>伪造</h3><p>即使A方确定了他的信息发送给了B方，在传输过程中，信息有可能被X方重写。  </p>
-<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200102211725.png" alt></p>
+<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200102211725.png" alt=""></p>
 <p>当然，除了被第三方故意伪造之外，数据也有可能因为某种通信故障而被损坏。  </p>
 <h3 id="否认"><a href="#否认" class="headerlink" title="否认"></a>否认</h3><p>当发送信息的A方有恶意时，A方可能坚持说“这不是他发到信息”。  </p>
-<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200102212750.png" alt></p>
+<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200102212750.png" alt=""></p>
 <p>如果发生了这种情况，互联网上的商业交易和合同将不会成立。  </p>
 <hr>
 <p>这些问题不仅发生在人与人之间的交易中，同时在浏览网站时也会发生。  </p>
-<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200102213840.png" alt></p>
+<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200102213840.png" alt=""></p>
 <h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>为了解决第一个问题“窃听”，我们可以采用“加密”技术。</p>
-<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200103094713.png" alt></p>
+<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200103094713.png" alt=""></p>
 <p>为了解决第二个问题“欺骗”，我们可以使用“消息认证码”，</p>
-<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200103095410.png" alt></p>
+<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200103095410.png" alt=""></p>
 <p>或者“数字签名”技术。</p>
-<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200103095501.png" alt></p>
+<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200103095501.png" alt=""></p>
 <p>为了防止第三个问题“伪造”，我们同样可以使用“消息认证码”或者“数字签名”技术。<br>同时“数字签名”技术也可以防止第四个问题“否认”。  </p>
 <p>可以得到一下总结：  </p>
 <table>
@@ -295,13 +59,13 @@
 </table>
 
 <p>还有一种叫做“数字证书”的技术，</p>
-<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200103101349.png" alt></p>
+<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200103101349.png" alt=""></p>
 <p>它解决了“数字签名”技术中存在的“公钥持有人无法识别”这一个问题。  </p>
 <h2 id="加密基础知识"><a href="#加密基础知识" class="headerlink" title="加密基础知识"></a>加密基础知识</h2><p>前面说到，数据在互联网中传输时，有可能会被第三方看到。所以对于一些重要的数据，我们有必要对其进行加密。而加密后的数据简称为密文。当A方给B方发送密文后，B方再将密文还原成原始数据，这个还原过程称为解密。即使密文传输过程中被第三方看到也是安全的。</p>
 <p>接下来讲一下加密的具体操作。</p>
 <p>首先，计算机使用数字0和1来管理任何二进制数据。</p>
 <p>数据有很多种格式，如文字，音乐，电影等。。。他们在计算机中都以二进制数字形式进行管理。</p>
-<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200103102917.png" alt></p>
+<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200103102917.png" alt=""></p>
 <p>基于此，我们将考虑加密技术。</p>
 <p>数据是对于计算机有意义的数字序列。而密文也作为数字序列进行管理，但它是一个无法由计算机解释的随机数。</p>
 <p>所以加密便是通过对数据进行某种操作来更改成计算机无法识别的随机数。</p>
@@ -320,24 +84,24 @@
 <h2 id="哈希函数"><a href="#哈希函数" class="headerlink" title="哈希函数"></a>哈希函数</h2><p>哈希函数是将给定数据转化为固定长度的不规则值的函数。  </p>
 <p>将数据输入到哈希函数中，就会输出不规则的值。<br>“ABC”-&gt;hash()-&gt;7f0579bc2d<br>输出的数值常会用16进制表示。  </p>
 <p>虽然哈希值用16进制表示，但它同样是数值，在计算机中同样是以二进制的形式进行管理。所以哈希函数实质是在计算机内进行某种运算。</p>
-<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200103124749.png" alt></p>
+<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200103124749.png" alt=""></p>
 <p>下面来看看哈希函数的特征。  </p>
 <p>哈希函数第一个特征就是输出的哈希值长度不变。不管输入的数据很小或者很大，哈希值的长度保持不变。</p>
-<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200103125502.png" alt><br><img src="https://gitee.com/sncker/resource/raw/master/image/20200103125318.png" alt></p>
+<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200103125502.png" alt=""><br><img src="https://gitee.com/sncker/resource/raw/master/image/20200103125318.png" alt=""></p>
 <p>第二个特征就是输入的数据相同，输出也必然相同。</p>
-<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200103125607.png" alt></p>
+<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200103125607.png" alt=""></p>
 <p>第三个特征就是，即使输入的数据相近，输出的哈希值变化也很大。称为雪崩效应。</p>
-<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200103125740.png" alt></p>
+<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200103125740.png" alt=""></p>
 <p>第四个特征就是，当输入两个不相同的数据时，哈希值有低概率相同。即哈希冲突（碰撞）。</p>
-<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200103125907.png" alt></p>
+<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200103125907.png" alt=""></p>
 <p>第五个特征就是不能通过哈希值反推出原来的数据。</p>
 <p>最后，求哈希值的计算一般是相对容易的。  </p>
 <p>哈希函数算法在具有代表性的有：MD5,SHA-1和SHA-2等。而SHA-2是目前应用较为广泛的。<br>在网站的数据库中，用户的密码常常转为哈希值存储，即使数据库被拿下也不会泄露出用户的密码。  </p>
 <h2 id="公共密钥加密"><a href="#公共密钥加密" class="headerlink" title="公共密钥加密"></a>公共密钥加密</h2><p>前面讲到，数据在互联网传输时，为了防止被第三方窃听，我们需要用到加密技术。发送方先将明文加密成密文，再将密文发送给接收方，接收方再解密。这种加密技术中，加密和解密都使用相同的密匙，所以也被称为对称加密。  </p>
-<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200103132332.png" alt></p>
+<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200103132332.png" alt=""></p>
 <p>比较代表性的加密算法有：AES，DES，一次性加密等，其中AES应用最为广泛。</p>
 <p>接下来想一下公共密钥加密可能发生的问题，我们回到A方向B方发送密文的时候。  </p>
-<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200103132659.png" alt></p>
+<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200103132659.png" alt=""></p>
 <p>密文可能被X方窃听了。</p>
 <p>这时我们假设A方和B方是无法直接沟通的，而B方不知道A方加密时用的密钥是什么，所以A方就要通过某种手段将密钥交给B方。就像密文传输一样，A方又在互联网上向B方发送了密钥。  </p>
 <p>既然在互联网上传输，那么密钥同样可会被X方窃听到，这样X方就能解开密文得到明文。</p>
@@ -345,227 +109,37 @@
 <h2 id="公开密钥加密"><a href="#公开密钥加密" class="headerlink" title="公开密钥加密"></a>公开密钥加密</h2><p>公开密钥加密是加密和解密使用不同密钥的一种加密技术，因为使用了不同的密钥，也被称为非对称加密。加密使用的密钥称为“公开密钥”，解密使用的密钥称为“私有密钥”。</p>
 <p>我们来简单的描述一下这个过程：</p>
 <p>首先A方想给B方发送信息，这时B方需要创建一对密钥对，公开密钥（Public Key）和私有密钥（Secret key），然后将公开密钥发送给A方，A方就可以使用这个公开密钥加密明文，再将密文发送给B方，最后B方通过私有密钥还原出明文。<br>具有代表性的加密算法有：RSA加密算法和椭圆曲线加密算法等，最为广泛应用的是RSA算法。  </p>
-<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200103171650.png" alt></p>
-<p>因为公钥和密文都是通过互联网传输，所以有可能被X方窃听。但是公钥是无法解密密文的，所以X方无法得到原始数据。<br>还有一个好处就是，当多方之间进行通信时，发送信息的一方只需要拿到接收方的公钥就可以了。若使用公共密钥加密，那么密钥需求会随着人数的增多急剧上升。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200103173209.png" alt><br>而B方在收到密文后使用私钥还原出原始数据，不用为每个对象都准备相应的密钥。<br>需要保密的密钥由接收方保管，所以安全性也高。  </p>
-<p>下面讲讲公开密钥加密可能存在的问题。<br>第一个问题是加密和解密都需要时间，所以不适合用于来回换取少量数据。<br>第二个问题是公钥的可靠性问题，因为公钥无法指示是谁创建了它，所以。。。<br>当X方想窃听A方和B方的信息时，X方可以创建一对密钥对PX和SX，<br>当B方给A方发送公钥PB时，X方可以拦截下PB，将PX发给A方。。。<br>由于公钥的来源无法得知，所以A方会用PX去加密信息并发送，这样X方就可以用SX去解密出来，再用拦截下来的PB去再次加密并转发给B方。。。这个过程中A方和B方都是没有意识的，也就是所谓的中间人攻击。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200104084115.png" alt></p>
+<p><img src="https://gitee.com/sncker/resource/raw/master/image/20200103171650.png" alt=""></p>
+<p>因为公钥和密文都是通过互联网传输，所以有可能被X方窃听。但是公钥是无法解密密文的，所以X方无法得到原始数据。<br>还有一个好处就是，当多方之间进行通信时，发送信息的一方只需要拿到接收方的公钥就可以了。若使用公共密钥加密，那么密钥需求会随着人数的增多急剧上升。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200103173209.png" alt=""><br>而B方在收到密文后使用私钥还原出原始数据，不用为每个对象都准备相应的密钥。<br>需要保密的密钥由接收方保管，所以安全性也高。  </p>
+<p>下面讲讲公开密钥加密可能存在的问题。<br>第一个问题是加密和解密都需要时间，所以不适合用于来回换取少量数据。<br>第二个问题是公钥的可靠性问题，因为公钥无法指示是谁创建了它，所以。。。<br>当X方想窃听A方和B方的信息时，X方可以创建一对密钥对PX和SX，<br>当B方给A方发送公钥PB时，X方可以拦截下PB，将PX发给A方。。。<br>由于公钥的来源无法得知，所以A方会用PX去加密信息并发送，这样X方就可以用SX去解密出来，再用拦截下来的PB去再次加密并转发给B方。。。这个过程中A方和B方都是没有意识的，也就是所谓的中间人攻击。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200104084115.png" alt=""></p>
 <p>为了解决第一个耗时问题，可以采用“混合加密”技术。而第二个公钥可靠性问题，可以使用“数字证书”技术。</p>
-<h2 id="混合加密"><a href="#混合加密" class="headerlink" title="混合加密"></a>混合加密</h2><p>所谓混合加密就是结合了公共密钥加密和公开密钥加密的优点。<br>我们知道公共密钥加密的速度快，但是密钥传输的安全性不能保障。<br>而公开密钥加密耗时，但是安全性高。<br>基于此，我们可以先使用安全性高的公开密钥加密去传输公共密钥加密使用的密钥，然后再用公共密钥加密去交换数据。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200104085445.png" alt><br><img src="https://gitee.com/sncker/resource/raw/master/image/20200104085517.png" alt><br>混合加密的速度和安全性都很有优势。像SSL（安全套接层）协议就是采用混合加密技术。<br>SSL协议升级改版后已经改名叫TLS（传输层安全），但由于SSL这个名字在人们心中根深蒂固，因此该协议也常称为SSL协议或SSL/TLS协议。  </p>
+<h2 id="混合加密"><a href="#混合加密" class="headerlink" title="混合加密"></a>混合加密</h2><p>所谓混合加密就是结合了公共密钥加密和公开密钥加密的优点。<br>我们知道公共密钥加密的速度快，但是密钥传输的安全性不能保障。<br>而公开密钥加密耗时，但是安全性高。<br>基于此，我们可以先使用安全性高的公开密钥加密去传输公共密钥加密使用的密钥，然后再用公共密钥加密去交换数据。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200104085445.png" alt=""><br><img src="https://gitee.com/sncker/resource/raw/master/image/20200104085517.png" alt=""><br>混合加密的速度和安全性都很有优势。像SSL（安全套接层）协议就是采用混合加密技术。<br>SSL协议升级改版后已经改名叫TLS（传输层安全），但由于SSL这个名字在人们心中根深蒂固，因此该协议也常称为SSL协议或SSL/TLS协议。  </p>
 <h2 id="迪菲-赫尔曼密钥交换"><a href="#迪菲-赫尔曼密钥交换" class="headerlink" title="迪菲-赫尔曼密钥交换"></a>迪菲-赫尔曼密钥交换</h2><p>迪菲-赫尔曼（Diffie-Hellman）密钥交换是通过将双方共有的秘密数值隐藏在公开数值相关的运算中，来实现双方之间密钥的安全交换。  </p>
 <p>我们先来理解一下这个概念：  </p>
 <p>假设我们有一种方法，或称为运算，可以合并两个密钥：P+S=PS<br>需要注意的是，这里面的“+”符号知识代表这种运算，而非日常生活的加法。<br>这种运算可以合并密钥但不能分解，即：PS=?+S或PS=P+?<br>而且合成后的密钥还能继续合并P+PS=PPS<br>合成结果和合成顺序无关，只与使用了哪种密钥有关，即PPS=SPP=PSP</p>
-<p>下面我们使用这种方法去交换密钥。<br>A方或B方准备一个密钥P，它相当于一个公开密钥，所以无需担心泄露，可以直接在互联网中发送给另一方。这时A方和B方都有了密钥P。<br>然后A方和B方各自准备自己的私钥SA和SB，并与P进行合成，分别得到P(SA)和P(SB)，再发送给对方。<br>最后A方使用得到的P(SB)和自己的SA合成P(SB)(SA)，同理B方得到了P(SA)(SB)，我们知道这两个合成密钥是等价的。<br>所以A方和B方可以使用这把合成密钥作为公共加密技术的密钥来交换数据。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200104092200.png" alt><br>我们可以看到在这个过程中，若X方窃听，可以得到P，P(SA)，P(SB)。<br>由于无法分解，所以X方得不到SA和SB。因此X方无论怎么合成也得不到A方与B方加密使用的密钥。  </p>
-<p>下面回到迪菲-赫尔曼密钥交换。<br>我们用公式来表示这个密钥交换法。<br>首先我们用两个整数表示一开始生成的公开密钥P：(P,G)，其中P是一个大素数，G是素数P对应生成元中的一个。<br>然后A方和B方分别准备自己的秘密数字X和Y。X和Y都要小于P-2。<br>A计算：G^X mod P<br>B计算：G^Y mod P<br>这个计算等同于前面说的合成。<br>接下来交换计算结果，再次进行合成。<br>如A方得到了B方的G^Y mod P，再次合成即(G^Y mod P)^X mod P = G^XY mod P<br>同理的，B方会得到G^YX mod P<br>这个G^XY mod P的计算结果便是最后的密钥。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200104094717.png" alt><br>至此，迪菲-赫尔曼密钥交换解释完毕。<br>由素数P，生成元G和G^X mod P求解X的问题是“离散对数问题”，人们至今未找到这个问题的解法，所以迪菲-赫尔曼密钥交换正是利用了这个数学难题。  </p>
+<p>下面我们使用这种方法去交换密钥。<br>A方或B方准备一个密钥P，它相当于一个公开密钥，所以无需担心泄露，可以直接在互联网中发送给另一方。这时A方和B方都有了密钥P。<br>然后A方和B方各自准备自己的私钥SA和SB，并与P进行合成，分别得到P(SA)和P(SB)，再发送给对方。<br>最后A方使用得到的P(SB)和自己的SA合成P(SB)(SA)，同理B方得到了P(SA)(SB)，我们知道这两个合成密钥是等价的。<br>所以A方和B方可以使用这把合成密钥作为公共加密技术的密钥来交换数据。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200104092200.png" alt=""><br>我们可以看到在这个过程中，若X方窃听，可以得到P，P(SA)，P(SB)。<br>由于无法分解，所以X方得不到SA和SB。因此X方无论怎么合成也得不到A方与B方加密使用的密钥。  </p>
+<p>下面回到迪菲-赫尔曼密钥交换。<br>我们用公式来表示这个密钥交换法。<br>首先我们用两个整数表示一开始生成的公开密钥P：(P,G)，其中P是一个大素数，G是素数P对应生成元中的一个。<br>然后A方和B方分别准备自己的秘密数字X和Y。X和Y都要小于P-2。<br>A计算：G^X mod P<br>B计算：G^Y mod P<br>这个计算等同于前面说的合成。<br>接下来交换计算结果，再次进行合成。<br>如A方得到了B方的G^Y mod P，再次合成即(G^Y mod P)^X mod P = G^XY mod P<br>同理的，B方会得到G^YX mod P<br>这个G^XY mod P的计算结果便是最后的密钥。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200104094717.png" alt=""><br>至此，迪菲-赫尔曼密钥交换解释完毕。<br>由素数P，生成元G和G^X mod P求解X的问题是“离散对数问题”，人们至今未找到这个问题的解法，所以迪菲-赫尔曼密钥交换正是利用了这个数学难题。  </p>
 <h2 id="消息认证码"><a href="#消息认证码" class="headerlink" title="消息认证码"></a>消息认证码</h2><p>消息认证码是检测数据在传输过程是否被伪造的技术。  </p>
-<p>假如A方要向B方购买商品，A方需要将商品编码发送给B方，这个过程可能会被第三方伪造，从而使得B方发送错误的商品。这时就需要使用消息认证码来辨别数据是否被伪造。<br>首先，在A方将商品编码加密成密文后，还要再创建一个钥匙，并用这把钥匙和加密后的密文生成一个值，这个值就是消息认证码，称为MAC，同时还要将这个钥匙通过安全的方式发送给B方。<br>传输数据时把密文和MAC一并发给B方，B方收到数据后先用密文和钥匙生成MAC进行对比，不一致则说明数据被伪造了，B方向A方提出重新发送请求。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200104102558.png" alt><br><img src="https://gitee.com/sncker/resource/raw/master/image/20200104102434.png" alt><br>需要注意的是，即使我们采用加密技术，因为加密实质上是数值计算，所以就算X方篡改了密文，这个密文也是能进行解密的，只不过还原出来的意思可能让人难以理解，这样情况接收方可能会意识到数据被伪造了。但是对于商品编码这种本来就无法让人直接理解的内容，解密后接收者也难以判断数据是否被伪造。  </p>
+<p>假如A方要向B方购买商品，A方需要将商品编码发送给B方，这个过程可能会被第三方伪造，从而使得B方发送错误的商品。这时就需要使用消息认证码来辨别数据是否被伪造。<br>首先，在A方将商品编码加密成密文后，还要再创建一个钥匙，并用这把钥匙和加密后的密文生成一个值，这个值就是消息认证码，称为MAC，同时还要将这个钥匙通过安全的方式发送给B方。<br>传输数据时把密文和MAC一并发给B方，B方收到数据后先用密文和钥匙生成MAC进行对比，不一致则说明数据被伪造了，B方向A方提出重新发送请求。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200104102558.png" alt=""><br><img src="https://gitee.com/sncker/resource/raw/master/image/20200104102434.png" alt=""><br>需要注意的是，即使我们采用加密技术，因为加密实质上是数值计算，所以就算X方篡改了密文，这个密文也是能进行解密的，只不过还原出来的意思可能让人难以理解，这样情况接收方可能会意识到数据被伪造了。但是对于商品编码这种本来就无法让人直接理解的内容，解密后接收者也难以判断数据是否被伪造。  </p>
 <p>MAC我们可以理解成密钥和密文组成的字符串的“哈希值”，计算MAC的方法由HMAC,OMAC,CMAC等，目前HMAC(Hash-based MAC)应用最为广泛。  </p>
 <p>消息认证码技术解决了通信中数据被篡改的问题。但是也存在缺点，因为使用消息认证码时，AB双方都能对消息进行加密并且计算出MAC，所以无法证明消息是A生成的还是B生成的。这就导致了事后否认的问题，比如A方发送消息后，声称“这条消息是B方捏造的”，或者B方自己生成一条消息并声称“这是A方发给我的消息”。要解决“否认”的问题，就要用到“数字签名”技术了。</p>
 <h2 id="数字签名"><a href="#数字签名" class="headerlink" title="数字签名"></a>数字签名</h2><p>数字签名不仅实现了消息认证码的认证和防篡改功能，同时还解决了“否认”的问题。因为数字签名只有发送者才能生成，所以可以确定谁是消息的发送者。  </p>
 <p>假设A方要给B方发送消息，A方要在发送消息时加上数字签名，这个数字签名只能由A方生成。这样，只要发送的消息上有A方的数字签名，B方就能确定是A方发送的消息。但是，B方只能验证数字签名，但不能生成。    </p>
 <p>接下来看一下数字签名如何生成：</p>
-<p>我们回想前面说到的公开密钥加密，消息接收者需要保管自己的私钥，并将公钥发布出去，发送者使用这个公钥加密消息。<br>我们将这个过程逆过来。<br>发送者用自己的私钥加密消息，接收方用发送者的公钥去解密。<br>如A方要发送消息给B方，那么A方就准备一对公私密钥对，将公钥交给B方，自己用私钥加密数据，B方再用公钥解密。这样就能确定消息是A方发出的。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200104111434.png" alt></p>
+<p>我们回想前面说到的公开密钥加密，消息接收者需要保管自己的私钥，并将公钥发布出去，发送者使用这个公钥加密消息。<br>我们将这个过程逆过来。<br>发送者用自己的私钥加密消息，接收方用发送者的公钥去解密。<br>如A方要发送消息给B方，那么A方就准备一对公私密钥对，将公钥交给B方，自己用私钥加密数据，B方再用公钥解密。这样就能确定消息是A方发出的。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200104111434.png" alt=""></p>
 <p>这个过程中，由于解密使用的是公钥，那么所有人都解开密文，这个密文就没有意义了。但换一个角度来看，它保证了密文的创造者只能是持有私钥的人。<br>在公开密钥加密中，使用公钥加密，私钥解密。而在数字签名中，使用了私钥加密，公钥解密。也就是说密钥使用顺序不同，但运行结果也一样。并非所有公开密钥加密都有这一性质，但RSA加密算法是可以的。<br>这样便防止了事后否认的问题。  </p>
-<p>我们知道公开密钥加密比较耗时，所以为了节约时间，实际上不会对消息进行直接加密，而是先求得消息的哈希值，再对哈希值进行加密，然后作为签名来使用。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200104112128.png" alt></p>
+<p>我们知道公开密钥加密比较耗时，所以为了节约时间，实际上不会对消息进行直接加密，而是先求得消息的哈希值，再对哈希值进行加密，然后作为签名来使用。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200104112128.png" alt=""></p>
 <p>虽然“数字签名”技术实现了“认证”“防篡改”“预防事后否认”的功能，但仍然存在缺陷。<br>那就是使用了“数字签名”时，虽然B方相信消息发送者是A方，但实际上也有可能是X方冒充了A方。<br>其根本原因在于，公钥中没有制作者的信息，我们无法确定公钥的制作者是谁。  </p>
 <p>这时就要使用“数字证书”来解决这一问题。</p>
 <h2 id="数字证书"><a href="#数字证书" class="headerlink" title="数字证书"></a>数字证书</h2><p>“公开密钥加密”和“数字签名”都无法保证公钥来自信息的发送者，因此，就算公钥被第三方替换，接收方也不会注意到。而“数字证书”则可以解决这一问题。  </p>
-<p>假设A方准备了一对密钥对，他想把公钥PA发送给B。<br>A方首先要向认证中心(简称：CA)申请发行证书，证明PA确实是由A方生成的。<br>认证中心里保管着他们自己准备的公钥PC和密钥SC。<br>A方将自己的公钥PA和包含邮箱信息的资料发给认证中心。<br>认证中心判断这些资料是否为A本人。确认完毕后，认证中心用自己的私钥SC根据A的资料生成一个数字签名，并把这个数字签名和资料放到同一个文件中。再将这个文件发回给A方。这个文件就是A方的数字证书。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200104163605.png" alt><br>A方将作为公钥的数字证书发送给B方，B方检查数字证书中的邮箱是否为A方的，然后从认证中心获取公钥验证签名，确认这个证书是否为认证中心发行的。<br>确认完毕没有异常后，B方从数字证书中提取出A方的公钥PA，公钥便传输完毕。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200104163655.png" alt><br>我们来看看这个过程有没有什么问题。<br>假如X方冒充A方，向B方发送X方的公钥PX，B方没有必要信任这个以非证书形式收到的公钥。所以X方无法冒充A方。<br>如果X方为了冒充A方，向认证中心登记自己的公钥，由于X方无法使用A方的邮箱，因此无法拿到A方的证书。  </p>
-<p>那么，X方有没有可能冒充认证中心，替换了认证中心的公钥PC呢？<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200104161237.png" alt><br>没错，这里同样存在着公钥来源的问题。  </p>
-<p>但实际上，认证中心的公钥PC也是以数字证书的形式交付的，因为会有更高级的认证中心对这个认证中心署名。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200104161427.png" alt></p>
-<p>比如公司B想提供认证服务，但是公司B还没有得到社会广泛认可，那么公司B可以向被社会广泛认可的公司A申请数字证书，这就说明公司B得到了公司A的信任。<br>这样，通过大型组织对小型组织的信赖担保，树结构就建立起来了。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200104161521.png" alt><br>位于顶端的认证中心被称为“根认证中心”，其自身的正当性由自己证明，对自身进行声明的证书称为“根证书”。如果根认证中心不被信任，整个组织就无法运转。<br>根认证中心多为大型企业，或与政府关联且取得社会信赖的组织。<br>到这里，我们可以知道，其实每个人都能成为认证中心，但还是建议向经过政府审查的大型企业机构进行申请，这些机构更令人放心。  </p>
+<p>假设A方准备了一对密钥对，他想把公钥PA发送给B。<br>A方首先要向认证中心(简称：CA)申请发行证书，证明PA确实是由A方生成的。<br>认证中心里保管着他们自己准备的公钥PC和密钥SC。<br>A方将自己的公钥PA和包含邮箱信息的资料发给认证中心。<br>认证中心判断这些资料是否为A本人。确认完毕后，认证中心用自己的私钥SC根据A的资料生成一个数字签名，并把这个数字签名和资料放到同一个文件中。再将这个文件发回给A方。这个文件就是A方的数字证书。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200104163605.png" alt=""><br>A方将作为公钥的数字证书发送给B方，B方检查数字证书中的邮箱是否为A方的，然后从认证中心获取公钥验证签名，确认这个证书是否为认证中心发行的。<br>确认完毕没有异常后，B方从数字证书中提取出A方的公钥PA，公钥便传输完毕。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200104163655.png" alt=""><br>我们来看看这个过程有没有什么问题。<br>假如X方冒充A方，向B方发送X方的公钥PX，B方没有必要信任这个以非证书形式收到的公钥。所以X方无法冒充A方。<br>如果X方为了冒充A方，向认证中心登记自己的公钥，由于X方无法使用A方的邮箱，因此无法拿到A方的证书。  </p>
+<p>那么，X方有没有可能冒充认证中心，替换了认证中心的公钥PC呢？<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200104161237.png" alt=""><br>没错，这里同样存在着公钥来源的问题。  </p>
+<p>但实际上，认证中心的公钥PC也是以数字证书的形式交付的，因为会有更高级的认证中心对这个认证中心署名。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200104161427.png" alt=""></p>
+<p>比如公司B想提供认证服务，但是公司B还没有得到社会广泛认可，那么公司B可以向被社会广泛认可的公司A申请数字证书，这就说明公司B得到了公司A的信任。<br>这样，通过大型组织对小型组织的信赖担保，树结构就建立起来了。<br><img src="https://gitee.com/sncker/resource/raw/master/image/20200104161521.png" alt=""><br>位于顶端的认证中心被称为“根认证中心”，其自身的正当性由自己证明，对自身进行声明的证书称为“根证书”。如果根认证中心不被信任，整个组织就无法运转。<br>根认证中心多为大型企业，或与政府关联且取得社会信赖的组织。<br>到这里，我们可以知道，其实每个人都能成为认证中心，但还是建议向经过政府审查的大型企业机构进行申请，这些机构更令人放心。  </p>
 <p>到这里，我们介绍完了个人之间交付公钥的例子，而网站之间的通信同样也要用到数字证书，只要收到网站的数字证书，就说明网站未被第三者冒充。<br>此处的证书称为“服务器证书”，同样由认证中心发行。个人证书与邮箱信息对应，而服务器证书与域名信息对应。这样就能确定，域名和储存网站内容的服务器是由同一个组织管理的。  </p>
 <h1 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h1><p>本文并未讲解详细的技术，仅是围绕信息传输的安全问题，牵扯出一些安全技术，算作信息安全的启蒙。这也是本人阅读某些资料发现的内容，觉得有意思，有意义，便摘写下来。若有错误，敬请联系本人进行改正！</p>
-
-    </div>
-
-    
-    
-    
-
-      <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/blog/tags/信息安全/" rel="tag"># 信息安全</a>
-          </div>
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/blog/2019/10/07/WeCTF第一期wp/" rel="prev" title="WeCTF第一期wp">
-      <i class="fa fa-chevron-left"></i> WeCTF第一期wp
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/blog/2020/01/19/QQ盗号思路及原理分析/" rel="next" title="QQ盗号木马原理分析">
-      QQ盗号木马原理分析 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安全基础知识"><span class="nav-number">2.1.</span> <span class="nav-text">安全基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#窃听"><span class="nav-number">2.1.1.</span> <span class="nav-text">窃听</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#欺骗"><span class="nav-number">2.1.2.</span> <span class="nav-text">欺骗</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#伪造"><span class="nav-number">2.1.3.</span> <span class="nav-text">伪造</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#否认"><span class="nav-number">2.1.4.</span> <span class="nav-text">否认</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决"><span class="nav-number">2.1.5.</span> <span class="nav-text">解决</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加密基础知识"><span class="nav-number">2.2.</span> <span class="nav-text">加密基础知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哈希函数"><span class="nav-number">2.3.</span> <span class="nav-text">哈希函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#公共密钥加密"><span class="nav-number">2.4.</span> <span class="nav-text">公共密钥加密</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#公开密钥加密"><span class="nav-number">2.5.</span> <span class="nav-text">公开密钥加密</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#混合加密"><span class="nav-number">2.6.</span> <span class="nav-text">混合加密</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迪菲-赫尔曼密钥交换"><span class="nav-number">2.7.</span> <span class="nav-text">迪菲-赫尔曼密钥交换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息认证码"><span class="nav-number">2.8.</span> <span class="nav-text">消息认证码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数字签名"><span class="nav-number">2.9.</span> <span class="nav-text">数字签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数字证书"><span class="nav-number">2.10.</span> <span class="nav-text">数字证书</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结束语"><span class="nav-number">3.</span> <span class="nav-text">结束语</span></a></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="SNCKER"
-      src="http://q1.qlogo.cn/g?b=qq&nk=948375961&s=640">
-  <p class="site-author-name" itemprop="name">SNCKER</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/blog/archives/">
-        
-          <span class="site-state-item-count">22</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/blog/categories/">
-          
-        <span class="site-state-item-count">8</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">24</span>
-        <span class="site-state-item-name">标签</span>
-      </div>
-  </nav>
-</div>
-
-
-
-      </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">SNCKER</span>
-</div>
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div>
-
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/blog/lib/anime.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
-  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
-  <script src="/blog/lib/velocity/velocity.min.js"></script>
-  <script src="/blog/lib/velocity/velocity.ui.min.js"></script>
-<script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script>
-<script src="/blog/js/schemes/pisces.js"></script>
-<script src="/blog/js/next-boot.js"></script>
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-  <!-- 页面点击小红心 -->
-  <script type="text/javascript" src="/blog/js/love.js"></script>
-</body>
-</html>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">SNCKER</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://sncker.github.io/blog/2020/01/02/信息安全基础知识/">https://sncker.github.io/blog/2020/01/02/信息安全基础知识/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://sncker.github.io/blog">SNCKER's blog</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/blog/tags/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/">信息安全</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/blog/2020/01/19/QQ%E7%9B%97%E5%8F%B7%E6%80%9D%E8%B7%AF%E5%8F%8A%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/"><i class="fa fa-chevron-left">  </i><span>QQ盗号木马原理分析</span></a></div><div class="next-post pull-right"><a href="/blog/2019/10/07/WeCTF%E7%AC%AC%E4%B8%80%E6%9C%9Fwp/"><span>WeCTF第一期wp</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(https://gitee.com/sncker/resource/raw/master/image/20210101131325.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2013 - 2021 By SNCKER</div><div class="framework-info"><span>驱动 - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/blog/js/utils.js?version=1.9.0"></script><script src="/blog/js/fancybox.js?version=1.9.0"></script><script src="/blog/js/sidebar.js?version=1.9.0"></script><script src="/blog/js/copy.js?version=1.9.0"></script><script src="/blog/js/fireworks.js?version=1.9.0"></script><script src="/blog/js/transition.js?version=1.9.0"></script><script src="/blog/js/scroll.js?version=1.9.0"></script><script src="/blog/js/head.js?version=1.9.0"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script></body></html>

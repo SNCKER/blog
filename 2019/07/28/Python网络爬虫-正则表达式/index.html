@@ -1,218 +1,15 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 3.9.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/blog/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/blog/css/main.css">
-
-
-<link rel="stylesheet" href="/blog/lib/font-awesome/css/all.min.css">
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"sncker.github.io","root":"/blog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta name="description" content="正则表达式概念用来表示一组字符串的表达式，通用字符串表达框架，十分强大。主要应用在字符串匹配中。 操作符   操作符 说明 实例    . 表示任何单个字符    [ ] 字符集，对单个字符给出取值范围 [abc]表示a、b、c，[a‐z]表示a到z单个字符   [^ ] 非字符集，对单个字符给出排除范围 [^abc]表示非a或b或c的单个字符   * 前一个字符0次或无限次扩展 abc* 表示a">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Python网络爬虫-正则表达式">
-<meta property="og:url" content="https://sncker.github.io/2019/07/28/Python网络爬虫-正则表达式/index.html">
-<meta property="og:site_name" content="SNCKER&#39;s blog">
-<meta property="og:description" content="正则表达式概念用来表示一组字符串的表达式，通用字符串表达框架，十分强大。主要应用在字符串匹配中。 操作符   操作符 说明 实例    . 表示任何单个字符    [ ] 字符集，对单个字符给出取值范围 [abc]表示a、b、c，[a‐z]表示a到z单个字符   [^ ] 非字符集，对单个字符给出排除范围 [^abc]表示非a或b或c的单个字符   * 前一个字符0次或无限次扩展 abc* 表示a">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-01-02T12:34:01.081Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python网络爬虫-正则表达式">
-<meta name="twitter:description" content="正则表达式概念用来表示一组字符串的表达式，通用字符串表达框架，十分强大。主要应用在字符串匹配中。 操作符   操作符 说明 实例    . 表示任何单个字符    [ ] 字符集，对单个字符给出取值范围 [abc]表示a、b、c，[a‐z]表示a到z单个字符   [^ ] 非字符集，对单个字符给出排除范围 [^abc]表示非a或b或c的单个字符   * 前一个字符0次或无限次扩展 abc* 表示a">
-
-<link rel="canonical" href="https://sncker.github.io/2019/07/28/Python网络爬虫-正则表达式/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'zh-CN'
-  };
-</script>
-
-  <title>Python网络爬虫-正则表达式 | SNCKER's blog</title>
-  
-
-
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/blog/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">SNCKER's blog</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">想做开发但不会堆利用的渗透菜鸟</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
-
-  </li>
-        <li class="menu-item menu-item-link">
-
-    <a href="/blog/link/" rel="section"><i class="fa fa-link fa-fw"></i>友链</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
-    
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content post posts-expand">
-            
-
-    
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://sncker.github.io/2019/07/28/Python网络爬虫-正则表达式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="http://q1.qlogo.cn/g?b=qq&nk=948375961&s=640">
-      <meta itemprop="name" content="SNCKER">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SNCKER's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          Python网络爬虫-正则表达式
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-07-28 10:45:00" itemprop="dateCreated datePublished" datetime="2019-07-28T10:45:00+08:00">2019-07-28</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/blog/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/blog/categories/Python/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-        <h1 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>用来表示<strong>一组</strong>字符串的表达式，通用字符串表达框架，十分强大。<br>主要应用在字符串匹配中。</p>
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="Python网络爬虫-正则表达式"><meta name="keywords" content=""><meta name="author" content="SNCKER"><meta name="copyright" content="SNCKER"><title>Python网络爬虫-正则表达式 | SNCKER's blog</title><link rel="shortcut icon" href="/blog/melody-favicon.ico"><link rel="stylesheet" href="/blog/css/index.css?version=1.9.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.9.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
+  root: '/blog/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  hexoVersion: '5.3.0'
+} </script><meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/blog/atom.xml" title="SNCKER's blog" type="application/atom+xml">
+</head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">正则表达式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="toc-number">1.2.</span> <span class="toc-text">操作符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B"><span class="toc-number">1.3.</span> <span class="toc-text">实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Re%E5%BA%93"><span class="toc-number">1.4.</span> <span class="toc-text">Re库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#raw-string%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.4.1.</span> <span class="toc-text">raw string类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Re%E5%BA%93%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD%E5%87%BD%E6%95%B0"><span class="toc-number">1.4.2.</span> <span class="toc-text">Re库主要功能函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#re-search"><span class="toc-number">1.4.2.1.</span> <span class="toc-text">re.search()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#re-match"><span class="toc-number">1.4.2.2.</span> <span class="toc-text">re.match()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#re-findall"><span class="toc-number">1.4.2.3.</span> <span class="toc-text">re.findall()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#re-split"><span class="toc-number">1.4.2.4.</span> <span class="toc-text">re.split()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#re-finditer"><span class="toc-number">1.4.2.5.</span> <span class="toc-text">re.finditer()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#re-sub"><span class="toc-number">1.4.2.6.</span> <span class="toc-text">re.sub()</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AD%89%E4%BB%B7%E7%94%A8%E6%B3%95"><span class="toc-number">1.4.3.</span> <span class="toc-text">等价用法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#re-compile"><span class="toc-number">1.4.3.1.</span> <span class="toc-text">re.compile()</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Match%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.5.</span> <span class="toc-text">Match对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%9E%E6%80%A7"><span class="toc-number">1.5.1.</span> <span class="toc-text">属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95"><span class="toc-number">1.5.2.</span> <span class="toc-text">方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B-1"><span class="toc-number">1.5.3.</span> <span class="toc-text">实例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Re%E5%BA%93%E7%9A%84%E8%B4%AA%E5%A9%AA%E5%8C%B9%E9%85%8D%E5%92%8C%E6%9C%80%E5%B0%8F%E5%8C%B9%E9%85%8D"><span class="toc-number">1.6.</span> <span class="toc-text">Re库的贪婪匹配和最小匹配</span></a></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="http://q1.qlogo.cn/g?b=qq&amp;nk=948375961&amp;s=640"></div><div class="author-info__name text-center">SNCKER</div><div class="author-info__description text-center"></div><div class="follow-button"><a target="_blank" rel="noopener" href="https://github.com/SNCKER">Follow</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/blog/archives"><span class="pull-left">文章</span><span class="pull-right">22</span></a><a class="author-info-articles__tags article-meta" href="/blog/tags"><span class="pull-left">标签</span><span class="pull-right">24</span></a><a class="author-info-articles__categories article-meta" href="/blog/categories"><span class="pull-left">分类</span><span class="pull-right">8</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">友链</div><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://lkerenl.github.io/">lkerenl</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://sivona.top/">sivona</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://c1everf0x.github.io/">C1everf0x</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="http://www.n0puple.com/">winS0cks</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.cnblogs.com/lnjoy/">lnjoy</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://www.cnblogs.com/lktop/">lktop</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="http://www.nuclear.ink/">核平先生</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://foubean.github.io/">foubean</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://caddyetui.github.io/">caddyetui</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://sapphire037.github.io/">Sapphire</a><a class="author-info-links__name text-center" target="_blank" rel="noopener" href="https://je1ly-xxn.github.io/">Je1ly</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://gitee.com/sncker/resource/raw/master/image/20210101131325.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/blog/">SNCKER's blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/blog/">主页</a><a class="site-page" href="/blog/archives">文章</a><a class="site-page" href="/blog/categories">分类</a><a class="site-page" href="/blog/tags">标签</a></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title">Python网络爬虫-正则表达式</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2019-07-28</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/blog/categories/Python/">Python</a><i class="fa fa-angle-right" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/blog/categories/Python/%E7%88%AC%E8%99%AB/">爬虫</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h1 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>用来表示<strong>一组</strong>字符串的表达式，通用字符串表达框架，十分强大。<br>主要应用在字符串匹配中。</p>
 <h2 id="操作符"><a href="#操作符" class="headerlink" title="操作符"></a>操作符</h2><table>
 <thead>
 <tr>
@@ -341,13 +138,10 @@
 </blockquote>
 <h2 id="Re库"><a href="#Re库" class="headerlink" title="Re库"></a>Re库</h2><p><strong>Python标准库</strong>  </p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br></pre></td></tr></table></figure>
-
 <h3 id="raw-string类型"><a href="#raw-string类型" class="headerlink" title="raw string类型"></a>raw string类型</h3><p>raw string类型（原生字符串类型）<br>re库采用该类型来表示正则表达式：  </p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">r'text'</span></span><br><span class="line"><span class="string">r'[1‐9]\d&#123;5&#125;'</span></span><br><span class="line"><span class="string">r'\d&#123;3&#125;‐\d&#123;8&#125;|\d&#123;4&#125;‐\d&#123;7&#125;'</span></span><br></pre></td></tr></table></figure>
-
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">r&#x27;text&#x27;</span></span><br><span class="line"><span class="string">r&#x27;[1‐9]\d&#123;5&#125;&#x27;</span></span><br><span class="line"><span class="string">r&#x27;\d&#123;3&#125;‐\d&#123;8&#125;|\d&#123;4&#125;‐\d&#123;7&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
 <p>在该类型中反斜杠&quot;\&quot;不再表示转义。<br>这是个知识点，Python课里就有个学姐做练习时没有在表达式前加r，所以匹配不出结果。<br>不加r就是string类型，re库也支持用string类型来表示正则表达式，不过要繁琐一些。  </p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'[1‐9]\\d&#123;5&#125;'</span></span><br><span class="line"><span class="string">'\\d&#123;3&#125;‐\\d&#123;8&#125;|\\d&#123;4&#125;‐\\d&#123;7&#125;'</span></span><br></pre></td></tr></table></figure>
-
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;[1‐9]\\d&#123;5&#125;&#x27;</span></span><br><span class="line"><span class="string">&#x27;\\d&#123;3&#125;‐\\d&#123;8&#125;|\\d&#123;4&#125;‐\\d&#123;7&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
 <p><strong>建议正则表达式里包含转义符时使用raw string类型</strong>  </p>
 <h3 id="Re库主要功能函数"><a href="#Re库主要功能函数" class="headerlink" title="Re库主要功能函数"></a>Re库主要功能函数</h3><table>
 <thead>
@@ -403,43 +197,33 @@
 <td align="center">正则表达式中的.操作符能够匹配所有字符，默认匹配除换行外的所有字符</td>
 </tr>
 </tbody></table>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> re</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>match = re.search(<span class="string">r'[1-9]\d&#123;5&#125;'</span>, <span class="string">'BIT100081'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">if</span> match:</span><br><span class="line">	print(match.group(<span class="number">0</span>))</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line"><span class="number">100081</span></span><br></pre></td></tr></table></figure>
-
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> re</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>match = re.search(<span class="string">r&#x27;[1-9]\d&#123;5&#125;&#x27;</span>, <span class="string">&#x27;BIT100081&#x27;</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">if</span> match:</span><br><span class="line">	print(match.group(<span class="number">0</span>))</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line"><span class="number">100081</span></span><br></pre></td></tr></table></figure>
 <h4 id="re-match"><a href="#re-match" class="headerlink" title="re.match()"></a>re.match()</h4><p><strong>从一个字符串的开始位置起匹配正则表达式，返回match对象</strong></p>
 <p><code>re.match(pattern,string,flags=0)</code></p>
 <p>划重点：<strong>开始位置起匹配</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>match = re.match(<span class="string">r'[1-9]\d&#123;5&#125;'</span>, <span class="string">'BIT 100081'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">if</span> match:</span><br><span class="line">	match.group(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">#无输出</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>match.group(<span class="number">0</span>)<span class="comment">#直接调用报错，说明没有匹配到</span></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;pyshell#9&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    match.group(<span class="number">0</span>)</span><br><span class="line">AttributeError: <span class="string">'NoneType'</span> object has no attribute <span class="string">'group'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>match = re.match(<span class="string">r'[1-9]\d&#123;5&#125;'</span>, <span class="string">'100081 BIT'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">if</span> match:</span><br><span class="line">	match.group(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line"><span class="string">'100081'</span></span><br></pre></td></tr></table></figure>
-
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>match = re.match(<span class="string">r&#x27;[1-9]\d&#123;5&#125;&#x27;</span>, <span class="string">&#x27;BIT 100081&#x27;</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">if</span> match:</span><br><span class="line">	match.group(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">#无输出</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>match.group(<span class="number">0</span>)<span class="comment">#直接调用报错，说明没有匹配到</span></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">&quot;&lt;pyshell#9&gt;&quot;</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    match.group(<span class="number">0</span>)</span><br><span class="line">AttributeError: <span class="string">&#x27;NoneType&#x27;</span> <span class="built_in">object</span> has no attribute <span class="string">&#x27;group&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>match = re.match(<span class="string">r&#x27;[1-9]\d&#123;5&#125;&#x27;</span>, <span class="string">&#x27;100081 BIT&#x27;</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">if</span> match:</span><br><span class="line">	match.group(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line"><span class="string">&#x27;100081&#x27;</span></span><br></pre></td></tr></table></figure>
 <h4 id="re-findall"><a href="#re-findall" class="headerlink" title="re.findall()"></a>re.findall()</h4><p><strong>搜索字符串，以列表类型返回全部能匹配的子串</strong>  </p>
 <p><code>re.findall(pattern,string,flags=0)</code></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>ls = re.findall(<span class="string">r'[1-9]\d&#123;5&#125;'</span>, <span class="string">'BIT100081 TSU100084'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>ls</span><br><span class="line">[<span class="string">'100081'</span>, <span class="string">'100084'</span>]</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>ls = re.findall(<span class="string">r&#x27;[1-9]\d&#123;5&#125;&#x27;</span>, <span class="string">&#x27;BIT100081 TSU100084&#x27;</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>ls</span><br><span class="line">[<span class="string">&#x27;100081&#x27;</span>, <span class="string">&#x27;100084&#x27;</span>]</span><br></pre></td></tr></table></figure>
 <h4 id="re-split"><a href="#re-split" class="headerlink" title="re.split()"></a>re.split()</h4><p><strong>将一个字符串按照正则表达式匹配结果进行分割,返回列表类型</strong></p>
 <p><code>re.split(pattern,string,maxsplit=0,flags=0)</code></p>
 <p> maxsplit: 大分割数，剩余部分作为后一个元素输出  </p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>re.split(<span class="string">r'[1-9]\d&#123;5&#125;'</span>, <span class="string">'BIT100081 TSU100084'</span>)</span><br><span class="line">[<span class="string">'BIT'</span>, <span class="string">' TSU'</span>, <span class="string">''</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>re.split(<span class="string">r'[1-9]\d&#123;5&#125;'</span>, <span class="string">'BIT100081 TSU100084'</span>, maxsplit=<span class="number">1</span>)</span><br><span class="line">[<span class="string">'BIT'</span>, <span class="string">' TSU100084'</span>]</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>re.split(<span class="string">r&#x27;[1-9]\d&#123;5&#125;&#x27;</span>, <span class="string">&#x27;BIT100081 TSU100084&#x27;</span>)</span><br><span class="line">[<span class="string">&#x27;BIT&#x27;</span>, <span class="string">&#x27; TSU&#x27;</span>, <span class="string">&#x27;&#x27;</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>re.split(<span class="string">r&#x27;[1-9]\d&#123;5&#125;&#x27;</span>, <span class="string">&#x27;BIT100081 TSU100084&#x27;</span>, maxsplit=<span class="number">1</span>)</span><br><span class="line">[<span class="string">&#x27;BIT&#x27;</span>, <span class="string">&#x27; TSU100084&#x27;</span>]</span><br></pre></td></tr></table></figure>
 <h4 id="re-finditer"><a href="#re-finditer" class="headerlink" title="re.finditer()"></a>re.finditer()</h4><p><strong>搜索字符串，返回一个匹配结果的迭代类型，每个迭代元素是match对象</strong></p>
 <p><code>re.finditer(pattern,string,flags=0)</code></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> m <span class="keyword">in</span> re.finditer(<span class="string">r'[1-9]\d&#123;5&#125;'</span>, <span class="string">'BIT100081 TSU100084'</span>):</span><br><span class="line">	<span class="keyword">if</span> m:</span><br><span class="line">		print(m.group(<span class="number">0</span>))</span><br><span class="line"></span><br><span class="line">		</span><br><span class="line"><span class="number">100081</span></span><br><span class="line"><span class="number">100084</span></span><br></pre></td></tr></table></figure>
-
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> m <span class="keyword">in</span> re.finditer(<span class="string">r&#x27;[1-9]\d&#123;5&#125;&#x27;</span>, <span class="string">&#x27;BIT100081 TSU100084&#x27;</span>):</span><br><span class="line">	<span class="keyword">if</span> m:</span><br><span class="line">		print(m.group(<span class="number">0</span>))</span><br><span class="line"></span><br><span class="line">		</span><br><span class="line"><span class="number">100081</span></span><br><span class="line"><span class="number">100084</span> </span><br></pre></td></tr></table></figure>
 <h4 id="re-sub"><a href="#re-sub" class="headerlink" title="re.sub()"></a>re.sub()</h4><p><strong>在一个字符串中替换所有匹配正则表达式的子串 返回替换后的字符串</strong></p>
 <p><code>re.sub(pattern,repl, string,count=0,flags=0)</code></p>
 <p>repl: 替换匹配字符串的字符串<br>string : 待匹配字符串<br>count : 匹配的大替换次数  </p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>re.sub(<span class="string">r'[1-9]\d&#123;5&#125;'</span>, <span class="string">':zipcode'</span>, <span class="string">'BIT100081 TSU100084'</span>)</span><br><span class="line"><span class="string">'BIT:zipcode TSU:zipcode'</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="等价用法"><a href="#等价用法" class="headerlink" title="等价用法"></a>等价用法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>rst = re.search(<span class="string">r'[1‐9]\d&#123;5&#125;'</span>, <span class="string">'BIT 100081'</span>)</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; pat = re.compile(<span class="string">r'[1‐9]\d&#123;5&#125;'</span>)</span><br><span class="line">&gt;&gt;&gt; rst = pat.search(<span class="string">'BIT 100081'</span>)</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>re.sub(<span class="string">r&#x27;[1-9]\d&#123;5&#125;&#x27;</span>, <span class="string">&#x27;:zipcode&#x27;</span>, <span class="string">&#x27;BIT100081 TSU100084&#x27;</span>)</span><br><span class="line"><span class="string">&#x27;BIT:zipcode TSU:zipcode&#x27;</span></span><br></pre></td></tr></table></figure>
+<h3 id="等价用法"><a href="#等价用法" class="headerlink" title="等价用法"></a>等价用法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>rst = re.search(<span class="string">r&#x27;[1‐9]\d&#123;5&#125;&#x27;</span>, <span class="string">&#x27;BIT 100081&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; pat = re.<span class="built_in">compile</span>(<span class="string">r&#x27;[1‐9]\d&#123;5&#125;&#x27;</span>)</span><br><span class="line">&gt;&gt;&gt; rst = pat.search(<span class="string">&#x27;BIT 100081&#x27;</span>)</span><br></pre></td></tr></table></figure>
 <p>两种用法是等价的。<br>第一种是一次性操作的函数式用法。<br>而第二种是面向对象的用法，通过re.compile将正则表达式字符串编译成正则表达式对象，可以在编译后多次使用。  </p>
 <h4 id="re-compile"><a href="#re-compile" class="headerlink" title="re.compile()"></a>re.compile()</h4><p><strong>将正则表达式的字符串形式编译成正则表达式对象</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">regex = re.compile(pattern,flags=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">regex = re.<span class="built_in">compile</span>(pattern,flags=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
 <p>正则表达式对象同样具有search(),match()等方法且用法类似。  </p>
 <h2 id="Match对象"><a href="#Match对象" class="headerlink" title="Match对象"></a>Match对象</h2><p>Match对象是一次匹配的结果，包含了匹配的很多信息  </p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; match=re.search(<span class="string">r'[1‐9]\d&#123;5&#125;'</span>, <span class="string">'BIT 100081'</span>) &gt;&gt;&gt; <span class="keyword">if</span> match:</span><br><span class="line">		print(match.group(<span class="number">0</span>))  </span><br><span class="line">&gt;&gt;&gt; type(match)</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">_sre</span>.<span class="title">SRE_Match</span>'&gt;</span></span><br></pre></td></tr></table></figure>
-
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; match=re.search(<span class="string">r&#x27;[1‐9]\d&#123;5&#125;&#x27;</span>, <span class="string">&#x27;BIT 100081&#x27;</span>) &gt;&gt;&gt; <span class="keyword">if</span> match:</span><br><span class="line">		print(match.group(<span class="number">0</span>))  </span><br><span class="line">&gt;&gt;&gt; <span class="built_in">type</span>(match)</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> &#x27;<span class="title">_sre</span>.<span class="title">SRE_Match</span>&#x27;&gt;</span></span><br></pre></td></tr></table></figure>
 <h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><table>
 <thead>
 <tr>
@@ -488,14 +272,11 @@
 <td align="center">返回(.start(), .end())</td>
 </tr>
 </tbody></table>
-<h3 id="实例-1"><a href="#实例-1" class="headerlink" title="实例"></a>实例</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>match = re.search(<span class="string">r'[1‐9]\d&#123;5&#125;'</span>, <span class="string">'BIT100081 TSU100084'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>m.string</span><br><span class="line"><span class="string">'BIT100081 TSU100084'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>m.re</span><br><span class="line">re.compile(<span class="string">'[1-9]\\d&#123;5&#125;'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>m.pos</span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>m.endpos</span><br><span class="line"><span class="number">19</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>m.group(<span class="number">0</span>)</span><br><span class="line"><span class="string">'100084'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>m.start()</span><br><span class="line"><span class="number">13</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>m.end()</span><br><span class="line"><span class="number">19</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>m.span()</span><br><span class="line">(<span class="number">13</span>, <span class="number">19</span>)</span><br></pre></td></tr></table></figure>
-
+<h3 id="实例-1"><a href="#实例-1" class="headerlink" title="实例"></a>实例</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>match = re.search(<span class="string">r&#x27;[1‐9]\d&#123;5&#125;&#x27;</span>, <span class="string">&#x27;BIT100081 TSU100084&#x27;</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>m.string</span><br><span class="line"><span class="string">&#x27;BIT100081 TSU100084&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>m.re</span><br><span class="line">re.<span class="built_in">compile</span>(<span class="string">&#x27;[1-9]\\d&#123;5&#125;&#x27;</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>m.pos</span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>m.endpos</span><br><span class="line"><span class="number">19</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>m.group(<span class="number">0</span>)</span><br><span class="line"><span class="string">&#x27;100084&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>m.start()</span><br><span class="line"><span class="number">13</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>m.end()</span><br><span class="line"><span class="number">19</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>m.span()</span><br><span class="line">(<span class="number">13</span>, <span class="number">19</span>)</span><br></pre></td></tr></table></figure>
 <h2 id="Re库的贪婪匹配和最小匹配"><a href="#Re库的贪婪匹配和最小匹配" class="headerlink" title="Re库的贪婪匹配和最小匹配"></a>Re库的贪婪匹配和最小匹配</h2><p>Re库默认采用贪婪匹配，即匹配最长的子串  </p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; match = re.search(<span class="string">r'PY.*N'</span>, <span class="string">'PYANBNCNDN'</span>) </span><br><span class="line">&gt;&gt;&gt; match.group(<span class="number">0</span>)</span><br><span class="line"><span class="string">'PYANBNCNDN'</span></span><br></pre></td></tr></table></figure>
-
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; match = re.search(<span class="string">r&#x27;PY.*N&#x27;</span>, <span class="string">&#x27;PYANBNCNDN&#x27;</span>) </span><br><span class="line">&gt;&gt;&gt; match.group(<span class="number">0</span>)</span><br><span class="line"><span class="string">&#x27;PYANBNCNDN&#x27;</span></span><br></pre></td></tr></table></figure>
 <p>通过在操作符后加?变成最小匹配  </p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; match = re.search(<span class="string">r'PY.*?N'</span>, <span class="string">'PYANBNCNDN'</span>)</span><br><span class="line">&gt;&gt;&gt; match.group(<span class="number">0</span>)</span><br><span class="line"><span class="string">'PYAN'</span></span><br></pre></td></tr></table></figure>
-
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; match = re.search(<span class="string">r&#x27;PY.*?N&#x27;</span>, <span class="string">&#x27;PYANBNCNDN&#x27;</span>)</span><br><span class="line">&gt;&gt;&gt; match.group(<span class="number">0</span>)</span><br><span class="line"><span class="string">&#x27;PYAN&#x27;</span></span><br></pre></td></tr></table></figure>
 <p><strong>最小匹配操作符</strong></p>
 <table>
 <thead>
@@ -523,195 +304,8 @@
 </tbody></table>
 <hr>
 <p>linux课里也要求学正则，vim里查找替换时用到，表单也用正则来校验，既然是通用框架，<strong>牛逼</strong>就完事了。</p>
-
-    </div>
-
-    
-    
-    
-
-      <footer class="post-footer">
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/blog/2019/07/26/Python网络爬虫-定向爬取中国大学排名/" rel="prev" title="Python网络爬虫--定向爬取中国大学排名">
-      <i class="fa fa-chevron-left"></i> Python网络爬虫--定向爬取中国大学排名
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/blog/2019/08/04/Python网络爬虫-Scrapy框架/" rel="next" title="Python网络爬虫-Scrapy框架">
-      Python网络爬虫-Scrapy框架 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#正则表达式"><span class="nav-number">1.</span> <span class="nav-text">正则表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概念"><span class="nav-number">1.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作符"><span class="nav-number">1.2.</span> <span class="nav-text">操作符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实例"><span class="nav-number">1.3.</span> <span class="nav-text">实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Re库"><span class="nav-number">1.4.</span> <span class="nav-text">Re库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#raw-string类型"><span class="nav-number">1.4.1.</span> <span class="nav-text">raw string类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Re库主要功能函数"><span class="nav-number">1.4.2.</span> <span class="nav-text">Re库主要功能函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#re-search"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">re.search()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#re-match"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">re.match()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#re-findall"><span class="nav-number">1.4.2.3.</span> <span class="nav-text">re.findall()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#re-split"><span class="nav-number">1.4.2.4.</span> <span class="nav-text">re.split()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#re-finditer"><span class="nav-number">1.4.2.5.</span> <span class="nav-text">re.finditer()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#re-sub"><span class="nav-number">1.4.2.6.</span> <span class="nav-text">re.sub()</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#等价用法"><span class="nav-number">1.4.3.</span> <span class="nav-text">等价用法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#re-compile"><span class="nav-number">1.4.3.1.</span> <span class="nav-text">re.compile()</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Match对象"><span class="nav-number">1.5.</span> <span class="nav-text">Match对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#属性"><span class="nav-number">1.5.1.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法"><span class="nav-number">1.5.2.</span> <span class="nav-text">方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例-1"><span class="nav-number">1.5.3.</span> <span class="nav-text">实例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Re库的贪婪匹配和最小匹配"><span class="nav-number">1.6.</span> <span class="nav-text">Re库的贪婪匹配和最小匹配</span></a></li></ol></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="SNCKER"
-      src="http://q1.qlogo.cn/g?b=qq&nk=948375961&s=640">
-  <p class="site-author-name" itemprop="name">SNCKER</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/blog/archives/">
-        
-          <span class="site-state-item-count">22</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/blog/categories/">
-          
-        <span class="site-state-item-count">8</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">24</span>
-        <span class="site-state-item-name">标签</span>
-      </div>
-  </nav>
-</div>
-
-
-
-      </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">SNCKER</span>
-</div>
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div>
-
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/blog/lib/anime.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
-  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
-  <script src="/blog/lib/velocity/velocity.min.js"></script>
-  <script src="/blog/lib/velocity/velocity.ui.min.js"></script>
-<script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script>
-<script src="/blog/js/schemes/pisces.js"></script>
-<script src="/blog/js/next-boot.js"></script>
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-  <!-- 页面点击小红心 -->
-  <script type="text/javascript" src="/blog/js/love.js"></script>
-</body>
-</html>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">SNCKER</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://sncker.github.io/blog/2019/07/28/Python网络爬虫-正则表达式/">https://sncker.github.io/blog/2019/07/28/Python网络爬虫-正则表达式/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://sncker.github.io/blog">SNCKER's blog</a>！</span></div></div><div class="post-meta__tag-list"></div><nav id="pagination"><div class="prev-post pull-left"><a href="/blog/2019/08/04/Python%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB-Scrapy%E6%A1%86%E6%9E%B6/"><i class="fa fa-chevron-left">  </i><span>Python网络爬虫-Scrapy框架</span></a></div><div class="next-post pull-right"><a href="/blog/2019/07/26/Python%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB-%E5%AE%9A%E5%90%91%E7%88%AC%E5%8F%96%E4%B8%AD%E5%9B%BD%E5%A4%A7%E5%AD%A6%E6%8E%92%E5%90%8D/"><span>Python网络爬虫--定向爬取中国大学排名</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(https://gitee.com/sncker/resource/raw/master/image/20210101131325.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2013 - 2021 By SNCKER</div><div class="framework-info"><span>驱动 - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/blog/js/utils.js?version=1.9.0"></script><script src="/blog/js/fancybox.js?version=1.9.0"></script><script src="/blog/js/sidebar.js?version=1.9.0"></script><script src="/blog/js/copy.js?version=1.9.0"></script><script src="/blog/js/fireworks.js?version=1.9.0"></script><script src="/blog/js/transition.js?version=1.9.0"></script><script src="/blog/js/scroll.js?version=1.9.0"></script><script src="/blog/js/head.js?version=1.9.0"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script></body></html>
